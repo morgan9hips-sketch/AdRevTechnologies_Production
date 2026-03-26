@@ -2,26 +2,26 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
-import { BetaBanner } from '@/components/layout/beta-banner'
 import { Providers } from '@/lib/providers'
 
 export const metadata: Metadata = {
-  title: 'Ad Rev Technologies - Powering Smarter Ad Revenue Ecosystems',
+  title: 'Ad Rev Technologies — Engagement & Rewards Infrastructure',
   description:
-    'Professional fintech/adtech parent company providing white-label solutions, API access, and ad monetization platforms including Cash for Ads.',
+    'White-label engagement and rewards infrastructure API. Plug rewarded video ads, referrals, and promotional campaigns into any platform without building the engine yourself.',
   keywords: [
-    'ad monetization',
-    'fintech',
-    'adtech',
-    'api',
-    'white-label',
-    'revenue sharing',
+    'engagement infrastructure',
+    'rewards API',
+    'white-label loyalty',
+    'rewarded video ads',
+    'referral engine',
+    'B2B adtech',
+    'engagement platform API',
   ],
   authors: [{ name: 'Ad Rev Technologies' }],
   openGraph: {
-    title: 'Ad Rev Technologies - Powering Smarter Ad Revenue Ecosystems',
+    title: 'Ad Rev Technologies — Engagement & Rewards Infrastructure',
     description:
-      'Professional fintech/adtech parent company providing innovative ad monetization solutions',
+      'White-label B2B engagement and rewards infrastructure. Plug rewarded video ads, referrals, and campaigns into any platform.',
     url: 'https://adrevtechnologies.com',
     siteName: 'Ad Rev Technologies',
     type: 'website',
@@ -37,7 +37,6 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-sans antialiased">
         <Providers>
-          <BetaBanner />
           <Header />
           <main className="min-h-screen pt-16">{children}</main>
           <Footer />

@@ -4,16 +4,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Menu, X, User, LogOut } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/logo'
 
 const navigation = [
-  { name: 'About', href: '/#about' },
-  { name: 'Services', href: '/#services' },
-  { name: 'Adify', href: '/adify' },
+  { name: 'How It Works', href: '/#how-it-works' },
+  { name: 'Pricing', href: '/#pricing' },
   { name: 'Docs', href: '/docs' },
+  { name: 'Developers', href: '/developers' },
   { name: 'Partners', href: '/partners' },
-  { name: 'Dashboard', href: '/dashboard' },
 ]
 
 export function Header() {
@@ -26,7 +24,6 @@ export function Header() {
   const pathname = usePathname()
 
   useEffect(() => {
-    // Check authentication state
     const token = localStorage.getItem('auth_token')
     if (token) {
       try {
@@ -38,29 +35,26 @@ export function Header() {
             email: payload.email,
           })
         } else {
-          // Token expired
           localStorage.removeItem('auth_token')
           localStorage.removeItem('refresh_token')
         }
-      } catch (error) {
-        // Invalid token
+      } catch {
         localStorage.removeItem('auth_token')
         localStorage.removeItem('refresh_token')
       }
     }
-  }, [pathname]) // Re-check on route changes
+  }, [pathname])
 
   const handleLogout = () => {
     localStorage.removeItem('auth_token')
     localStorage.removeItem('refresh_token')
     setIsAuthenticated(false)
     setUserInfo(null)
-    // Redirect to home page
     window.location.href = '/'
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#080d1a]/90 backdrop-blur-md border-b border-[#1e2d4a]">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
@@ -70,7 +64,7 @@ export function Header() {
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-[#94a3b8]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <span className="sr-only">Toggle menu</span>
@@ -88,8 +82,8 @@ export function Header() {
               href={item.href}
               className={`text-sm font-semibold leading-6 transition-colors ${
                 pathname === item.href
-                  ? 'text-blue-600'
-                  : 'text-gray-900 hover:text-blue-600'
+                  ? 'text-[#3b82f6]'
+                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
               }`}
             >
               {item.name}
@@ -99,22 +93,31 @@ export function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
           {isAuthenticated ? (
             <div className="flex items-center gap-x-4">
-              <div className="flex items-center text-sm text-gray-700">
+              <div className="flex items-center text-sm text-[#94a3b8]">
                 <User className="h-4 w-4 mr-1" />
                 <span>{userInfo?.name || 'User'}</span>
               </div>
-              <Button variant="ghost" onClick={handleLogout}>
+              <button
+                onClick={handleLogout}
+                className="flex items-center text-sm text-[#94a3b8] hover:text-[#f1f5f9] transition-colors"
+              >
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
-              </Button>
+              </button>
             </div>
           ) : (
             <>
-              <Link href="/login">
-                <Button variant="ghost">Log in</Button>
+              <Link
+                href="/login"
+                className="text-sm font-semibold text-[#94a3b8] hover:text-[#f1f5f9] transition-colors px-3 py-2"
+              >
+                Log in
               </Link>
-              <Link href="/partners">
-                <Button>Become a Partner</Button>
+              <Link
+                href="/onboarding"
+                className="bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+              >
+                Request Demo
               </Link>
             </>
           )}
@@ -123,13 +126,13 @@ export function Header() {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden">
+        <div className="lg:hidden bg-[#0f1629] border-b border-[#1e2d4a]">
           <div className="space-y-1 px-4 pb-3 pt-2">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                className="block rounded-md px-3 py-2 text-base font-medium text-[#94a3b8] hover:bg-[#1e2d4a] hover:text-[#f1f5f9] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
@@ -138,13 +141,12 @@ export function Header() {
             <div className="mt-4 space-y-2">
               {isAuthenticated ? (
                 <>
-                  <div className="px-3 py-2 text-sm text-gray-700">
+                  <div className="px-3 py-2 text-sm text-[#94a3b8]">
                     <User className="h-4 w-4 mr-1 inline" />
                     {userInfo?.name || 'User'}
                   </div>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
+                  <button
+                    className="w-full flex items-center justify-start px-3 py-2 text-sm text-[#94a3b8] hover:text-[#f1f5f9] transition-colors"
                     onClick={() => {
                       handleLogout()
                       setMobileMenuOpen(false)
@@ -152,20 +154,23 @@ export function Header() {
                   >
                     <LogOut className="h-4 w-4 mr-2" />
                     Logout
-                  </Button>
+                  </button>
                 </>
               ) : (
                 <>
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="ghost" className="w-full">
-                      Log in
-                    </Button>
-                  </Link>
                   <Link
-                    href="/partners"
+                    href="/login"
+                    className="block px-3 py-2 text-base font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <Button className="w-full">Become a Partner</Button>
+                    Log in
+                  </Link>
+                  <Link
+                    href="/onboarding"
+                    className="block bg-[#3b82f6] hover:bg-[#2563eb] text-white text-center font-semibold px-3 py-2 rounded-lg transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Request Demo
                   </Link>
                 </>
               )}

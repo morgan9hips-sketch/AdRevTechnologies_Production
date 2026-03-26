@@ -1,0 +1,46 @@
+<svg width="280" height="60" viewBox="0 0 280 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ad Rev Technologies Logo - EXACT design with flowing swirl lines -->
+  
+  <!-- Main circular container with flowing swirls -->
+  <g id="logo-mark">
+    <!-- Flowing swirl lines around circle -->
+    <g transform="translate(30,30)" stroke="#14B8A6" stroke-width="1.2" fill="none">
+      <!-- Outer flowing swirls -->
+      <path d="M-25 -8 C-20 -12 -10 -15 0 -12 C10 -15 20 -12 25 -8 C22 -4 15 -2 8 -4 C2 -6 -2 -6 -8 -4 C-15 -2 -22 -4 -25 -8 Z" opacity="0.3"/>
+      <path d="M-25 8 C-20 12 -10 15 0 12 C10 15 20 12 25 8 C22 4 15 2 8 4 C2 6 -2 6 -8 4 C-15 2 -22 4 -25 8 Z" opacity="0.3"/>
+      
+      <!-- Mid flowing swirls -->
+      <path d="M-20 -6 C-15 -10 -5 -12 0 -10 C5 -12 15 -10 20 -6 C17 -3 12 -1 6 -2 C1 -4 -1 -4 -6 -2 C-12 -1 -17 -3 -20 -6 Z" opacity="0.4"/>
+      <path d="M-20 6 C-15 10 -5 12 0 10 C5 12 15 10 20 6 C17 3 12 1 6 2 C1 4 -1 4 -6 2 C-12 1 -17 3 -20 6 Z" opacity="0.4"/>
+      
+      <!-- Inner flowing swirls -->
+      <path d="M-15 -4 C-10 -7 -3 -8 0 -7 C3 -8 10 -7 15 -4 C12 -2 8 -1 4 -1.5 C1 -2.5 -1 -2.5 -4 -1.5 C-8 -1 -12 -2 -15 -4 Z" opacity="0.5"/>
+      <path d="M-15 4 C-10 7 -3 8 0 7 C3 8 10 7 15 4 C12 2 8 1 4 1.5 C1 2.5 -1 2.5 -4 1.5 C-8 1 -12 2 -15 4 Z" opacity="0.5"/>
+    </g>
+    
+    <!-- Central circle with gradient -->
+    <circle cx="30" cy="30" r="18" fill="url(#gradient-teal)" stroke="#14B8A6" stroke-width="1.5"/>
+    
+    <!-- Central play button -->
+    <path d="M25 22 L25 38 L38 30 Z" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Ad Rev Technologies text -->
+  <g id="wordmark" transform="translate(75, 30)">
+    <text x="0" y="-4" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#14B8A6">
+      Ad Rev
+    </text>
+    <text x="0" y="14" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="500" fill="#6B7280">
+      Technologies
+    </text>
+  </g>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0D9488;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

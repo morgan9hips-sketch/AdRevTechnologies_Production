@@ -1,0 +1,833 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Authentication provider enum
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+  FACEBOOK
+  GITHUB
+}
+
+model User {
+  id            Int     @id @default(autoincrement())
+  email         String
+  password      String? // Nullable for social-only users
+  name          String?
+  country       String?
+  isAdmin       Boolean @default(false)
+  emailVerified Boolean @default(false)
+  tier          String  @default("Bronze") // Bronze, Silver, Gold, Platinum, Diamond
+  tenantId      String? // Multi-tenant support (nullable for backward compatibility)
+  tenant        Tenant? @relation(fields: [tenantId], references: [id])
+
+  // Social Authentication
+  googleId   String?      @unique
+  facebookId String?      @unique
+  githubId   String?      @unique
+  provider   AuthProvider @default(EMAIL)
+
+  // Profile Information
+  firstName   String?
+  lastName    String?
+  displayName String?
+  avatar      String? // Profile picture URL
+  phoneNumber String?
+
+  // Email Verification (enhanced)
+  emailVerifyToken    String?   @unique
+  emailVerifyExpires  DateTime?
+  emailVerifyAttempts Int       @default(0)
+
+  // Password Management (enhanced)
+  passwordResetToken    String?   @unique
+  passwordResetExpires  DateTime?
+  passwordResetAttempts Int       @default(0)
+  passwordChangedAt     DateTime?
+  passwordHistory       Json? // Array of hashed previous passwords
+
+  // Security & Audit
+  lastLoginAt   DateTime?
+  lastLoginIP   String?
+  loginAttempts Int       @default(0)
+  lockedUntil   DateTime?
+  lockReason    String?
+
+  // Preferences
+  language        String  @default("en")
+  timezone        String? @default("UTC")
+  marketingEmails Boolean @default(false)
+
+  // Beta Disclaimer
+  betaDisclaimerAcceptedAt DateTime?
+
+  // Soft Delete
+  deletedAt DateTime?
+
+  // Relations
+  wallet         Wallet?
+  userConsents   UserConsent[]
+  kycData        KYCData?
+  userBadges     UserBadge[]
+  userStats      UserStat[]
+  userChallenges UserChallenge[]
+  teamMembership TeamMember[] // Team memberships across tenants
+  mfaSettings    MFASettings?    @relation(fields: [mFASettingsId], references: [id]) // Multi-factor authentication settings
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  mFASettingsId  String?
+
+  @@unique([email, tenantId]) // Email must be unique per tenant
+  @@index([tenantId])
+  @@index([email])
+  @@index([googleId])
+  @@index([facebookId])
+  @@index([githubId])
+  @@index([provider])
+  @@index([deletedAt])
+  @@index([provider, email])
+  @@index([passwordResetToken])
+}
+
+model Wallet {
+  id           Int     @id @default(autoincrement())
+  userId       Int     @unique
+  balanceCents Int     @default(0)
+  tenantId     String? // Multi-tenant support (nullable for backward compatibility)
+  user         User    @relation(fields: [userId], references: [id])
+
+  @@index([tenantId])
+}
+
+model Ad {
+  id              Int              @id @default(autoincrement())
+  title           String
+  description     String?
+  provider        String? // Ad provider name (e.g., "AdMob", "Unity", "ironSource")
+  durationSeconds Int
+  rewardAmount    Int // reward_cents in requirements
+  status          String           @default("active") // active, inactive, archived
+  active          Boolean          @default(true)
+  tenantId        String? // Multi-tenant support (nullable for backward compatibility)
+  tenant          Tenant?          @relation(fields: [tenantId], references: [id])
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  networkEvents   AdNetworkEvent[]
+
+  @@index([tenantId])
+  @@index([status])
+}
+
+model WatchEvent {
+  id             Int       @id @default(autoincrement())
+  adId           Int
+  userId         Int
+  networkEventId Int? // Reference to AdNetworkEvent if linked
+  watchedSeconds Int
+  status         String    @default("pending") // pending, confirmed, cancelled, credited
+  uniqueWatchKey String    @unique // Server-generated key for anti-fraud
+  confirmedAt    DateTime?
+  deviceId       String? // Device identifier for anti-fraud
+  ip             String?
+  userAgent      String?
+  tenantId       String? // Multi-tenant support (nullable for backward compatibility)
+  createdAt      DateTime  @default(now())
+
+  @@index([userId, adId, createdAt])
+  @@index([ip, createdAt])
+  @@index([uniqueWatchKey])
+  @@index([deviceId])
+  @@index([tenantId])
+}
+
+model LedgerEntry {
+  id           Int      @id @default(autoincrement())
+  userId       Int? // Nullable to support platform account (userId = 0 or null)
+  amountCents  Int // Can be positive (credit) or negative (debit)
+  balanceAfter Int? // Balance after this transaction
+  type         String // credit, debit, watch, payout, platform_fee, refund, tenant_revenue
+  reference    String? // Reference ID as string for flexibility
+  feeCents     Int      @default(0) // Fee amount if applicable (replaces platformFeeCents)
+  metadata     Json? // Store eventId, adId, tenantId, and other contextual data
+  tenantId     String? // Multi-tenant support (nullable for backward compatibility)
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([type])
+  @@index([tenantId])
+}
+
+model PayoutBatch {
+  id               Int          @id @default(autoincrement())
+  createdByAdminId Int? // Admin user who created the batch
+  totalAmountCents Int // Total payout amount
+  platformFeeCents Int          @default(0) // Platform fee for this batch
+  status           String       @default("pending") // pending, processing, success, failed, denied
+  paypalBatchId    String?      @unique
+  tenantId         String? // Multi-tenant support (nullable for backward compatibility)
+  processedAt      DateTime?
+  executedAt       DateTime?
+  createdAt        DateTime     @default(now())
+  payoutItems      PayoutItem[]
+
+  @@index([status])
+  @@index([paypalBatchId])
+  @@index([createdByAdminId])
+  @@index([tenantId])
+}
+
+model PayoutItem {
+  id                  Int         @id @default(autoincrement())
+  batchId             Int
+  userId              Int
+  recipientIdentifier String? // PayPal email or other recipient identifier
+  amountCents         Int
+  feeCents            Int         @default(0) // PayPal or platform fee
+  status              String      @default("pending") // pending, success, failed, denied, canceled
+  paypalItemId        String?
+  payoutReference     String? // Additional reference from PayPal
+  transactionId       String?
+  errorMessage        String?
+  tenantId            String? // Multi-tenant support (nullable for backward compatibility)
+  processedAt         DateTime?
+  executedAt          DateTime?
+  createdAt           DateTime    @default(now())
+  batch               PayoutBatch @relation(fields: [batchId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([paypalItemId])
+  @@index([batchId])
+  @@index([tenantId])
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  actorId   Int?
+  action    String // "login", "logout", "login_failed", "password_changed", "mfa_enabled", "oauth_login", "oauth_link", "oauth_unlink", "account_deleted", etc.
+  payload   Json?
+  ipAddress String? // Track IP for security events
+  userAgent String? // Track user agent
+  tenantId  String? // Multi-tenant support (nullable for backward compatibility)
+  createdAt DateTime @default(now())
+
+  // OAuth and Enhanced Security
+  provider String? @default("email") // OAuth provider if applicable: "email", "google", "facebook", "github"
+  severity String  @default("info") // "info", "warning", "error", "critical"
+
+  @@index([tenantId])
+  @@index([actorId])
+  @@index([action])
+  @@index([createdAt])
+  @@index([provider])
+  @@index([severity])
+}
+
+model EmailVerification {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([token])
+}
+
+// Refresh Token - for secure token rotation
+model RefreshToken {
+  id        String    @id @default(cuid())
+  userId    Int
+  token     String    @unique
+  expiresAt DateTime
+  isRevoked Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+  userAgent String? // Browser/device info
+  ipAddress String? // IP address
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// Login Attempt - tracks failed login attempts for rate limiting
+model LoginAttempt {
+  id         Int      @id @default(autoincrement())
+  email      String
+  ipAddress  String
+  successful Boolean
+  userAgent  String?
+  failReason String? // "invalid_credentials", "account_locked", etc.
+  createdAt  DateTime @default(now())
+
+  @@index([email, createdAt])
+  @@index([ipAddress, createdAt])
+}
+
+// Account Lockout - tracks locked accounts
+model AccountLockout {
+  id             Int       @id @default(autoincrement())
+  userId         Int       @unique
+  lockedAt       DateTime  @default(now())
+  unlockAt       DateTime // When account will auto-unlock
+  failedAttempts Int       @default(0)
+  isLocked       Boolean   @default(true)
+  unlockedAt     DateTime?
+  unlockReason   String? // "auto", "admin", "password_reset"
+
+  @@index([userId])
+  @@index([unlockAt])
+}
+
+// User Session - tracks active sessions
+model UserSession {
+  id           String   @id @default(cuid())
+  userId       Int
+  token        String   @unique // Session token
+  deviceId     String? // Device fingerprint
+  deviceName   String? // "Chrome on Windows", "iPhone 13"
+  ipAddress    String?
+  userAgent    String?
+  location     String? // Approximate location from IP
+  lastActivity DateTime @default(now())
+  expiresAt    DateTime
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  // OAuth Support
+  provider          String?   @default("email") // "email", "google", "facebook", "github"
+  accessToken       String? // OAuth access token (should be encrypted in application)
+  refreshTokenOAuth String? // OAuth refresh token (should be encrypted in application)
+  tokenExpiresAt    DateTime? // OAuth token expiration
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+  @@index([isActive])
+  @@index([provider])
+}
+
+// MFA Settings - multi-factor authentication configuration
+model MFASettings {
+  id          String    @id @default(cuid())
+  userId      Int       @unique
+  isEnabled   Boolean   @default(false)
+  method      String? // "totp", "sms", "email"
+  secret      String? // TOTP secret (encrypted)
+  phoneNumber String? // For SMS MFA
+  backupCodes String? // JSON array of backup codes (hashed)
+  lastUsedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  User        User[]
+
+  @@index([userId])
+}
+
+// MFA Challenge - temporary challenge tokens for multi-step authentication
+model MFAChallenge {
+  id          String    @id @default(cuid())
+  userId      Int?      // Nullable for anonymous challenges
+  type        String    // "totp", "sms", "email", "backup"
+  token       String    @unique // Challenge token
+  code        String?   // SMS/Email code (hashed)
+  attempts    Int       @default(0)
+  expiresAt   DateTime
+  completedAt DateTime?
+  ipAddress   String?
+  userAgent   String?
+  metadata    Json?     // Additional challenge metadata
+  createdAt   DateTime  @default(now())
+
+  @@index([token])
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([type])
+}
+
+// Security Events - comprehensive security monitoring and threat detection
+model SecurityEvent {
+  id          String    @id @default(cuid())
+  userId      Int?      // Nullable for system events
+  eventType   String    // "login_failed", "suspicious_activity", "admin_access", "mfa_bypass_attempt", etc.
+  severity    String    // "low", "medium", "high", "critical"
+  description String
+  ipAddress   String?
+  userAgent   String?
+  country     String?   // Geolocation
+  city        String?   // Geolocation
+  riskScore   Int       @default(0) // 0-100 risk assessment
+  blocked     Boolean   @default(false)
+  resolved    Boolean   @default(false)
+  metadata    Json?     // Additional event data
+  createdAt   DateTime  @default(now())
+  resolvedAt  DateTime?
+
+  @@index([userId])
+  @@index([eventType])
+  @@index([severity])
+  @@index([ipAddress])
+  @@index([createdAt])
+  @@index([riskScore])
+  @@index([blocked])
+}
+
+// IP Blocklist - dynamic IP blocking for security threats
+model IPBlocklist {
+  id          String    @id @default(cuid())
+  ipAddress   String    @unique
+  reason      String    // "brute_force", "suspicious_activity", "manual_block", etc.
+  severity    String    // "temporary", "permanent"
+  expiresAt   DateTime? // Null for permanent blocks
+  isActive    Boolean   @default(true)
+  createdBy   Int?      // Admin user who created the block
+  metadata    Json?     // Additional block metadata
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([ipAddress])
+  @@index([isActive])
+  @@index([expiresAt])
+  @@index([createdAt])
+}
+
+// Password Reset Token
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    Int
+  token     String    @unique
+  expiresAt DateTime
+  isUsed    Boolean   @default(false)
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// OAuth State Management (CSRF Protection)
+model OAuthState {
+  id           String   @id @default(cuid())
+  state        String   @unique
+  provider     String // "google", "facebook", "github"
+  returnUrl    String? // Where to redirect after OAuth
+  codeVerifier String? // For PKCE
+  nonce        String? // OpenID Connect nonce
+  tenantId     String? // Multi-tenant support
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([state])
+  @@index([provider])
+  @@index([expiresAt])
+  @@index([tenantId])
+}
+
+// Rate Limiting
+model RateLimit {
+  id          Int      @id @default(autoincrement())
+  identifier  String // IP address, email, or user ID
+  action      String // "login", "signup", "password_reset", "email_verify", "oauth"
+  attempts    Int      @default(1)
+  windowStart DateTime @default(now())
+  expiresAt   DateTime
+  tenantId    String? // Multi-tenant support
+  metadata    Json? // Additional context
+
+  @@unique([identifier, action])
+  @@index([identifier])
+  @@index([action])
+  @@index([expiresAt])
+  @@index([tenantId])
+}
+
+// Account Verification Attempts
+model VerificationAttempt {
+  id               Int      @id @default(autoincrement())
+  userId           Int? // Null for unauthenticated attempts
+  email            String
+  verificationType String // "email", "phone", "password_reset"
+  successful       Boolean
+  ipAddress        String?
+  userAgent        String?
+  failReason       String? // "invalid_token", "expired_token", "max_attempts"
+  tenantId         String? // Multi-tenant support
+  createdAt        DateTime @default(now())
+
+  @@index([userId])
+  @@index([email, createdAt])
+  @@index([verificationType])
+  @@index([tenantId])
+}
+
+model UserConsent {
+  id              String   @id @default(cuid())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  tosAccepted     DateTime
+  privacyAccepted DateTime
+  version         String
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+}
+
+model KYCData {
+  id         String    @id @default(cuid())
+  userId     Int       @unique
+  user       User      @relation(fields: [userId], references: [id])
+  status     KYCStatus @default(PENDING)
+  documents  Json?
+  adminNotes String?
+  reviewedAt DateTime?
+  reviewedBy String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+enum KYCStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REQUIRES_UPDATE
+}
+
+// Ad Network Event - tracks events from ad networks (AdMob, Unity, etc.)
+model AdNetworkEvent {
+  id           Int      @id @default(autoincrement())
+  adId         Int?
+  ad           Ad?      @relation(fields: [adId], references: [id])
+  network      String // "AdMob", "Unity", "ironSource", etc.
+  eventType    String // "impression", "click", "reward", "conversion"
+  eventId      String   @unique // Network's unique event ID
+  revenueCents Int      @default(0) // Revenue from this event in cents
+  rawPayload   Json? // Full webhook payload for audit
+  tenantId     String? // Multi-tenant support (nullable for backward compatibility)
+  createdAt    DateTime @default(now())
+
+  @@index([network, eventType])
+  @@index([eventId])
+  @@index([adId])
+  @@index([tenantId])
+}
+
+// Offer Conversion - tracks offer wall conversions
+model OfferConversion {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  offerId        String // External offer ID
+  offerName      String?
+  network        String // "OfferToro", etc.
+  status         String    @default("pending") // pending, confirmed, reversed
+  rewardCents    Int // User reward amount
+  payoutCents    Int // Amount we pay out (after fees)
+  networkEventId String?   @unique // Network's conversion ID
+  rawPayload     Json? // Full webhook payload
+  tenantId       String? // Multi-tenant support (nullable for backward compatibility)
+  confirmedAt    DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@index([userId])
+  @@index([networkEventId])
+  @@index([status])
+  @@index([tenantId])
+}
+
+// Device Fingerprint - anti-fraud device tracking
+model DeviceFingerprint {
+  id            Int      @id @default(autoincrement())
+  userId        Int? // Can be null for anonymous tracking
+  deviceId      String   @unique // Client-generated or server-generated device ID
+  ipHash        String // Hashed IP for privacy
+  userAgentHash String? // Hashed user agent
+  tenantId      String? // Multi-tenant support (nullable for backward compatibility)
+  lastSeenAt    DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([deviceId])
+  @@index([ipHash])
+  @@index([tenantId])
+}
+
+// Fraud Flag - tracks suspicious activity
+model FraudFlag {
+  id         Int       @id @default(autoincrement())
+  entityType String // "user", "device", "event", "watch"
+  entityId   String // ID of the flagged entity
+  reason     String // Description of the fraud indicator
+  score      Int       @default(0) // Fraud score (0-100)
+  status     String    @default("pending") // pending, reviewed, false_positive, confirmed
+  reviewedBy Int? // Admin user ID who reviewed
+  reviewedAt DateTime?
+  tenantId   String? // Multi-tenant support (nullable for backward compatibility)
+  createdAt  DateTime  @default(now())
+
+  @@index([entityType, entityId])
+  @@index([status])
+  @@index([score])
+  @@index([tenantId])
+}
+
+// User Badge - tracks earned badges and achievements
+model UserBadge {
+  id       Int      @id @default(autoincrement())
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId  String // e.g., "first_steps", "daily_grinder", "social_butterfly"
+  earnedAt DateTime @default(now())
+  tier     String? // Optional tier when badge was earned
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@index([badgeId])
+}
+
+// User Stats - tracks daily user activity for charts and analytics
+model UserStat {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date          DateTime @default(now()) @db.Date
+  adsWatched    Int      @default(0)
+  earningsCents Int      @default(0)
+  loginStreak   Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, date])
+  @@index([userId, date])
+  @@index([date])
+}
+
+// User Challenge - tracks daily/weekly challenge progress
+model UserChallenge {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challengeId String // e.g., "daily_five", "streak_keeper"
+  progress    Int       @default(0)
+  target      Int // Target value to complete challenge
+  completedAt DateTime?
+  date        DateTime  @default(now()) @db.Date
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, challengeId, date])
+  @@index([userId, date])
+  @@index([challengeId])
+}
+
+// Demo User - for leaderboard motivation (clearly marked as demo)
+model DemoUser {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  totalEarnings Int // in cents
+  tier          String // Bronze, Silver, Gold, Platinum, Diamond
+  adsWatched    Int
+  isDemo        Boolean  @default(true) // Always true for demo users
+  createdAt     DateTime @default(now())
+
+  @@index([tier])
+  @@index([totalEarnings])
+}
+
+// Multi-Tenant SaaS Models
+
+// Tenant - represents a customer organization using the platform
+model Tenant {
+  id               String   @id @default(cuid())
+  name             String // Organization name
+  subdomain        String   @unique // e.g., "acme" for acme.cashforads.com
+  customDomain     String?  @unique // Optional custom domain
+  brandColors      Json? // { primary: "#...", secondary: "#..." }
+  logo             String? // URL to logo image
+  appName          String   @default("Cash for Ads") // Branded app name
+  adRevenueSplit   Float    @default(0.9) // User gets 90%, platform gets 10%
+  payoutMinimum    Int      @default(1000) // Minimum payout in cents
+  subscriptionTier String   @default("free") // free, starter, growth, enterprise
+  status           String   @default("active") // active, suspended, cancelled
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  users            User[]
+  ads              Ad[]
+  billing          TenantBilling?
+  apiKeys          ApiKey[]
+  branding         TenantBranding?
+  team             TeamMember[]
+  apiUsageBilling  ApiUsageBilling[]
+  developerAccount DeveloperAccount?
+
+  @@index([subdomain])
+  @@index([customDomain])
+  @@index([subscriptionTier])
+  @@index([status])
+}
+
+// TenantBilling - Stripe subscription and billing information
+model TenantBilling {
+  id                   String    @id @default(cuid())
+  tenantId             String    @unique
+  tenant               Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  stripeCustomerId     String?   @unique
+  stripeSubscriptionId String?   @unique
+  subscriptionStatus   String    @default("inactive") // inactive, active, past_due, cancelled
+  currentPlan          String    @default("free") // free, starter, growth, enterprise
+  planPrice            Int       @default(0) // Monthly price in cents
+  billingEmail         String?
+  paymentMethodLast4   String?
+  subscriptionStartAt  DateTime?
+  subscriptionEndAt    DateTime?
+  trialEndsAt          DateTime?
+  cancelledAt          DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@index([stripeCustomerId])
+  @@index([stripeSubscriptionId])
+  @@index([subscriptionStatus])
+}
+
+// ApiKey - For B2B API access
+model ApiKey {
+  id         String    @id @default(cuid())
+  tenantId   String
+  tenant     Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name       String // Human-readable name for the key
+  keyHash    String    @unique // Hashed API key for security
+  keyPrefix  String // First few chars for identification (e.g., "sk_live_abc...")
+  scopes     String[] // Permissions: ["read:ads", "write:ads", "read:users"]
+  rateLimit  Int       @default(1000) // Requests per hour
+  usageCount Int       @default(0) // Total API calls made
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // Relations
+  apiCalls ApiCall[]
+
+  @@index([tenantId])
+  @@index([keyHash])
+  @@index([isActive])
+}
+
+// TenantBranding - White-label branding customization for Phase 2
+model TenantBranding {
+  id             String   @id @default(cuid())
+  tenantId       String   @unique
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  logo           String? // URL to logo image (can override tenant.logo)
+  favicon        String? // URL to favicon
+  primaryColor   String   @default("#3B82F6") // Brand primary color (hex)
+  secondaryColor String   @default("#10B981") // Brand secondary color (hex)
+  accentColor    String?  @default("#F59E0B") // Optional accent color
+  fontFamily     String?  @default("Inter") // Custom font family
+  customCss      String? // Custom CSS for advanced styling
+  customDomain   String? // Custom domain for branding (can override tenant.customDomain)
+  subdomain      String? // Branded subdomain name
+  emailFrom      String? // Custom "From" email for transactional emails
+  supportEmail   String? // Custom support email address
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([tenantId])
+}
+
+// TeamMember - Team management for multi-user tenant accounts
+model TeamMember {
+  id           String    @id @default(cuid())
+  tenantId     String
+  tenant       Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userId       Int? // User ID if already registered
+  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inviteEmail  String // Email for invitation
+  role         String    @default("viewer") // owner, admin, editor, viewer
+  inviteStatus String    @default("pending") // pending, accepted, expired
+  invitedBy    Int? // User ID who sent the invitation
+  inviteToken  String?   @unique // Unique token for invitation link
+  expiresAt    DateTime? // Invitation expiration date
+  acceptedAt   DateTime? // When the invitation was accepted
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([tenantId, inviteEmail])
+  @@index([tenantId])
+  @@index([userId])
+  @@index([inviteToken])
+  @@index([inviteStatus])
+}
+
+// Phase 3: API Marketplace Models
+
+// ApiCall - Track every API call for usage-based billing
+model ApiCall {
+  id           String   @id @default(cuid())
+  apiKeyId     String // Reference to ApiKey
+  apiKey       ApiKey   @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+  tenantId     String // Tenant making the call
+  endpoint     String // API endpoint called (e.g., "/api/ads", "/api/users")
+  method       String // HTTP method (GET, POST, etc.)
+  statusCode   Int // HTTP response status code
+  responseTime Int // Response time in milliseconds
+  timestamp    DateTime @default(now())
+  ipAddress    String? // IP address for analytics
+  userAgent    String? // User agent for analytics
+  metadata     Json? // Additional metadata about the call
+
+  @@index([apiKeyId])
+  @@index([tenantId])
+  @@index([timestamp])
+  @@index([endpoint])
+}
+
+// ApiUsageBilling - Monthly billing aggregation for API usage
+model ApiUsageBilling {
+  id                String    @id @default(cuid())
+  tenantId          String
+  tenant            Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  month             DateTime  @db.Date // First day of the billing month
+  totalCalls        Int       @default(0) // Total API calls in the month
+  totalRevenueCents Int       @default(0) // Total revenue in cents
+  tierLimits        String    @default("free") // Tier during this period: free, pro, enterprise
+  billingStatus     String    @default("pending") // pending, billed, paid, failed
+  stripeInvoiceId   String? // Stripe invoice ID if billed
+  billedAt          DateTime?
+  paidAt            DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([tenantId, month])
+  @@index([tenantId])
+  @@index([month])
+  @@index([billingStatus])
+}
+
+// DeveloperAccount - Extended developer/enterprise account information
+model DeveloperAccount {
+  id             String   @id @default(cuid())
+  tenantId       String   @unique
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  companyName    String
+  contactEmail   String
+  billingTier    String   @default("free") // free, pro, enterprise
+  apiQuota       Int      @default(1000) // Monthly API call quota
+  currentUsage   Int      @default(0) // Current month usage
+  quotaResetAt   DateTime @default(now()) // When quota resets (monthly)
+  overageAllowed Boolean  @default(false) // Allow overage charges
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([billingTier])
+}

@@ -13,7 +13,7 @@ function formatUSD(value: number): string {
 }
 
 export function RevenueCalculator() {
-  const [mau, setMau] = useState(25000)
+  const [mau, setMau] = useState(500000)
   const [sessionsPerDay, setSessionsPerDay] = useState(2)
   const [ecpm, setEcpm] = useState(4.0)
   const [rewardShare, setRewardShare] = useState(30)
@@ -154,7 +154,7 @@ export function RevenueCalculator() {
             href="/onboarding"
             className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
-            Book a Demo to Discuss Your Numbers →
+            Talk to Us About Your Numbers →
           </Link>
         </div>
       </div>

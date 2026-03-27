@@ -138,35 +138,36 @@ export default function HomePage() {
   return (
     <div className="bg-[#080d1a] text-[#f1f5f9]">
       {/* Section 1 — Hero */}
-      <section id="hero" className="bg-[#080d1a] py-28 px-6">
-        <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            <span className="text-[#f1f5f9]">Engagement and Rewards Infrastructure.</span>
-            <br />
-            <span className="text-[#f1f5f9]">API and SDK. </span>
-            <span className="text-[#3b82f6]">Your Brand. Our Engine.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-[#10b981] font-medium max-w-3xl mx-auto mb-4">
-            More Engagement. More Retention. Zero Access to Your Users or Data.
-          </p>
-          <p className="text-lg text-[#94a3b8] max-w-3xl mx-auto mb-10">
-            White-label API and SDK for rewarded video, referrals and campaigns.
-            Live on your platform in days. You keep your users, your auth, your database.
-            We run the engine.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/onboarding"
-              className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
-            >
-              Get a Demo
-            </Link>
-            <Link
-              href="/docs"
-              className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
-            >
-              Read the Docs
-            </Link>
+      <section id="hero" className="bg-[#080d1a] py-16 px-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-10">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+              <span className="text-[#f1f5f9]">Engagement and Rewards Infrastructure.</span>
+              <br />
+              <span className="text-[#f1f5f9]">API and SDK. </span>
+              <span className="text-[#3b82f6]">Your Brand. Our Engine.</span>
+            </h1>
+            <p className="text-lg md:text-xl text-[#10b981] font-medium max-w-3xl mx-auto mb-6">
+              More Engagement. More Retention. Zero Access to Your Users or Data.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/onboarding"
+                className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+              >
+                Get a Demo
+              </Link>
+              <Link
+                href="/docs"
+                className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
+              >
+                Read the Docs
+              </Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <EngagementMock />
+            <RevenueCalculator />
           </div>
         </div>
       </section>
@@ -208,20 +209,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 3 — UI Mockup */}
-      <section className="bg-[#080d1a] py-24 px-6">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">What Your Users See</h2>
-          <p className="text-[#94a3b8] text-lg mb-12">Your brand. Your UI. Our engine running underneath.</p>
-          <EngagementMock />
-        </div>
-      </section>
-
       {/* Section 4 — V1 Mechanics */}
       <section className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">V1 Engagement Mechanics</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">How the Engine Works</h2>
             <p className="text-[#94a3b8] text-lg">Five modules. One API integration.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -242,19 +234,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 5 — Revenue Calculator */}
-      <section className="bg-[#080d1a] py-24 px-6">
-        <div className="mx-auto max-w-5xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
-            Calculate Your Incremental Revenue
-          </h2>
-          <p className="text-[#94a3b8] text-lg mb-12">
-            Enter your platform numbers and see your estimated annual revenue.
-          </p>
-          <RevenueCalculator />
-        </div>
-      </section>
-
       {/* Section 6 — ARR Framing */}
       <section className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-6xl text-center">
@@ -262,7 +241,7 @@ export default function HomePage() {
             You Already Have the Users
           </h2>
           <p className="text-[#94a3b8] text-lg mb-14">
-            The highest ROI engagement channel is the one you already own.
+            No new acquisition cost. No new infrastructure. Just incremental revenue from users you already have.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -402,14 +381,14 @@ export default function HomePage() {
             Ready to add engagement to your platform?
           </h2>
           <p className="text-white/80 text-lg mb-10">
-            Book a demo and we&apos;ll show you exactly what the integration looks like for your stack.
+            See exactly how Ad Rev integrates with your platform — live, in your stack, in days.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/onboarding"
               className="inline-block bg-white text-[#3b82f6] hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-colors"
             >
-              Book a Demo
+              See It Live
             </Link>
             <a
               href="mailto:contact@adrevtechnologies.com"

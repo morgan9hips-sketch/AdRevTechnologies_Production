@@ -4,20 +4,19 @@ import { Logo } from '@/components/logo'
 
 const footerLinks = {
   company: [
-    { name: 'About', href: '/#about' },
-    { name: 'Services', href: '/#services' },
-    { name: 'Contact', href: '/#contact' },
+    { name: 'How It Works', href: '/#how-it-works' },
+    { name: 'Pricing', href: '/#pricing' },
+    { name: 'Contact', href: 'mailto:contact@adrevtechnologies.com' },
   ],
   resources: [
     { name: 'API Documentation', href: '/docs' },
+    { name: 'Developer Portal', href: '/developers' },
     { name: 'Partner Portal', href: '/partners' },
-    { name: 'Dashboard', href: '/dashboard' },
   ],
   legal: [
     { name: 'Terms of Service', href: '/terms' },
     { name: 'Privacy Policy', href: '/privacy' },
     { name: 'Cookie Policy', href: '/cookies' },
-    { name: 'Beta Disclaimer', href: '/beta-terms' },
   ],
 }
 
@@ -40,16 +39,15 @@ export function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
-        {/* Logo Section */}
         <div className="mb-8">
           <Logo size="medium" showWordmark={true} />
           <p className="mt-4 text-sm text-gray-400 max-w-md">
-            Enterprise-grade ad monetization platform with complete API access,
-            white-label solutions, and revenue sharing.
+            White-label engagement and rewards infrastructure API. Plug rewarded video ads,
+            referrals, and campaigns into any platform.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
               Company
@@ -102,26 +100,8 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-gray-800 pt-8">
-          {/* Beta Disclaimer */}
-          <div className="mb-6 bg-blue-900 bg-opacity-30 border border-blue-700 rounded-lg p-4">
-            <div className="flex items-start gap-2">
-              <span className="flex-shrink-0 inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-blue-500 text-white">
-                BETA
-              </span>
-              <p className="text-sm text-gray-300">
-                This platform is currently in beta. Features may change as we
-                improve based on your feedback.{' '}
-                <Link
-                  href="/beta-terms"
-                  className="text-blue-400 hover:text-blue-300 underline"
-                >
-                  Learn more about beta terms
-                </Link>
-              </p>
-            </div>
-          </div>
 
+        <div className="mt-12 border-t border-gray-800 pt-8">
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
             <div className="flex space-x-6">
               {socialLinks.map((item) => {
@@ -141,8 +121,7 @@ export function Footer() {
               })}
             </div>
             <p className="text-sm text-gray-400">
-              &copy; {new Date().getFullYear()} Ad Rev Technologies. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} Ad Rev Technologies. All rights reserved.
             </p>
           </div>
         </div>

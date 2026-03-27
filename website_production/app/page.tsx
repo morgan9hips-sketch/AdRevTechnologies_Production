@@ -1,275 +1,408 @@
-'use client'
-
 import Link from 'next/link'
-import {
-  ArrowRight,
-  Shield,
-  Zap,
-  Globe,
-  Code,
-  DollarSign,
-  Users,
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Shield, Zap, Code, Play, Mail, MessageSquare, GitMerge, Video, ShoppingBag, Gamepad2, Wallet, Trophy, Signal, Gift } from 'lucide-react'
+import { RevenueCalculator } from '@/components/sections/revenue-calculator'
+import { EngagementMock } from '@/components/sections/engagement-mock'
+
+const pricingTiers = [
+  {
+    name: 'Starter',
+    price: '$149',
+    period: '/mo',
+    badge: null,
+    description: 'Core engagement infrastructure for platforms ready to launch.',
+    features: [
+      'Video Ad Engine',
+      'Store Redirects',
+      'Referral Engine',
+      'Analytics Dashboard',
+      'API Access & Webhooks',
+      'Platform Blending (your brand)',
+      '"Powered by Ad Rev" footer credit',
+      '10% ad revenue share',
+    ],
+    cta: 'Request Access',
+    ctaHref: '/onboarding',
+    highlighted: false,
+  },
+  {
+    name: 'Business',
+    price: '$349',
+    period: '/mo',
+    badge: 'Most Popular',
+    description: 'Full campaign toolkit for platforms ready to scale engagement.',
+    features: [
+      'Everything in Starter',
+      'Mailing Campaigns',
+      'Custom Campaigns (Summer Sale, Black Friday etc.)',
+      'Campaign Management Dashboard',
+      'Advanced Analytics',
+      '8% ad revenue share',
+      '"Powered by Ad Rev" footer credit',
+    ],
+    cta: 'Request Access',
+    ctaHref: '/onboarding',
+    highlighted: true,
+  },
+  {
+    name: 'Enterprise',
+    price: 'Contact Sales',
+    period: '',
+    badge: null,
+    description: 'Complete infrastructure with distribution, deep integration, and full support.',
+    features: [
+      'Everything in Business',
+      'WhatsApp Distribution Network',
+      'Deep Custom Integration (your stack, your schema)',
+      'Full White-label (zero Ad Rev attribution)',
+      'Dedicated Support + SLA',
+      'Custom revenue share',
+    ],
+    cta: 'Contact Sales',
+    ctaHref: 'mailto:contact@adrevtechnologies.com',
+    highlighted: false,
+  },
+]
+
+const mechanics = [
+  {
+    icon: Video,
+    title: 'Video Ad Engine',
+    description:
+      'Serve rewarded video ads inside your platform. Completion is tracked server-side. Reward event fires automatically on verified completion.',
+  },
+  {
+    icon: ShoppingBag,
+    title: 'Store Redirects',
+    description:
+      'Drive users from campaigns directly to your product or store page. Every click is tracked and tied to a campaign event.',
+  },
+  {
+    icon: GitMerge,
+    title: 'Referral Engine',
+    description:
+      'Unique referral links per user. When a referred user converts, reward events fire to both parties via webhook instantly.',
+  },
+  {
+    icon: MessageSquare,
+    title: 'WhatsApp Distribution',
+    description:
+      'Distribute promotional video content through publisher WhatsApp Status networks. Enterprise tier. Amplifies campaign reach beyond your app.',
+  },
+  {
+    icon: Mail,
+    title: 'Mailing Campaigns',
+    description:
+      'Trigger reward notifications, re-engagement emails, and offer broadcasts through your own sender domain. Enterprise tier.',
+  },
+]
+
+const trustSignals = [
+  {
+    icon: Shield,
+    title: 'Enterprise Security',
+    description:
+      'HMAC webhook verification, JWT-scoped API keys, rate limiting per tier, and a complete immutable event ledger for every transaction.',
+  },
+  {
+    icon: Zap,
+    title: 'Zero User Lock-in',
+    description:
+      'You own your users, your loyalty data, and your platform. Our engine plugs in and out without touching your database or auth.',
+  },
+  {
+    icon: Code,
+    title: 'API-First Design',
+    description:
+      'RESTful endpoints, Swagger docs live at /docs, webhook delivery with retry logic, and SDK support. Integrate in days.',
+  },
+]
+
+const industries = [
+  { icon: ShoppingBag, label: 'Retail & eCommerce' },
+  { icon: Gamepad2, label: 'Gaming Platforms' },
+  { icon: Wallet, label: 'Fintech & Wallets' },
+  { icon: Trophy, label: 'Sports Betting' },
+  { icon: Signal, label: 'Telecoms' },
+  { icon: Gift, label: 'Loyalty Programs' },
+]
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-green-50">
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Powering Smarter Ad Revenue Ecosystems
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Enterprise-grade ad monetization platform with complete API
-              access, white-label solutions, and revenue sharing. Join the
-              future of advertising technology.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/partners">
-                <Button size="lg">
-                  Join as Partner <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/docs">
-                <Button variant="outline" size="lg">
-                  View API Docs
-                </Button>
-              </Link>
-            </div>
+    <div className="bg-[#080d1a] text-[#f1f5f9]">
+      {/* Section 1 — Hero */}
+      <section id="hero" className="bg-[#080d1a] py-28 px-6">
+        <div className="mx-auto max-w-4xl text-center">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#f1f5f9] mb-6">
+            Plug Engagement & Rewards Into Any Platform
+          </h1>
+          <p className="text-lg md:text-xl text-[#94a3b8] max-w-3xl mx-auto mb-10">
+            Ad Rev Technologies provides white-label infrastructure that lets any company launch
+            rewarded video ads, referral programs, and promotional campaigns — without building the
+            engine themselves.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/onboarding"
+              className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+            >
+              Request a Demo
+            </Link>
+            <Link
+              href="/docs"
+              className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
+            >
+              View API Docs
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="bg-white py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-blue-600">
-              About Us
-            </h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Building the Future of Ad Revenue
-            </p>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Ad Rev Technologies is a fintech/adtech innovation company
-              specializing in complete ad monetization platforms. We provide
-              enterprise-grade solutions for businesses looking to implement
-              sophisticated reward systems, API integrations, and white-label
-              applications.
-            </p>
+      {/* Section 2 — How It Works */}
+      <section id="how-it-works" className="bg-[#0f1629] py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">How It Works</h2>
+            <p className="text-[#94a3b8] text-lg">Three steps from integration to incremental revenue</p>
           </div>
-
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <Shield className="h-5 w-5 flex-none text-blue-600" />
-                  Enterprise Security
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                  <p className="flex-auto">
-                    Bank-level security with HMAC webhook verification, JWT
-                    authentication, and complete audit trails for every
-                    transaction.
-                  </p>
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <Zap className="h-5 w-5 flex-none text-blue-600" />
-                  Real-time Processing
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                  <p className="flex-auto">
-                    Lightning-fast API responses with real-time ad serving,
-                    instant reward distribution, and automated payout
-                    processing.
-                  </p>
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <Globe className="h-5 w-5 flex-none text-blue-600" />
-                  Global Scale
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                  <p className="flex-auto">
-                    Built to scale globally with support for multiple
-                    currencies, payment methods, and international ad networks.
-                  </p>
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Platforms */}
-      <section className="bg-gray-50 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Our Platforms
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Discover our suite of powerful ad monetization platforms
-            </p>
-          </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-1">
-            <Card className="overflow-hidden">
-              <CardHeader>
-                <CardTitle className="text-2xl">Cash for Ads</CardTitle>
-                <CardDescription>
-                  Production-ready reward platform where users watch ads and
-                  earn PayPal payouts
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 text-gray-600">
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span>
-                      Complete ad monetization with multi-network support
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span>
-                      Anti-fraud system with device fingerprinting and velocity
-                      checks
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span>
-                      PayPal batch payouts with automated reconciliation
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span>Complete ledger accounting and admin controls</span>
-                  </li>
-                </ul>
-                <div className="mt-6">
-                  <Link href="/dashboard">
-                    <Button>
-                      Access Dashboard <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                number: '1',
+                title: 'Bring Your Users & Inventory',
+                body: 'Connect your existing platform, ad inventory, and loyalty system via our API. Your users, your data, your brand.',
+              },
+              {
+                number: '2',
+                title: 'We Handle the Engine',
+                body: 'Completion tracking, reward event firing, campaign rules, fraud detection, and analytics — all managed by our infrastructure.',
+              },
+              {
+                number: '3',
+                title: 'Revenue Fires Back to You',
+                body: 'Reward events return to your loyalty system via webhook. You define what the points mean. We handle the mechanics.',
+              },
+            ].map((step) => (
+              <div key={step.number} className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8">
+                <div className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold text-lg mb-5">
+                  {step.number}
                 </div>
-              </CardContent>
-            </Card>
+                <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">{step.title}</h3>
+                <p className="text-[#94a3b8]">{step.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* B2B Services */}
-      <section id="services" className="bg-white py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              B2B Services
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Enterprise solutions for businesses ready to scale
-            </p>
+      {/* Section 3 — UI Mockup */}
+      <section className="bg-[#080d1a] py-24 px-6">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">What Your Users See</h2>
+          <p className="text-[#94a3b8] text-lg mb-12">Your brand. Your UI. Our engine running underneath.</p>
+          <EngagementMock />
+        </div>
+      </section>
+
+      {/* Section 4 — V1 Mechanics */}
+      <section className="bg-[#0f1629] py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">V1 Engagement Mechanics</h2>
+            <p className="text-[#94a3b8] text-lg">Five modules. One API integration.</p>
           </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:max-w-none lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <Code className="h-10 w-10 text-blue-600" />
-                <CardTitle className="mt-4">API Access</CardTitle>
-                <CardDescription>
-                  Complete REST API with comprehensive documentation
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>• RESTful endpoints</li>
-                  <li>• JWT authentication</li>
-                  <li>• Rate limiting by tier</li>
-                  <li>• Webhook notifications</li>
-                  <li>• SDKs available</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <DollarSign className="h-10 w-10 text-green-600" />
-                <CardTitle className="mt-4">White-label Solutions</CardTitle>
-                <CardDescription>
-                  Launch your own branded reward platform
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>• Custom branding</li>
-                  <li>• Your domain name</li>
-                  <li>• Revenue sharing model</li>
-                  <li>• Full API control</li>
-                  <li>• Dedicated support</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <Users className="h-10 w-10 text-purple-600" />
-                <CardTitle className="mt-4">Partner Program</CardTitle>
-                <CardDescription>
-                  Join our network of successful partners
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>• Tiered pricing plans</li>
-                  <li>• Priority support</li>
-                  <li>• Analytics dashboard</li>
-                  <li>• Usage tracking</li>
-                  <li>• Billing automation</li>
-                </ul>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {mechanics.map((item) => {
+              const Icon = item.icon
+              return (
+                <div
+                  key={item.title}
+                  className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6"
+                >
+                  <Icon className="h-7 w-7 text-[#3b82f6] mb-4" />
+                  <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">{item.title}</h3>
+                  <p className="text-[#94a3b8] text-sm">{item.description}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section id="contact" className="bg-blue-600">
-        <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Ready to get started?
+      {/* Section 5 — Revenue Calculator */}
+      <section className="bg-[#080d1a] py-24 px-6">
+        <div className="mx-auto max-w-5xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+            Calculate Your Incremental Revenue
+          </h2>
+          <p className="text-[#94a3b8] text-lg mb-12">
+            Your users are already there. See what you&apos;re leaving on the table.
+          </p>
+          <RevenueCalculator />
+        </div>
+      </section>
+
+      {/* Section 6 — ARR Framing */}
+      <section className="bg-[#0f1629] py-24 px-6">
+        <div className="mx-auto max-w-6xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+            You Already Have the Users
+          </h2>
+          <p className="text-[#94a3b8] text-lg mb-14">
+            The highest ROI engagement channel is the one you already own.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                stat: '$0 extra acquisition cost',
+                desc: 'Monetise users you already paid to acquire',
+              },
+              {
+                stat: 'Days not months',
+                desc: 'Integrate via API and go live in under a week',
+              },
+              {
+                stat: 'Your brand, always',
+                desc: 'Platform blending on every tier — users never see Ad Rev',
+              },
+            ].map((block) => (
+              <div key={block.stat} className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8">
+                <div className="text-2xl font-bold text-[#10b981] mb-2">{block.stat}</div>
+                <div className="text-[#94a3b8]">{block.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 7 — Pricing */}
+      <section id="pricing" className="bg-[#080d1a] py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+              Simple, Transparent Pricing
             </h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-blue-100">
-              Join our partner network and start monetizing with the most
-              advanced ad revenue platform. Contact us today to discuss your
-              needs.
+            <p className="text-[#94a3b8] text-lg">
+              All tiers include full platform blending. Your brand on every interaction.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/partners">
-                <Button size="lg" variant="secondary">
-                  Become a Partner
-                </Button>
-              </Link>
-              <a
-                href="mailto:contact@adrevtechnologies.com"
-                className="text-sm font-semibold leading-6 text-white hover:text-blue-100"
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {pricingTiers.map((tier) => (
+              <div
+                key={tier.name}
+                className={`bg-[#0f1629] rounded-2xl p-8 flex flex-col border ${
+                  tier.highlighted ? 'border-[#3b82f6]' : 'border-[#1e2d4a]'
+                }`}
               >
-                Contact Sales <span aria-hidden="true">→</span>
-              </a>
-            </div>
+                {tier.badge && (
+                  <span className="self-start mb-3 inline-block bg-[#3b82f6] text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    {tier.badge}
+                  </span>
+                )}
+                <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">{tier.name}</h3>
+                <div className="mb-4">
+                  <span className="text-3xl font-bold text-[#f1f5f9]">{tier.price}</span>
+                  {tier.period && (
+                    <span className="text-[#94a3b8] text-sm">{tier.period}</span>
+                  )}
+                </div>
+                <p className="text-[#94a3b8] text-sm mb-6">{tier.description}</p>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-sm text-[#94a3b8]">
+                      <span className="text-[#10b981] mt-0.5 flex-shrink-0">✓</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href={tier.ctaHref}
+                  className={`block text-center font-semibold py-3 rounded-lg transition-colors ${
+                    tier.highlighted
+                      ? 'bg-[#3b82f6] hover:bg-[#2563eb] text-white'
+                      : 'border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10'
+                  }`}
+                >
+                  {tier.cta}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 8 — Trust Signals */}
+      <section className="bg-[#0f1629] py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">Built for Production</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {trustSignals.map((signal) => {
+              const Icon = signal.icon
+              return (
+                <div key={signal.title} className="text-center">
+                  <div className="flex justify-center mb-5">
+                    <div className="w-14 h-14 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/20 flex items-center justify-center">
+                      <Icon className="h-7 w-7 text-[#3b82f6]" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">{signal.title}</h3>
+                  <p className="text-[#94a3b8] text-sm">{signal.description}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 9 — Industries */}
+      <section className="bg-[#080d1a] py-24 px-6">
+        <div className="mx-auto max-w-6xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+            Built for Your Industry
+          </h2>
+          <p className="text-[#94a3b8] text-lg mb-12">
+            Any platform with existing users and an engagement gap.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {industries.map((industry) => {
+              const Icon = industry.icon
+              return (
+                <div
+                  key={industry.label}
+                  className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 flex flex-col items-center gap-3"
+                >
+                  <Icon className="h-8 w-8 text-[#3b82f6]" />
+                  <span className="text-[#f1f5f9] font-medium text-sm">{industry.label}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 10 — CTA Footer */}
+      <section className="bg-[#3b82f6] py-24 px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Ready to add engagement to your platform?
+          </h2>
+          <p className="text-white/80 text-lg mb-10">
+            Book a demo and we&apos;ll show you exactly what the integration looks like for your stack.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/onboarding"
+              className="inline-block bg-white text-[#3b82f6] hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-colors"
+            >
+              Book a Demo
+            </Link>
+            <a
+              href="mailto:contact@adrevtechnologies.com"
+              className="inline-block text-white hover:text-white/80 font-semibold px-8 py-3 transition-colors underline"
+            >
+              Contact Sales
+            </a>
           </div>
         </div>
       </section>

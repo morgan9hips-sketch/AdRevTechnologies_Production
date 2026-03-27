@@ -1,343 +1,208 @@
-'use client';
+import Link from 'next/link'
+import { Code, Webhook, FileText, Key, Gauge, BarChart3 } from 'lucide-react'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { 
-  Code, 
-  DollarSign, 
-  TrendingUp, 
-  Zap, 
-  Shield, 
-  BarChart3,
-  ArrowRight,
-  CheckCircle2
-} from 'lucide-react';
-import Link from 'next/link';
-
-const pricingTiers = [
+const integrationSteps = [
   {
-    name: 'Free',
-    price: '$0',
-    description: 'Perfect for testing and small projects',
-    features: [
-      '1,000 API calls/month',
-      'Basic analytics',
-      'Community support',
-      'Standard documentation',
-    ],
-    quota: '1K calls',
-    pricePerCall: 'Free',
-    buttonText: 'Get Started',
-    buttonVariant: 'outline' as const,
+    number: '1',
+    title: 'Register your platform',
+    description:
+      'Apply via /partners, receive API credentials, and access your tenant dashboard.',
   },
   {
-    name: 'Pro',
-    price: '$100',
-    description: 'For growing businesses and apps',
-    features: [
-      '100,000 API calls/month',
-      'Advanced analytics dashboard',
-      'Priority support',
-      'Webhook notifications',
-      'Custom rate limits',
-    ],
-    quota: '100K calls',
-    pricePerCall: '$0.001/call',
-    buttonText: 'Upgrade to Pro',
-    buttonVariant: 'default' as const,
-    popular: true,
+    number: '2',
+    title: 'Generate your API key',
+    description:
+      'Scoped keys per tenant from your dashboard. Rate-limited by tier. Rotate at any time.',
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    description: 'For large-scale operations',
-    features: [
-      'Unlimited API calls',
-      'Dedicated account manager',
-      '24/7 premium support',
-      'Custom integrations',
-      'SLA guarantee',
-      'White-label options',
-    ],
-    quota: 'Unlimited',
-    pricePerCall: '$0.005/call',
-    buttonText: 'Contact Sales',
-    buttonVariant: 'outline' as const,
+    number: '3',
+    title: 'Make your first call',
+    description:
+      'POST /engagement/start and receive your first reward event back via webhook.',
   },
-];
+]
 
-const features = [
+const featureCards = [
   {
     icon: Code,
     title: 'Developer-First API',
-    description: 'Clean, well-documented REST API with SDKs for popular languages',
+    description:
+      'Clean RESTful endpoints, consistent JSON responses, versioned at /v1. Designed for rapid integration.',
   },
   {
-    icon: DollarSign,
-    title: 'Usage-Based Billing',
-    description: 'Only pay for what you use with transparent, predictable pricing',
+    icon: Webhook,
+    title: 'Webhook Delivery',
+    description:
+      'Reward events delivered to your endpoint via HMAC-signed POST requests with retry logic on failure.',
   },
   {
-    icon: TrendingUp,
-    title: 'Revenue Sharing',
-    description: 'Earn 30% revenue share on API marketplace transactions',
+    icon: FileText,
+    title: 'Swagger Docs',
+    description:
+      'Interactive API documentation at /docs. Test endpoints directly in the browser with your API key.',
   },
   {
-    icon: Shield,
-    title: 'Enterprise Security',
-    description: 'Bank-level security with API key management and rate limiting',
+    icon: Key,
+    title: 'Scoped API Keys',
+    description:
+      'Per-tenant, per-environment API keys. Each key is scoped to your tenant and rotatable without downtime.',
+  },
+  {
+    icon: Gauge,
+    title: 'Rate Limiting by Tier',
+    description:
+      'Request limits enforced per tier. Starter, Business, and Enterprise have escalating rate allowances.',
   },
   {
     icon: BarChart3,
     title: 'Real-Time Analytics',
-    description: 'Track API usage, performance, and revenue in real-time',
+    description:
+      'Track engagement events, reward completions, campaign performance, and revenue in real time.',
   },
-  {
-    icon: Zap,
-    title: 'High Performance',
-    description: 'Sub-100ms latency with 99.9% uptime SLA',
-  },
-];
+]
+
+const requestExample = `POST https://api.adrevtechnologies.com/v1/engagement/start
+Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json
+
+{
+  "tenant_id": "tenant_abc123",
+  "external_user_id": "user_98234",
+  "campaign_id": "camp_summer_sale",
+  "engagement_type": "video_ad"
+}`
+
+const webhookExample = `// Webhook fired on completion:
+POST https://your-platform.com/webhooks/adrev
+Content-Type: application/json
+X-AdRev-Signature: sha256=...
+
+{
+  "event": "reward_earned",
+  "tenant_id": "tenant_abc123",
+  "external_user_id": "user_98234",
+  "reward_type": "loyalty_points",
+  "amount": 50,
+  "reason": "video_ad_completed",
+  "campaign_id": "camp_summer_sale",
+  "timestamp": "2026-03-26T10:00:00Z"
+}`
 
 export default function DevelopersPage() {
   return (
-    <div className="flex flex-col">
+    <div className="bg-[#080d1a] text-[#f1f5f9] min-h-screen">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-green-50 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <Code className="mx-auto h-16 w-16 text-blue-600" />
-            <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              API Marketplace for Developers
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Build powerful ad monetization features with our enterprise-grade API. 
-              Join thousands of developers earning revenue through our API marketplace.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/developers/dashboard">
-                <Button size="lg">
-                  Get API Access <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/docs">
-                <Button size="lg" variant="outline">
-                  View Documentation
-                </Button>
-              </Link>
-            </div>
-          </div>
+      <section className="py-24 px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <Code className="mx-auto h-14 w-14 text-[#3b82f6] mb-6" />
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#f1f5f9] mb-6">
+            Developer Integration Portal
+          </h1>
+          <p className="text-lg text-[#94a3b8]">
+            Integrate the Ad Rev engagement engine into your platform. RESTful API, webhook
+            delivery, Swagger docs, and tier-based access.
+          </p>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="bg-white py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Why Choose Our API?
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Everything you need to build and monetize at scale
-            </p>
+      {/* Integration Steps */}
+      <section className="bg-[#0f1629] py-24 px-6">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">Get Integrated in Three Steps</h2>
           </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:max-w-none lg:grid-cols-3">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <Card key={feature.title}>
-                  <CardHeader>
-                    <Icon className="h-10 w-10 text-blue-600" />
-                    <CardTitle className="mt-4">{feature.title}</CardTitle>
-                    <CardDescription>{feature.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section className="bg-gray-50 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Simple, Transparent Pricing
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Choose the plan that fits your needs. Upgrade or downgrade anytime.
-            </p>
-          </div>
-          <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
-            {pricingTiers.map((tier) => (
-              <Card 
-                key={tier.name} 
-                className={tier.popular ? 'border-2 border-blue-600 shadow-lg' : ''}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {integrationSteps.map((step) => (
+              <div
+                key={step.number}
+                className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8"
               >
-                <CardHeader>
-                  {tier.popular && (
-                    <span className="mb-2 inline-block rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
-                      Most Popular
-                    </span>
-                  )}
-                  <CardTitle className="text-2xl">{tier.name}</CardTitle>
-                  <CardDescription>{tier.description}</CardDescription>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold">{tier.price}</span>
-                    {tier.price !== 'Custom' && <span className="text-gray-600">/month</span>}
-                  </div>
-                  <div className="mt-2 space-y-1 text-sm text-gray-600">
-                    <div>Quota: {tier.quota}</div>
-                    <div>Rate: {tier.pricePerCall}</div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <Link href="/developers/dashboard">
-                    <Button 
-                      className="w-full" 
-                      variant={tier.buttonVariant}
-                    >
-                      {tier.buttonText}
-                    </Button>
-                  </Link>
-                  <ul className="mt-6 space-y-3">
-                    {tier.features.map((feature) => (
-                      <li key={feature} className="flex items-start">
-                        <CheckCircle2 className="mr-2 h-5 w-5 flex-shrink-0 text-green-600" />
-                        <span className="text-sm text-gray-600">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                <div className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold text-lg mb-5">
+                  {step.number}
+                </div>
+                <h3 className="text-lg font-semibold text-[#f1f5f9] mb-3">{step.title}</h3>
+                <p className="text-[#94a3b8] text-sm">{step.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Revenue Sharing */}
-      <section className="bg-white py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl">
-            <Card className="bg-gradient-to-br from-blue-50 to-green-50">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-3xl">Revenue Sharing Program</CardTitle>
-                    <CardDescription className="mt-2 text-base">
-                      Earn money by providing API access to your tenants
-                    </CardDescription>
-                  </div>
-                  <TrendingUp className="h-12 w-12 text-blue-600" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div className="rounded-lg bg-white p-6">
-                    <div className="text-4xl font-bold text-blue-600">70%</div>
-                    <div className="mt-2 text-sm font-semibold text-gray-900">Platform Share</div>
-                    <div className="mt-1 text-xs text-gray-600">
-                      We handle infrastructure, support, and billing
-                    </div>
-                  </div>
-                  <div className="rounded-lg bg-white p-6">
-                    <div className="text-4xl font-bold text-green-600">30%</div>
-                    <div className="mt-2 text-sm font-semibold text-gray-900">Your Share</div>
-                    <div className="mt-1 text-xs text-gray-600">
-                      Earn passive income from your tenant's API usage
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6 rounded-lg bg-white p-6">
-                  <h3 className="font-semibold text-gray-900">How It Works</h3>
-                  <ol className="mt-4 space-y-2 text-sm text-gray-600">
-                    <li>1. Your tenants use the API through your platform</li>
-                    <li>2. We track all API calls and calculate revenue</li>
-                    <li>3. You receive 30% of the revenue generated</li>
-                    <li>4. Get paid monthly via Stripe</li>
-                  </ol>
-                </div>
-              </CardContent>
-            </Card>
+      {/* Code Snippet */}
+      <section className="py-24 px-6">
+        <div className="mx-auto max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">See It in Action</h2>
+            <p className="text-[#94a3b8]">A real API call and the webhook response it triggers.</p>
           </div>
-        </div>
-      </section>
-
-      {/* Getting Started */}
-      <section className="bg-gray-50 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Get Started in Minutes
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Three simple steps to start using our API
-            </p>
-          </div>
-          <div className="mx-auto mt-16 max-w-4xl">
-            <div className="grid gap-8 md:grid-cols-3">
-              <Card>
-                <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-600">
-                    1
-                  </div>
-                  <CardTitle>Create Account</CardTitle>
-                  <CardDescription>
-                    Sign up for a developer account in seconds
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-600">
-                    2
-                  </div>
-                  <CardTitle>Get API Key</CardTitle>
-                  <CardDescription>
-                    Generate your API key from the dashboard
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-600">
-                    3
-                  </div>
-                  <CardTitle>Start Building</CardTitle>
-                  <CardDescription>
-                    Make your first API call and start earning
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <div className="text-xs text-[#94a3b8] mb-2 font-medium uppercase tracking-wider">
+                API Request
+              </div>
+              <pre className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 text-sm text-[#94a3b8] overflow-x-auto whitespace-pre-wrap">
+                <code>{requestExample}</code>
+              </pre>
+            </div>
+            <div>
+              <div className="text-xs text-[#94a3b8] mb-2 font-medium uppercase tracking-wider">
+                Webhook Response
+              </div>
+              <pre className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 text-sm text-[#94a3b8] overflow-x-auto whitespace-pre-wrap">
+                <code>{webhookExample}</code>
+              </pre>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Feature Cards */}
+      <section className="bg-[#0f1629] py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">Built for Developers</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featureCards.map((card) => {
+              const Icon = card.icon
+              return (
+                <div
+                  key={card.title}
+                  className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-6"
+                >
+                  <Icon className="h-7 w-7 text-[#3b82f6] mb-4" />
+                  <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">{card.title}</h3>
+                  <p className="text-[#94a3b8] text-sm">{card.description}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="bg-blue-600 py-24">
-        <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight text-white">
-            Ready to Start Building?
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-blue-100">
-            Join our API marketplace and start earning revenue from your applications today.
+      <section className="py-24 px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">Ready to Integrate?</h2>
+          <p className="text-[#94a3b8] mb-10">
+            Access the full API documentation or register your platform to receive credentials.
           </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Link href="/developers/dashboard">
-              <Button size="lg" variant="secondary">
-                Access Dashboard
-              </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/docs"
+              className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+            >
+              View Full API Documentation
             </Link>
-            <Link href="/docs">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-                Read Documentation
-              </Button>
+            <Link
+              href="/onboarding"
+              className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
+            >
+              Register Your Platform
             </Link>
           </div>
         </div>
       </section>
     </div>
-  );
+  )
 }

@@ -9,18 +9,21 @@ const pricingTiers = [
     price: '$149',
     period: '/mo',
     badge: null,
-    description: 'Core engagement infrastructure for platforms ready to launch.',
+    description: 'Core engagement infrastructure. API and SDK. Deploy in days.',
     features: [
-      'Video Ad Engine',
-      'Store Redirects',
+      'Video Ad Engine (API + SDK)',
+      'Store Redirects — post-ad discount redirect',
       'Referral Engine',
       'Analytics Dashboard',
       'API Access & Webhooks',
-      'Platform Blending (your brand)',
-      '"Powered by Ad Rev" footer credit',
+      'Webhook Retry Logic',
+      'Audit Trail & Transaction Log',
+      'Frequency Capping (per user per day)',
+      'Platform Blending — your brand on every interaction',
+      '"Powered by Ad Rev" attribution',
       '10% ad revenue share',
     ],
-    cta: 'Request Access',
+    cta: 'Get a Demo',
     ctaHref: '/onboarding',
     highlighted: false,
   },
@@ -32,14 +35,16 @@ const pricingTiers = [
     description: 'Full campaign toolkit for platforms ready to scale engagement.',
     features: [
       'Everything in Starter',
-      'Mailing Campaigns',
       'Custom Campaigns (Summer Sale, Black Friday etc.)',
+      'Mailing Campaigns — re-engagement & offer broadcasts',
+      'WhatsApp Status Ads — promotional video via Status networks',
       'Campaign Management Dashboard',
-      'Advanced Analytics',
+      'Campaign Scheduling — start and end dates',
+      'Advanced Analytics & Reporting',
+      '"Powered by Ad Rev" attribution',
       '8% ad revenue share',
-      '"Powered by Ad Rev" footer credit',
     ],
-    cta: 'Request Access',
+    cta: 'Get a Demo',
     ctaHref: '/onboarding',
     highlighted: true,
   },
@@ -48,14 +53,17 @@ const pricingTiers = [
     price: 'Contact Sales',
     period: '',
     badge: null,
-    description: 'Complete infrastructure with distribution, deep integration, and full support.',
+    description: 'Complete infrastructure. Zero attribution. Full control.',
     features: [
       'Everything in Business',
-      'WhatsApp Distribution Network',
-      'Deep Custom Integration (your stack, your schema)',
-      'Full White-label (zero Ad Rev attribution)',
+      'WhatsApp Direct Message Campaigns',
+      'Full White-label — zero Ad Rev attribution removed entirely',
+      'Custom SDK Theming — match your design system exactly',
+      'Deep Custom Integration — your stack, your schema',
+      'Priority Webhook SLA',
+      'Dedicated Account Manager',
       'Dedicated Support + SLA',
-      'Custom revenue share',
+      'Custom Revenue Share',
     ],
     cta: 'Contact Sales',
     ctaHref: 'mailto:contact@adrevtechnologies.com',
@@ -132,26 +140,32 @@ export default function HomePage() {
       {/* Section 1 — Hero */}
       <section id="hero" className="bg-[#080d1a] py-28 px-6">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#f1f5f9] mb-6">
-            Plug Engagement & Rewards Into Any Platform
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            <span className="text-[#f1f5f9]">Engagement and Rewards Infrastructure.</span>
+            <br />
+            <span className="text-[#f1f5f9]">API and SDK. </span>
+            <span className="text-[#3b82f6]">Your Brand. Our Engine.</span>
           </h1>
-          <p className="text-lg md:text-xl text-[#94a3b8] max-w-3xl mx-auto mb-10">
-            Ad Rev Technologies provides white-label infrastructure that lets any company launch
-            rewarded video ads, referral programs, and promotional campaigns — without building the
-            engine themselves.
+          <p className="text-lg md:text-xl text-[#10b981] font-medium max-w-3xl mx-auto mb-4">
+            More Engagement. More Retention. Zero Access to Your Users or Data.
+          </p>
+          <p className="text-lg text-[#94a3b8] max-w-3xl mx-auto mb-10">
+            White-label API and SDK for rewarded video, referrals and campaigns.
+            Live on your platform in days. You keep your users, your auth, your database.
+            We run the engine.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/onboarding"
               className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
             >
-              Request a Demo
+              Get a Demo
             </Link>
             <Link
               href="/docs"
               className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
             >
-              View API Docs
+              Read the Docs
             </Link>
           </div>
         </div>
@@ -235,7 +249,7 @@ export default function HomePage() {
             Calculate Your Incremental Revenue
           </h2>
           <p className="text-[#94a3b8] text-lg mb-12">
-            Your users are already there. See what you&apos;re leaving on the table.
+            Enter your platform numbers and see your estimated annual revenue.
           </p>
           <RevenueCalculator />
         </div>

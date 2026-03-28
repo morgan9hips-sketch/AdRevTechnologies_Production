@@ -117,7 +117,7 @@ export function Header() {
                 href="/onboarding"
                 className="bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
               >
-                See It Live
+                Get Early Access
               </Link>
             </>
           )}
@@ -170,7 +170,7 @@ export function Header() {
                     className="block bg-[#3b82f6] hover:bg-[#2563eb] text-white text-center font-semibold px-3 py-2 rounded-lg transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    See It Live
+                    Get Early Access
                   </Link>
                 </>
               )}

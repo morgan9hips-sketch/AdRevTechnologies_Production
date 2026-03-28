@@ -120,9 +120,14 @@ export function Footer() {
                 )
               })}
             </div>
-            <p className="text-sm text-gray-400">
-              &copy; {new Date().getFullYear()} Ad Rev Technologies. All rights reserved.
-            </p>
+            <div className="text-right">
+              <p className="text-sm text-gray-400">
+                &copy; {new Date().getFullYear()} Ad Rev Technologies. All rights reserved.
+              </p>
+              <p className="text-xs text-gray-600 mt-1">
+                Powered by Ad Rev Technologies · Engine v1
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -9,8 +9,10 @@ const tiers = [
     id: 'starter',
     name: 'Starter',
     price: '$149',
+    originalPrice: '$249',
     period: '/mo',
     badge: null,
+    discountBadge: true,
     description: 'Core engagement infrastructure. API and SDK. Deploy in days.',
     features: [
       'Video Ad Engine (API + SDK)',
@@ -26,13 +28,16 @@ const tiers = [
       '10% ad revenue share',
     ],
     highlighted: false,
+    enterpriseBands: null,
   },
   {
     id: 'business',
     name: 'Business',
     price: '$349',
+    originalPrice: '$599',
     period: '/mo',
     badge: 'Most Popular',
+    discountBadge: true,
     description: 'Full campaign toolkit for platforms ready to scale engagement.',
     features: [
       'Everything in Starter',
@@ -46,13 +51,16 @@ const tiers = [
       '8% ad revenue share',
     ],
     highlighted: true,
+    enterpriseBands: null,
   },
   {
     id: 'enterprise',
     name: 'Enterprise',
-    price: 'Contact Sales',
-    period: '',
+    price: 'From $899',
+    originalPrice: 'From $1,499',
+    period: '/mo',
     badge: null,
+    discountBadge: true,
     description: 'Complete infrastructure. Zero attribution. Full control.',
     features: [
       'Everything in Business',
@@ -66,6 +74,12 @@ const tiers = [
       'Custom Revenue Share',
     ],
     highlighted: false,
+    enterpriseBands: [
+      { label: 'Up to 250k MAU', price: '$899/mo' },
+      { label: '251k – 1M MAU', price: '$1,499/mo' },
+      { label: '1M – 5M MAU', price: '$2,499/mo' },
+      { label: '5M+ MAU', price: 'Custom' },
+    ],
   },
 ]
 
@@ -145,14 +159,27 @@ export default function PartnersPage() {
                   </span>
                 )}
                 <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">{tier.name}</h3>
-                <div className="mb-4">
+                <div className="mb-1">
+                  {tier.originalPrice && (
+                    <span className="text-sm text-[#94a3b8] line-through mr-2">{tier.originalPrice}{tier.period}</span>
+                  )}
                   <span className="text-3xl font-bold text-[#f1f5f9]">{tier.price}</span>
                   {tier.period && (
                     <span className="text-[#94a3b8] text-sm">{tier.period}</span>
                   )}
                 </div>
+                {tier.discountBadge && (
+                  <div className="mb-4">
+                    <span className="inline-block bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] text-xs font-semibold px-2.5 py-1 rounded-md">
+                      Limited Time Offer — Early Access Pricing
+                    </span>
+                    <p className="text-[10px] text-[#94a3b8]/70 mt-1">
+                      Lock in this rate for life. Price increases when early access closes.
+                    </p>
+                  </div>
+                )}
                 <p className="text-[#94a3b8] text-sm mb-6">{tier.description}</p>
-                <ul className="space-y-2 mb-8 flex-1">
+                <ul className="space-y-2 mb-6 flex-1">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2 text-sm text-[#94a3b8]">
                       <span className="text-[#10b981] mt-0.5 flex-shrink-0">✓</span>
@@ -160,6 +187,19 @@ export default function PartnersPage() {
                     </li>
                   ))}
                 </ul>
+                {tier.enterpriseBands && (
+                  <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">Volume Pricing</p>
+                    <ul className="space-y-2">
+                      {tier.enterpriseBands.map((band) => (
+                        <li key={band.label} className="flex justify-between items-center text-xs">
+                          <span className="text-[#94a3b8]">{band.label}</span>
+                          <span className="text-[#f1f5f9] font-semibold">{band.price}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <button
                   type="button"
                   onClick={() => setSelectedTier(tier.id)}

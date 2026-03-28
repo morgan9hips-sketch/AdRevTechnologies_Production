@@ -30,15 +30,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className="font-sans antialiased">
         <Providers>
           <Header />
-          <main className="min-h-screen pt-20">{children}</main>
+          <main className="min-h-screen pt-24">{children}</main>
           <Footer />
         </Providers>
       </body>

@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 import { Shield, Zap, Code, Play, Mail, MessageSquare, GitMerge, Video, ShoppingBag, Gamepad2, Wallet, Trophy, Signal, Gift } from 'lucide-react'
 import { RevenueCalculator } from '@/components/sections/revenue-calculator'
@@ -25,8 +28,8 @@ const pricingTiers = [
       '"Powered by Ad Rev" attribution',
       '10% ad revenue share',
     ],
-    cta: 'Get a Demo',
-    ctaHref: '/onboarding',
+    cta: 'Join the Waitlist',
+    ctaHref: '/#waitlist',
     highlighted: false,
     enterpriseBands: null,
   },
@@ -49,8 +52,8 @@ const pricingTiers = [
       '"Powered by Ad Rev" attribution',
       '8% ad revenue share',
     ],
-    cta: 'Get a Demo',
-    ctaHref: '/onboarding',
+    cta: 'Join the Waitlist',
+    ctaHref: '/#waitlist',
     highlighted: true,
     enterpriseBands: null,
   },
@@ -157,6 +160,31 @@ const industries = [
 ]
 
 export default function HomePage() {
+  const [waitlistName, setWaitlistName] = useState('')
+  const [waitlistEmail, setWaitlistEmail] = useState('')
+  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false)
+  const [waitlistLoading, setWaitlistLoading] = useState(false)
+  const [waitlistError, setWaitlistError] = useState('')
+
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setWaitlistLoading(true)
+    setWaitlistError('')
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: waitlistName, email: waitlistEmail }),
+      })
+      if (!res.ok) throw new Error('Failed')
+      setWaitlistSubmitted(true)
+    } catch {
+      setWaitlistError('Something went wrong. Please try again.')
+    } finally {
+      setWaitlistLoading(false)
+    }
+  }
+
   return (
     <div className="bg-[#080d1a] text-[#f1f5f9]">
       {/* Section 1 — Hero */}
@@ -173,12 +201,12 @@ export default function HomePage() {
               More Engagement. More Retention. Zero Access to Your Users or Data.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/onboarding"
+              <a
+                href="#waitlist"
                 className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
               >
-                Get a Demo
-              </Link>
+                Join the Waitlist
+              </a>
               <Link
                 href="/docs"
                 className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
@@ -299,7 +327,73 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 7 — Pricing */}
+      {/* Section 7 — Waitlist */}
+      <section id="waitlist" className="bg-[#080d1a] py-24 px-6">
+        <div className="mx-auto max-w-xl">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+              Join the Waitlist
+            </h2>
+            <p className="text-[#94a3b8] text-lg">
+              The platform is available upon purchase. Early access is limited — complete the form below to secure your spot and we will be in touch within 24–48 hours.
+            </p>
+          </div>
+          {waitlistSubmitted ? (
+            <div className="bg-[#10b981]/10 border border-[#10b981]/30 rounded-xl p-8 text-center">
+              <p className="text-[#10b981] font-semibold text-lg">You are on the list.</p>
+              <p className="text-[#94a3b8] text-sm mt-2">We will reach out within 24–48 hours to get you set up.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleWaitlistSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="waitlist-name" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
+                  Your Name <span className="text-red-400">*</span>
+                </label>
+                <input
+                  id="waitlist-name"
+                  type="text"
+                  required
+                  value={waitlistName}
+                  onChange={(e) => setWaitlistName(e.target.value)}
+                  placeholder="Jane Smith"
+                  className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                />
+              </div>
+              <div>
+                <label htmlFor="waitlist-email" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
+                  Work Email <span className="text-red-400">*</span>
+                </label>
+                <input
+                  id="waitlist-email"
+                  type="email"
+                  required
+                  value={waitlistEmail}
+                  onChange={(e) => setWaitlistEmail(e.target.value)}
+                  placeholder="jane@yourcompany.com"
+                  className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                />
+              </div>
+              {waitlistError && (
+                <div className="rounded-lg bg-red-900/20 border border-red-700/40 p-3">
+                  <p className="text-sm text-red-400">{waitlistError}</p>
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={waitlistLoading}
+                className="w-full bg-[#3b82f6] hover:bg-[#2563eb] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
+              >
+                {waitlistLoading ? 'Submitting...' : 'Complete Form — Join the Waitlist'}
+              </button>
+              <p className="text-center text-xs text-[#94a3b8]/60">
+                No commitment. Platform access confirmed on purchase.
+              </p>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* Section 8 — Pricing */}
       <section id="pricing" className="bg-[#080d1a] py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
@@ -381,7 +475,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 8 — Trust Signals */}
+      {/* Section 9 — Trust Signals */}
       <section className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
@@ -412,7 +506,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 9 — Industries */}
+      {/* Section 10 — Industries */}
       <section className="bg-[#080d1a] py-24 px-6">
         <div className="mx-auto max-w-6xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
@@ -439,7 +533,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 10 — CTA Footer */}
+      {/* Section 11 — CTA Footer */}
       <section className="bg-[#3b82f6] py-24 px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -449,12 +543,12 @@ export default function HomePage() {
             See exactly how Ad Rev integrates with your platform — live, in your stack, in days.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/onboarding"
+            <a
+              href="#waitlist"
               className="inline-block bg-white text-[#3b82f6] hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-colors"
             >
-              See It Live
-            </Link>
+              Join the Waitlist
+            </a>
             <a
               href="mailto:contact@adrevtechnologies.com"
               className="inline-block text-white hover:text-white/80 font-semibold px-8 py-3 transition-colors underline"

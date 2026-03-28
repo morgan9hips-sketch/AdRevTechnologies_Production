@@ -89,30 +89,35 @@ const mechanics = [
   {
     icon: Video,
     title: 'Video Ad Engine',
+    accentColor: '#3b82f6',
     description:
       'Serve rewarded video ads inside your platform. Completion is tracked server-side. Reward event fires automatically on verified completion.',
   },
   {
     icon: ShoppingBag,
     title: 'Store Redirects',
+    accentColor: '#f59e0b',
     description:
       'Drive users from campaigns directly to your product or store page. Every click is tracked and tied to a campaign event.',
   },
   {
     icon: GitMerge,
     title: 'Referral Engine',
+    accentColor: '#8b5cf6',
     description:
       'Unique referral links per user. When a referred user converts, reward events fire to both parties via webhook instantly.',
   },
   {
     icon: MessageSquare,
     title: 'WhatsApp Distribution',
+    accentColor: '#f43f5e',
     description:
       'Distribute promotional video content through publisher WhatsApp Status networks. Enterprise tier. Amplifies campaign reach beyond your app.',
   },
   {
     icon: Mail,
     title: 'Mailing Campaigns',
+    accentColor: '#10b981',
     description:
       'Trigger reward notifications, re-engagement emails, and offer broadcasts through your own sender domain. Enterprise tier.',
   },
@@ -122,30 +127,33 @@ const trustSignals = [
   {
     icon: Shield,
     title: 'Enterprise Security',
+    accentColor: '#f59e0b',
     description:
       'HMAC webhook verification, JWT-scoped API keys, rate limiting per tier, and a complete immutable event ledger for every transaction.',
   },
   {
     icon: Zap,
     title: 'Zero User Lock-in',
+    accentColor: '#8b5cf6',
     description:
       'You own your users, your loyalty data, and your platform. Our engine plugs in and out without touching your database or auth.',
   },
   {
     icon: Code,
     title: 'API-First Design',
+    accentColor: '#3b82f6',
     description:
       'RESTful endpoints, Swagger docs live at /docs, webhook delivery with retry logic, and SDK support. Integrate in days.',
   },
 ]
 
 const industries = [
-  { icon: ShoppingBag, label: 'Retail & eCommerce' },
-  { icon: Gamepad2, label: 'Gaming Platforms' },
-  { icon: Wallet, label: 'Fintech & Wallets' },
-  { icon: Trophy, label: 'Sports Betting' },
-  { icon: Signal, label: 'Telecoms' },
-  { icon: Gift, label: 'Loyalty Programs' },
+  { icon: ShoppingBag, label: 'Retail & eCommerce', accentColor: '#f59e0b' },
+  { icon: Gamepad2, label: 'Gaming Platforms', accentColor: '#8b5cf6' },
+  { icon: Wallet, label: 'Fintech & Wallets', accentColor: '#10b981' },
+  { icon: Trophy, label: 'Sports Betting', accentColor: '#f43f5e' },
+  { icon: Signal, label: 'Telecoms', accentColor: '#3b82f6' },
+  { icon: Gift, label: 'Loyalty Programs', accentColor: '#f59e0b' },
 ]
 
 export default function HomePage() {
@@ -237,8 +245,9 @@ export default function HomePage() {
                 <div
                   key={item.title}
                   className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6"
+                  style={{ borderLeft: `2px solid ${item.accentColor}` }}
                 >
-                  <Icon className="h-7 w-7 text-[#3b82f6] mb-4" />
+                  <Icon className="h-7 w-7 mb-4" style={{ color: item.accentColor }} />
                   <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">{item.title}</h3>
                   <p className="text-[#94a3b8] text-sm">{item.description}</p>
                 </div>
@@ -262,18 +271,27 @@ export default function HomePage() {
               {
                 stat: '$0 extra acquisition cost',
                 desc: 'Monetise users you already paid to acquire',
+                accent: '#f59e0b',
               },
               {
                 stat: 'Days not months',
                 desc: 'Integrate via API and go live in under a week',
+                accent: '#8b5cf6',
               },
               {
                 stat: 'Your brand, always',
                 desc: 'Platform blending on every tier — users never see Ad Rev',
+                accent: '#f43f5e',
               },
             ].map((block) => (
-              <div key={block.stat} className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8">
-                <div className="text-2xl font-bold text-[#10b981] mb-2">{block.stat}</div>
+              <div
+                key={block.stat}
+                className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8"
+                style={{ borderTop: `2px solid ${block.accent}` }}
+              >
+                <div className="text-2xl font-bold mb-2" style={{ color: block.accent }}>
+                  {block.stat}
+                </div>
                 <div className="text-[#94a3b8]">{block.desc}</div>
               </div>
             ))}
@@ -375,8 +393,14 @@ export default function HomePage() {
               return (
                 <div key={signal.title} className="text-center">
                   <div className="flex justify-center mb-5">
-                    <div className="w-14 h-14 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/20 flex items-center justify-center">
-                      <Icon className="h-7 w-7 text-[#3b82f6]" />
+                    <div
+                      className="w-14 h-14 rounded-xl flex items-center justify-center"
+                      style={{
+                        backgroundColor: `${signal.accentColor}1a`,
+                        border: `1px solid ${signal.accentColor}33`,
+                      }}
+                    >
+                      <Icon className="h-7 w-7" style={{ color: signal.accentColor }} />
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">{signal.title}</h3>
@@ -404,8 +428,9 @@ export default function HomePage() {
                 <div
                   key={industry.label}
                   className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 flex flex-col items-center gap-3"
+                  style={{ borderTop: `2px solid ${industry.accentColor}` }}
                 >
-                  <Icon className="h-8 w-8 text-[#3b82f6]" />
+                  <Icon className="h-8 w-8" style={{ color: industry.accentColor }} />
                   <span className="text-[#f1f5f9] font-medium text-sm">{industry.label}</span>
                 </div>
               )

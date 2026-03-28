@@ -26,7 +26,7 @@ export function RevenueCalculator() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-[#0f1629] border border-[#1e2d4a] rounded-2xl p-8">
+      <div className="bg-[#0f1629] border border-[#8b5cf6]/40 rounded-2xl p-8 shadow-[0_0_40px_-8px_rgba(139,92,246,0.2)]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
           {/* Monthly Active Users */}
           <div>
@@ -40,7 +40,7 @@ export function RevenueCalculator() {
               step={1000}
               value={mau}
               onChange={(e) => setMau(Number(e.target.value))}
-              className="w-full accent-[#3b82f6] mb-2"
+              className="w-full accent-[#8b5cf6] mb-2"
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">1,000</span>
@@ -63,7 +63,7 @@ export function RevenueCalculator() {
               step={1}
               value={sessionsPerDay}
               onChange={(e) => setSessionsPerDay(Number(e.target.value))}
-              className="w-full accent-[#3b82f6] mb-2"
+              className="w-full accent-[#8b5cf6] mb-2"
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">1</span>
@@ -86,7 +86,7 @@ export function RevenueCalculator() {
               step={0.5}
               value={ecpm}
               onChange={(e) => setEcpm(Number(e.target.value))}
-              className="w-full accent-[#3b82f6] mb-2"
+              className="w-full accent-[#8b5cf6] mb-2"
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">$1.00</span>
@@ -109,7 +109,7 @@ export function RevenueCalculator() {
               step={1}
               value={rewardShare}
               onChange={(e) => setRewardShare(Number(e.target.value))}
-              className="w-full accent-[#3b82f6] mb-2"
+              className="w-full accent-[#8b5cf6] mb-2"
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">10%</span>

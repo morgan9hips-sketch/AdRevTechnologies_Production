@@ -159,7 +159,7 @@ export function EngagementMock() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-80 bg-[#0f1629] border-2 border-[#1e2d4a] rounded-3xl overflow-hidden shadow-2xl">
+      <div className="w-80 bg-[#0f1629] border-2 border-[#f59e0b]/40 rounded-3xl overflow-hidden shadow-2xl shadow-[0_0_40px_-8px_rgba(245,158,11,0.25)]">
         {/* Slide Header */}
         <div className="bg-[#080d1a] border-b border-[#1e2d4a] px-4 py-3 flex items-center justify-between">
           <span className={`text-xs font-semibold uppercase tracking-wider ${slide.badgeColor}`}>

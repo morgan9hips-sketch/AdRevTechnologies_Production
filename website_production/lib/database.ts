@@ -50,3 +50,19 @@ export interface ApiKey {
   last_used_at?: string;
   active: boolean;
 }
+
+export interface Waitlist {
+  id: string;
+  name: string;
+  email: string;
+  company_name: string | null;
+  role: string | null;
+  website: string | null;
+  platform_type: 'ecommerce' | 'gaming' | 'fintech' | 'sports_betting' | 'telecoms' | 'loyalty' | 'other' | null;
+  monthly_active_users: 'under_10k' | '10k_50k' | '50k_250k' | '250k_1m' | 'over_1m' | null;
+  interested_tier: 'starter' | 'business' | 'enterprise' | null;
+  message: string | null;
+  how_did_you_hear: 'search' | 'social_media' | 'referral' | 'conference' | 'other' | null;
+  status: 'pending' | 'contacted' | 'converted';
+  created_at: string;
+}

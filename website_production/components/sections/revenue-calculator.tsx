@@ -151,7 +151,7 @@ export function RevenueCalculator() {
 
         <div className="text-center">
           <Link
-            href="/onboarding"
+            href="/#waitlist"
             className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             Talk to Us About Your Numbers →

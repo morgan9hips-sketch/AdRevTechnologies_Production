@@ -195,7 +195,7 @@ export default function DevelopersPage() {
               View Full API Documentation
             </Link>
             <Link
-              href="/onboarding"
+              href="/#waitlist"
               className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
             >
               Register Your Platform

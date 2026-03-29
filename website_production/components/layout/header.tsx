@@ -114,10 +114,10 @@ export function Header() {
                 Log in
               </Link>
               <Link
-                href="/onboarding"
+                href="/#waitlist"
                 className="bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
               >
-                Get Early Access
+                Join the Waitlist
               </Link>
             </>
           )}
@@ -166,11 +166,11 @@ export function Header() {
                     Log in
                   </Link>
                   <Link
-                    href="/onboarding"
+                    href="/#waitlist"
                     className="block bg-[#3b82f6] hover:bg-[#2563eb] text-white text-center font-semibold px-3 py-2 rounded-lg transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Get Early Access
+                    Join the Waitlist
                   </Link>
                 </>
               )}

@@ -176,10 +176,14 @@ export default function HomePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: waitlistName, email: waitlistEmail }),
       })
-      if (!res.ok) throw new Error('Failed')
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data?.error || 'Failed')
+      }
       setWaitlistSubmitted(true)
-    } catch {
-      setWaitlistError('Something went wrong. Please try again.')
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      setWaitlistError(message === 'Failed' ? 'Something went wrong. Please try again.' : message)
     } finally {
       setWaitlistLoading(false)
     }

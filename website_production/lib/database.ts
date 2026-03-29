@@ -50,3 +50,11 @@ export interface ApiKey {
   last_used_at?: string;
   active: boolean;
 }
+
+export interface Waitlist {
+  id: string;
+  name: string;
+  email: string;
+  status: 'pending' | 'contacted' | 'converted';
+  created_at: string;
+}

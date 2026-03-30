@@ -9,13 +9,13 @@ const waitlistSchema = z.object({
   role: z.string().min(1, 'Role is required').max(200, 'Role is too long'),
   website: z.union([z.string().url('Please enter a valid URL (e.g. https://yourcompany.com)').max(500), z.literal('')]).optional(),
   platform_type: z.enum(['ecommerce', 'gaming', 'fintech', 'sports_betting', 'telecoms', 'loyalty', 'other'], {
-    errorMap: () => ({ message: 'Please select a platform type' }),
+    error: 'Please select a platform type',
   }),
   monthly_active_users: z.enum(['under_10k', '10k_50k', '50k_250k', '250k_1m', 'over_1m'], {
-    errorMap: () => ({ message: 'Please select your monthly active users range' }),
+    error: 'Please select your monthly active users range',
   }),
   interested_tier: z.enum(['starter', 'business', 'enterprise'], {
-    errorMap: () => ({ message: 'Please select a tier' }),
+    error: 'Please select a tier',
   }),
   message: z.union([z.string().max(1000, 'Message must be under 1000 characters'), z.literal('')]).optional(),
   how_did_you_hear: z.enum(['search', 'social_media', 'referral', 'conference', 'other']).optional(),

@@ -1,14 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export function middleware(request: NextRequest) {
+async function deriveSessionToken(secret: string): Promise<string> {
+  const data = new TextEncoder().encode(secret + ':admin-session')
+  const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', data)
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('')
+}
+
+export async function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
+  const pathname = request.nextUrl.pathname
 
   // Handle app subdomain
   if (hostname.startsWith('app.')) {
     // Rewrite to app pages
     return NextResponse.rewrite(
-      new URL(`/app${request.nextUrl.pathname}`, request.url)
+      new URL(`/app${pathname}`, request.url)
     )
+  }
+
+  // Protect /admin routes (except /admin/login)
+  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
+    const adminSecret = process.env.ADMIN_SECRET
+    if (!adminSecret) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+    const cookie = request.cookies.get('admin_auth')
+    const expectedToken = await deriveSessionToken(adminSecret)
+    if (cookie?.value !== expectedToken) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
   }
 
   // Handle main domain - continue normally

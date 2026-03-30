@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Shield, Zap, Code, Play, Mail, MessageSquare, GitMerge, Video, ShoppingBag, Gamepad2, Wallet, Trophy, Signal, Gift } from 'lucide-react'
 import { RevenueCalculator } from '@/components/sections/revenue-calculator'
@@ -175,6 +175,14 @@ export default function HomePage() {
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false)
   const [waitlistLoading, setWaitlistLoading] = useState(false)
   const [waitlistError, setWaitlistError] = useState('')
+  const [waitlistCount, setWaitlistCount] = useState(0)
+
+  useEffect(() => {
+    fetch('/api/waitlist')
+      .then(r => r.json())
+      .then(d => { if (d.count) setWaitlistCount(d.count) })
+      .catch(() => {})
+  }, [])
 
   const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -350,6 +358,9 @@ export default function HomePage() {
             <p className="text-[#94a3b8] text-lg">
               The platform is available upon purchase. Early access is limited — complete the form below to secure your spot and we will be in touch within 24–48 hours.
             </p>
+            {waitlistCount > 0 && (
+              <p className="text-sm text-[#94a3b8] mt-2">Join {waitlistCount}+ businesses already on the waitlist</p>
+            )}
           </div>
           {waitlistSubmitted ? (
             <div className="bg-[#10b981]/10 border border-[#10b981]/30 rounded-xl p-8 text-center">

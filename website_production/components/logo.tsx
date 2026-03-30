@@ -29,13 +29,13 @@ export function Logo({
     <div className={`flex items-center ${className}`}>
       {showWordmark ? (
         <img
-          src="/logo.png"
+          src="/logo.svg"
           alt="Ad Rev Technologies"
           className={`${sizeClasses[size]} w-auto`}
         />
       ) : (
         <img
-          src="/logo.png"
+          src="/logo-mark.svg"
           alt="Ad Rev Technologies"
           className={`${sizeClasses[size]} w-auto`}
         />

@@ -21,10 +21,10 @@ export function Logo({
   }
 
   return (
-    <div className={`flex items-center ${className}`}> 
+    <div className={`flex items-center ${className}`}>  
       {showWordmark ? (
         <img
-          src="/brand/logo-dark.png"
+          src="/brand/logo-transparent.png"
           alt="Ad Rev Technologies"
           className={`${sizeClasses[size]} w-auto`}
         />

@@ -3,8 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-const REVENUE_SHARE = 10 // Fixed 10% — not configurable by user
-
 function formatUSD(value: number): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -21,8 +19,7 @@ export function RevenueCalculator() {
 
   const monthlyImpressions = mau * sessionsPerDay * 30
   const grossMonthlyRevenue = (monthlyImpressions / 1000) * ecpm
-  const rewardCost = grossMonthlyRevenue * (REVENUE_SHARE / 100)
-  const netMonthlyRevenue = grossMonthlyRevenue - rewardCost
+  const netMonthlyRevenue = grossMonthlyRevenue
   const annualRevenue = netMonthlyRevenue * 12
 
   return (
@@ -36,6 +33,7 @@ export function RevenueCalculator() {
             </label>
             <input
               type="range"
+              aria-label="Monthly Active Users"
               min={1000}
               max={1000000}
               step={1000}
@@ -59,6 +57,7 @@ export function RevenueCalculator() {
             </label>
             <input
               type="range"
+              aria-label="Ad Sessions Per User Per Day"
               min={1}
               max={10}
               step={1}
@@ -82,6 +81,7 @@ export function RevenueCalculator() {
             </label>
             <input
               type="range"
+              aria-label="eCPM dollars per 1000 impressions"
               min={1}
               max={20}
               step={0.5}
@@ -98,33 +98,36 @@ export function RevenueCalculator() {
             </div>
           </div>
         </div>
-
-        <p className="text-xs text-[#94a3b8]/60 text-center mb-8">
-          Revenue share fixed at 10% — returned to users as rewards
-        </p>
-
         {/* Results */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">Estimated Annual Revenue</div>
+            <div className="text-xs text-[#94a3b8] mb-1">
+              Estimated Annual Revenue
+            </div>
             <div className="text-2xl font-bold text-[#10b981]">
               {formatUSD(annualRevenue)}
             </div>
           </div>
           <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">Monthly Gross Ad Revenue</div>
+            <div className="text-xs text-[#94a3b8] mb-1">
+              Monthly Gross Ad Revenue
+            </div>
             <div className="text-2xl font-bold text-[#10b981]">
               {formatUSD(grossMonthlyRevenue)}
             </div>
           </div>
           <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">Ad Rev Revenue Share (10%)</div>
+            <div className="text-xs text-[#94a3b8] mb-1">
+              Monthly Impressions
+            </div>
             <div className="text-2xl font-bold text-[#f1f5f9]">
-              {formatUSD(rewardCost)}
+              {monthlyImpressions.toLocaleString()}
             </div>
           </div>
           <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">Net Monthly to Platform</div>
+            <div className="text-xs text-[#94a3b8] mb-1">
+              Net Monthly to Platform
+            </div>
             <div className="text-2xl font-bold text-[#10b981]">
               {formatUSD(netMonthlyRevenue)}
             </div>

@@ -13,14 +13,12 @@ function formatUSD(value: number): string {
 }
 
 export function RevenueCalculator() {
-  const [mau, setMau] = useState(500000)
-  const [sessionsPerDay, setSessionsPerDay] = useState(2)
+  const [mau, setMau] = useState(100000)
+  const [impressionsPerUser, setImpressionsPerUser] = useState(2)
   const [ecpm, setEcpm] = useState(4.0)
 
-  const monthlyImpressions = mau * sessionsPerDay * 30
-  const grossMonthlyRevenue = (monthlyImpressions / 1000) * ecpm
-  const netMonthlyRevenue = grossMonthlyRevenue
-  const annualRevenue = netMonthlyRevenue * 12
+  const monthlyRevenue = (mau * impressionsPerUser / 1000) * ecpm
+  const annualRevenue = monthlyRevenue * 12
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -34,43 +32,43 @@ export function RevenueCalculator() {
             <input
               type="range"
               aria-label="Monthly Active Users"
-              min={1000}
-              max={1000000}
+              min={0}
+              max={2000000}
               step={1000}
               value={mau}
               onChange={(e) => setMau(Number(e.target.value))}
               className="w-full accent-[#8b5cf6] mb-2"
             />
             <div className="flex justify-between items-center">
-              <span className="text-xs text-[#94a3b8]">1,000</span>
+              <span className="text-xs text-[#94a3b8]">0</span>
               <span className="text-lg font-bold text-[#f1f5f9]">
                 {mau.toLocaleString()}
               </span>
-              <span className="text-xs text-[#94a3b8]">1,000,000</span>
+              <span className="text-xs text-[#94a3b8]">2,000,000</span>
             </div>
           </div>
 
-          {/* Ad Sessions Per User Per Day */}
+          {/* Average Impressions Per User Per Month */}
           <div>
             <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-              Ad Sessions Per User Per Day
+              Average Impressions Per User Per Month
             </label>
             <input
               type="range"
-              aria-label="Ad Sessions Per User Per Day"
+              aria-label="Average Impressions Per User Per Month"
               min={1}
-              max={10}
+              max={100}
               step={1}
-              value={sessionsPerDay}
-              onChange={(e) => setSessionsPerDay(Number(e.target.value))}
+              value={impressionsPerUser}
+              onChange={(e) => setImpressionsPerUser(Number(e.target.value))}
               className="w-full accent-[#8b5cf6] mb-2"
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">1</span>
               <span className="text-lg font-bold text-[#f1f5f9]">
-                {sessionsPerDay}
+                {impressionsPerUser}
               </span>
-              <span className="text-xs text-[#94a3b8]">10</span>
+              <span className="text-xs text-[#94a3b8]">100</span>
             </div>
           </div>
 
@@ -83,7 +81,7 @@ export function RevenueCalculator() {
               type="range"
               aria-label="eCPM dollars per 1000 impressions"
               min={1}
-              max={20}
+              max={30}
               step={0.5}
               value={ecpm}
               onChange={(e) => setEcpm(Number(e.target.value))}
@@ -94,42 +92,26 @@ export function RevenueCalculator() {
               <span className="text-lg font-bold text-[#f1f5f9]">
                 ${ecpm.toFixed(2)}
               </span>
-              <span className="text-xs text-[#94a3b8]">$20.00</span>
+              <span className="text-xs text-[#94a3b8]">$30.00</span>
             </div>
           </div>
         </div>
         {/* Results */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 gap-4 mb-8">
           <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
             <div className="text-xs text-[#94a3b8] mb-1">
-              Estimated Annual Revenue
+              Monthly Ad Revenue
+            </div>
+            <div className="text-2xl font-bold text-[#10b981]">
+              {formatUSD(monthlyRevenue)}
+            </div>
+          </div>
+          <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
+            <div className="text-xs text-[#94a3b8] mb-1">
+              Annual Ad Revenue
             </div>
             <div className="text-2xl font-bold text-[#10b981]">
               {formatUSD(annualRevenue)}
-            </div>
-          </div>
-          <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">
-              Monthly Gross Ad Revenue
-            </div>
-            <div className="text-2xl font-bold text-[#10b981]">
-              {formatUSD(grossMonthlyRevenue)}
-            </div>
-          </div>
-          <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">
-              Monthly Impressions
-            </div>
-            <div className="text-2xl font-bold text-[#f1f5f9]">
-              {monthlyImpressions.toLocaleString()}
-            </div>
-          </div>
-          <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">
-              Net Monthly to Platform
-            </div>
-            <div className="text-2xl font-bold text-[#10b981]">
-              {formatUSD(netMonthlyRevenue)}
             </div>
           </div>
         </div>

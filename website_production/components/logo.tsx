@@ -1,11 +1,6 @@
 /**
  * Logo Component for Ad Rev Technologies Website
- *
- * Professional logo component using the Cash for Ads logo assets.
- * Responsive and scalable for use throughout the website.
  */
-
-import Image from 'next/image'
 
 interface LogoProps {
   size?: 'small' | 'medium' | 'large' | 'xlarge'
@@ -26,16 +21,16 @@ export function Logo({
   }
 
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-center ${className}`}> 
       {showWordmark ? (
         <img
-          src="/logo.svg"
+          src="/brand/logo-dark.png"
           alt="Ad Rev Technologies"
           className={`${sizeClasses[size]} w-auto`}
         />
       ) : (
         <img
-          src="/logo-mark.svg"
+          src="/brand/logo-icon.png"
           alt="Ad Rev Technologies"
           className={`${sizeClasses[size]} w-auto`}
         />

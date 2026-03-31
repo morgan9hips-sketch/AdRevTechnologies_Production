@@ -159,36 +159,34 @@ export function EngagementMock() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-80 bg-[#0f1629] border-2 border-[#f59e0b]/40 rounded-3xl overflow-hidden shadow-2xl shadow-[0_0_40px_-8px_rgba(245,158,11,0.25)]">
+      <div className="w-full max-w-lg bg-[#0f1629] border-2 border-[#f59e0b]/40 rounded-3xl overflow-hidden shadow-2xl shadow-[0_0_40px_-8px_rgba(245,158,11,0.25)]">
         {/* Slide Header */}
-        <div className="bg-[#080d1a] border-b border-[#1e2d4a] px-4 py-3 flex items-center justify-between">
-          <span className={`text-xs font-semibold uppercase tracking-wider ${slide.badgeColor}`}>
-            {slide.badge}
-          </span>
-          <span className="text-[10px] text-[#94a3b8]">{slide.label}</span>
+        <div className="bg-[#080d1a] border-b border-[#1e2d4a] px-6 py-4 flex items-center justify-between">
+          <span className={`text-sm font-semibold uppercase tracking-wider ${slide.badgeColor}`}>{slide.badge}</span>
+          <span className="text-xs text-[#94a3b8]">{slide.label}</span>
         </div>
 
         {/* Content Area */}
-        <div className="px-4 py-4 space-y-4">
-          <h3 className="text-sm font-semibold text-[#f1f5f9]">{slide.title}</h3>
-          <p className="text-xs text-[#94a3b8] leading-relaxed">{slide.description}</p>
+        <div className="px-6 py-6 space-y-5">
+          <h3 className="text-base font-semibold text-[#f1f5f9]">{slide.title}</h3>
+          <p className="text-sm text-[#94a3b8] leading-relaxed">{slide.description}</p>
           <SlideContent content={slide.content} />
         </div>
 
         {/* Navigation */}
-        <div className="px-4 py-3 border-t border-[#1e2d4a] flex items-center justify-between">
+        <div className="px-6 py-4 border-t border-[#1e2d4a] flex items-center justify-between">
           <button
             onClick={handlePrev}
-            className="w-7 h-7 rounded-full bg-[#1e2d4a] flex items-center justify-center hover:bg-[#3b82f6]/20 transition-colors"
+            className="w-9 h-9 rounded-full bg-[#1e2d4a] flex items-center justify-center hover:bg-[#3b82f6]/20 transition-colors"
           >
-            <ChevronLeft className="h-4 w-4 text-[#94a3b8]" />
+            <ChevronLeft className="h-5 w-5 text-[#94a3b8]" />
           </button>
-          <div className="flex gap-1.5">
+          <div className="flex gap-2">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => handleDotClick(i)}
-                className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                className={`w-2 h-2 rounded-full transition-colors ${
                   i === currentSlide ? 'bg-[#3b82f6]' : 'bg-[#1e2d4a]'
                 }`}
               />
@@ -196,9 +194,9 @@ export function EngagementMock() {
           </div>
           <button
             onClick={handleNext}
-            className="w-7 h-7 rounded-full bg-[#1e2d4a] flex items-center justify-center hover:bg-[#3b82f6]/20 transition-colors"
+            className="w-9 h-9 rounded-full bg-[#1e2d4a] flex items-center justify-center hover:bg-[#3b82f6]/20 transition-colors"
           >
-            <ChevronRight className="h-4 w-4 text-[#94a3b8]" />
+            <ChevronRight className="h-5 w-5 text-[#94a3b8]" />
           </button>
         </div>
       </div>

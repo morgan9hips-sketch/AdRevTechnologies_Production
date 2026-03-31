@@ -2,7 +2,22 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Shield, Zap, Code, Play, Mail, MessageSquare, GitMerge, Video, ShoppingBag, Gamepad2, Wallet, Trophy, Signal, Gift } from 'lucide-react'
+import {
+  Shield,
+  Zap,
+  Code,
+  Play,
+  Mail,
+  MessageSquare,
+  GitMerge,
+  Video,
+  ShoppingBag,
+  Gamepad2,
+  Wallet,
+  Trophy,
+  Signal,
+  Gift,
+} from 'lucide-react'
 import { RevenueCalculator } from '@/components/sections/revenue-calculator'
 import { EngagementMock } from '@/components/sections/engagement-mock'
 
@@ -40,7 +55,8 @@ const pricingTiers = [
     period: '/mo',
     badge: 'Most Popular',
     discountBadge: true,
-    description: 'Full campaign toolkit for platforms ready to scale engagement.',
+    description:
+      'Full campaign toolkit for platforms ready to scale engagement.',
     features: [
       'Everything in Starter',
       'Custom Campaigns (Summer Sale, Black Friday etc.)',
@@ -175,12 +191,16 @@ export default function HomePage() {
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false)
   const [waitlistLoading, setWaitlistLoading] = useState(false)
   const [waitlistError, setWaitlistError] = useState('')
-  const [waitlistCount, setWaitlistCount] = useState(0)
+  const [waitlistCount, setWaitlistCount] = useState(73)
 
   useEffect(() => {
     fetch('/api/waitlist')
-      .then(r => r.json())
-      .then(d => { if (d.count) setWaitlistCount(d.count) })
+      .then((r) => r.json())
+      .then((d) => {
+        if (typeof d.count === 'number') {
+          setWaitlistCount(Math.max(73, d.count))
+        }
+      })
       .catch(() => {})
   }, [])
 
@@ -196,11 +216,17 @@ export default function HomePage() {
       })
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
-        throw new Error(data?.error || 'Something went wrong. Please try again.')
+        throw new Error(
+          data?.error || 'Something went wrong. Please try again.',
+        )
       }
+      setWaitlistCount((current) => current + 1)
       setWaitlistSubmitted(true)
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again.'
       setWaitlistError(message)
     } finally {
       setWaitlistLoading(false)
@@ -214,13 +240,16 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              <span className="text-[#f1f5f9]">Engagement and Rewards Infrastructure.</span>
+              <span className="text-[#f1f5f9]">
+                Engagement and Rewards Infrastructure.
+              </span>
               <br />
               <span className="text-[#f1f5f9]">API and SDK. </span>
               <span className="text-[#3b82f6]">Your Brand. Our Engine.</span>
             </h1>
             <p className="text-lg md:text-xl text-[#10b981] font-medium max-w-3xl mx-auto mb-6">
-              More Engagement. More Retention. Zero Access to Your Users or Data.
+              More Engagement. More Retention. Zero Access to Your Users or
+              Data.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -248,8 +277,12 @@ export default function HomePage() {
       <section id="how-it-works" className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">How It Works</h2>
-            <p className="text-[#94a3b8] text-lg">Three steps from integration to incremental revenue</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+              How It Works
+            </h2>
+            <p className="text-[#94a3b8] text-lg">
+              Three steps from integration to incremental revenue
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -269,11 +302,16 @@ export default function HomePage() {
                 body: 'Reward events return to your loyalty system via webhook. You define what the points mean. We handle the mechanics.',
               },
             ].map((step) => (
-              <div key={step.number} className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8">
+              <div
+                key={step.number}
+                className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8"
+              >
                 <div className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold text-lg mb-5">
                   {step.number}
                 </div>
-                <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">{step.title}</h3>
+                <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">
+                  {step.title}
+                </h3>
                 <p className="text-[#94a3b8]">{step.body}</p>
               </div>
             ))}
@@ -285,8 +323,12 @@ export default function HomePage() {
       <section className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">How the Engine Works</h2>
-            <p className="text-[#94a3b8] text-lg">Five modules. One API integration.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+              How the Engine Works
+            </h2>
+            <p className="text-[#94a3b8] text-lg">
+              Five modules. One API integration.
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mechanics.map((item) => {
@@ -297,8 +339,13 @@ export default function HomePage() {
                   className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6"
                   style={{ borderLeft: `2px solid ${item.accentColor}` }}
                 >
-                  <Icon className="h-7 w-7 mb-4" style={{ color: item.accentColor }} />
-                  <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">{item.title}</h3>
+                  <Icon
+                    className="h-7 w-7 mb-4"
+                    style={{ color: item.accentColor }}
+                  />
+                  <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">
+                    {item.title}
+                  </h3>
                   <p className="text-[#94a3b8] text-sm">{item.description}</p>
                 </div>
               )
@@ -314,7 +361,8 @@ export default function HomePage() {
             You Already Have the Users
           </h2>
           <p className="text-[#94a3b8] text-lg mb-14">
-            No new acquisition cost. No new infrastructure. Just incremental revenue from users you already have.
+            No new acquisition cost. No new infrastructure. Just incremental
+            revenue from users you already have.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -339,7 +387,10 @@ export default function HomePage() {
                 className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8"
                 style={{ borderTop: `2px solid ${block.accent}` }}
               >
-                <div className="text-2xl font-bold mb-2" style={{ color: block.accent }}>
+                <div
+                  className="text-2xl font-bold mb-2"
+                  style={{ color: block.accent }}
+                >
                   {block.stat}
                 </div>
                 <div className="text-[#94a3b8]">{block.desc}</div>
@@ -350,221 +401,349 @@ export default function HomePage() {
       </section>
 
       <section id="waitlist" className="bg-[#080d1a] py-24 px-6">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-6xl">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
               Join the Waitlist
             </h2>
             <p className="text-[#94a3b8] text-lg">
-              The platform is available upon purchase. Early access is limited — complete the form below to secure your spot and we will be in touch within 24–48 hours.
+              The platform is available upon purchase. Early access is limited —
+              complete the form below to secure your spot and we will be in
+              touch within 24–48 hours.
             </p>
-            {waitlistCount > 0 && (
-              <p className="text-sm text-[#94a3b8] mt-2">Join {waitlistCount}+ businesses already on the waitlist</p>
-            )}
+            <p className="text-sm text-[#94a3b8] mt-2">
+              Join {waitlistCount}+ businesses already on the waitlist
+            </p>
           </div>
-          {waitlistSubmitted ? (
-            <div className="bg-[#10b981]/10 border border-[#10b981]/30 rounded-xl p-8 text-center">
-              <p className="text-[#10b981] font-semibold text-lg">You are on the list.</p>
-              <p className="text-[#94a3b8] text-sm mt-2">We will reach out within 24–48 hours to get you set up.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleWaitlistSubmit} className="space-y-5">
-              {/* Row 1: Name + Email */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="waitlist-name" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                    Your Name <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    id="waitlist-name"
-                    type="text"
-                    required
-                    value={waitlistForm.name}
-                    onChange={(e) => setWaitlistForm({ ...waitlistForm, name: e.target.value })}
-                    placeholder="Jane Smith"
-                    className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                  />
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+            <div>
+              {waitlistSubmitted ? (
+                <div className="bg-[#10b981]/10 border border-[#10b981]/30 rounded-xl p-8 text-center">
+                  <p className="text-[#10b981] font-semibold text-lg">
+                    You are on the list.
+                  </p>
+                  <p className="text-[#94a3b8] text-sm mt-2">
+                    We will reach out within 24–48 hours to get you set up.
+                  </p>
                 </div>
-                <div>
-                  <label htmlFor="waitlist-email" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                    Work Email <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    id="waitlist-email"
-                    type="email"
-                    required
-                    value={waitlistForm.email}
-                    onChange={(e) => setWaitlistForm({ ...waitlistForm, email: e.target.value })}
-                    placeholder="jane@yourcompany.com"
-                    className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                  />
-                </div>
-              </div>
+              ) : (
+                <form onSubmit={handleWaitlistSubmit} className="space-y-5">
+                  {/* Row 1: Name + Email */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="waitlist-name"
+                        className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                      >
+                        Your Name <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        id="waitlist-name"
+                        type="text"
+                        required
+                        value={waitlistForm.name}
+                        onChange={(e) =>
+                          setWaitlistForm({
+                            ...waitlistForm,
+                            name: e.target.value,
+                          })
+                        }
+                        placeholder="Jane Smith"
+                        className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="waitlist-email"
+                        className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                      >
+                        Work Email <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        id="waitlist-email"
+                        type="email"
+                        required
+                        value={waitlistForm.email}
+                        onChange={(e) =>
+                          setWaitlistForm({
+                            ...waitlistForm,
+                            email: e.target.value,
+                          })
+                        }
+                        placeholder="jane@yourcompany.com"
+                        className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                      />
+                    </div>
+                  </div>
 
-              {/* Row 2: Company + Role */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="waitlist-company" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                    Company / Organisation <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    id="waitlist-company"
-                    type="text"
-                    required
-                    value={waitlistForm.company_name}
-                    onChange={(e) => setWaitlistForm({ ...waitlistForm, company_name: e.target.value })}
-                    placeholder="Acme Corp"
-                    className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="waitlist-role" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                    Your Role / Job Title <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    id="waitlist-role"
-                    type="text"
-                    required
-                    value={waitlistForm.role}
-                    onChange={(e) => setWaitlistForm({ ...waitlistForm, role: e.target.value })}
-                    placeholder="CTO, Product Manager, etc."
-                    className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                  />
-                </div>
-              </div>
+                  {/* Row 2: Company + Role */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="waitlist-company"
+                        className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                      >
+                        Company / Organisation{' '}
+                        <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        id="waitlist-company"
+                        type="text"
+                        required
+                        value={waitlistForm.company_name}
+                        onChange={(e) =>
+                          setWaitlistForm({
+                            ...waitlistForm,
+                            company_name: e.target.value,
+                          })
+                        }
+                        placeholder="Acme Corp"
+                        className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="waitlist-role"
+                        className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                      >
+                        Your Role / Job Title{' '}
+                        <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        id="waitlist-role"
+                        type="text"
+                        required
+                        value={waitlistForm.role}
+                        onChange={(e) =>
+                          setWaitlistForm({
+                            ...waitlistForm,
+                            role: e.target.value,
+                          })
+                        }
+                        placeholder="CTO, Product Manager, etc."
+                        className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                      />
+                    </div>
+                  </div>
 
-              {/* Row 3: Website (full width) */}
-              <div>
-                <label htmlFor="waitlist-website" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                  Company Website <span className="text-[#94a3b8]/50 font-normal">(optional)</span>
-                </label>
-                <input
-                  id="waitlist-website"
-                  type="url"
-                  value={waitlistForm.website}
-                  onChange={(e) => setWaitlistForm({ ...waitlistForm, website: e.target.value })}
-                  placeholder="https://yourcompany.com"
-                  className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                />
-              </div>
+                  {/* Row 3: Website (full width) */}
+                  <div>
+                    <label
+                      htmlFor="waitlist-website"
+                      className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                    >
+                      Company Website{' '}
+                      <span className="text-[#94a3b8]/50 font-normal">
+                        (optional)
+                      </span>
+                    </label>
+                    <input
+                      id="waitlist-website"
+                      type="url"
+                      value={waitlistForm.website}
+                      onChange={(e) =>
+                        setWaitlistForm({
+                          ...waitlistForm,
+                          website: e.target.value,
+                        })
+                      }
+                      placeholder="https://yourcompany.com"
+                      className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                    />
+                  </div>
 
-              {/* Row 4: Platform Type + MAU */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="waitlist-platform" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                    Platform Type <span className="text-red-400">*</span>
-                  </label>
-                  <select
-                    id="waitlist-platform"
-                    required
-                    value={waitlistForm.platform_type}
-                    onChange={(e) => setWaitlistForm({ ...waitlistForm, platform_type: e.target.value })}
-                    className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                  {/* Row 4: Platform Type + MAU */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="waitlist-platform"
+                        className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                      >
+                        Platform Type <span className="text-red-400">*</span>
+                      </label>
+                      <select
+                        id="waitlist-platform"
+                        required
+                        value={waitlistForm.platform_type}
+                        onChange={(e) =>
+                          setWaitlistForm({
+                            ...waitlistForm,
+                            platform_type: e.target.value,
+                          })
+                        }
+                        className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                      >
+                        <option value="" disabled>
+                          Select platform type
+                        </option>
+                        <option value="ecommerce">
+                          Retail &amp; eCommerce
+                        </option>
+                        <option value="gaming">Gaming Platform</option>
+                        <option value="fintech">Fintech &amp; Wallets</option>
+                        <option value="sports_betting">Sports Betting</option>
+                        <option value="telecoms">Telecoms</option>
+                        <option value="loyalty">Loyalty Program</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="waitlist-mau"
+                        className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                      >
+                        Monthly Active Users{' '}
+                        <span className="text-red-400">*</span>
+                      </label>
+                      <select
+                        id="waitlist-mau"
+                        required
+                        value={waitlistForm.monthly_active_users}
+                        onChange={(e) =>
+                          setWaitlistForm({
+                            ...waitlistForm,
+                            monthly_active_users: e.target.value,
+                          })
+                        }
+                        className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                      >
+                        <option value="" disabled>
+                          Select MAU range
+                        </option>
+                        <option value="under_10k">Under 10,000</option>
+                        <option value="10k_50k">10,000 – 50,000</option>
+                        <option value="50k_250k">50,000 – 250,000</option>
+                        <option value="250k_1m">250,000 – 1M</option>
+                        <option value="over_1m">Over 1M</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Row 5: Interested Tier (full width) */}
+                  <div>
+                    <label
+                      htmlFor="waitlist-tier"
+                      className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                    >
+                      Which tier are you interested in?{' '}
+                      <span className="text-red-400">*</span>
+                    </label>
+                    <select
+                      id="waitlist-tier"
+                      required
+                      value={waitlistForm.interested_tier}
+                      onChange={(e) =>
+                        setWaitlistForm({
+                          ...waitlistForm,
+                          interested_tier: e.target.value,
+                        })
+                      }
+                      className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                    >
+                      <option value="" disabled>
+                        Select a tier
+                      </option>
+                      <option value="starter">Starter — $149/mo</option>
+                      <option value="business">
+                        Business — $349/mo (Most Popular)
+                      </option>
+                      <option value="enterprise">
+                        Enterprise — from $899/mo
+                      </option>
+                    </select>
+                  </div>
+
+                  {/* Row 6: How did you hear */}
+                  <div>
+                    <label
+                      htmlFor="waitlist-source"
+                      className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                    >
+                      How did you hear about us?{' '}
+                      <span className="text-[#94a3b8]/50 font-normal">
+                        (optional)
+                      </span>
+                    </label>
+                    <select
+                      id="waitlist-source"
+                      value={waitlistForm.how_did_you_hear}
+                      onChange={(e) =>
+                        setWaitlistForm({
+                          ...waitlistForm,
+                          how_did_you_hear: e.target.value,
+                        })
+                      }
+                      className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+                    >
+                      <option value="">Select an option</option>
+                      <option value="search">Search (Google etc.)</option>
+                      <option value="social_media">Social Media</option>
+                      <option value="referral">Referral / Word of mouth</option>
+                      <option value="conference">Conference / Event</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  {/* Row 7: Message */}
+                  <div>
+                    <label
+                      htmlFor="waitlist-message"
+                      className="block text-sm font-medium text-[#94a3b8] mb-1.5"
+                    >
+                      Anything else you&apos;d like us to know?{' '}
+                      <span className="text-[#94a3b8]/50 font-normal">
+                        (optional)
+                      </span>
+                    </label>
+                    <textarea
+                      id="waitlist-message"
+                      rows={3}
+                      maxLength={1000}
+                      value={waitlistForm.message}
+                      onChange={(e) =>
+                        setWaitlistForm({
+                          ...waitlistForm,
+                          message: e.target.value,
+                        })
+                      }
+                      placeholder="Tell us about your integration goals, timeline, or any questions..."
+                      className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6] resize-none"
+                    />
+                  </div>
+
+                  {waitlistError && (
+                    <div className="rounded-lg bg-red-900/20 border border-red-700/40 p-3">
+                      <p className="text-sm text-red-400">{waitlistError}</p>
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={waitlistLoading}
+                    className="w-full bg-[#3b82f6] hover:bg-[#2563eb] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
                   >
-                    <option value="" disabled>Select platform type</option>
-                    <option value="ecommerce">Retail &amp; eCommerce</option>
-                    <option value="gaming">Gaming Platform</option>
-                    <option value="fintech">Fintech &amp; Wallets</option>
-                    <option value="sports_betting">Sports Betting</option>
-                    <option value="telecoms">Telecoms</option>
-                    <option value="loyalty">Loyalty Program</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="waitlist-mau" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                    Monthly Active Users <span className="text-red-400">*</span>
-                  </label>
-                  <select
-                    id="waitlist-mau"
-                    required
-                    value={waitlistForm.monthly_active_users}
-                    onChange={(e) => setWaitlistForm({ ...waitlistForm, monthly_active_users: e.target.value })}
-                    className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                  >
-                    <option value="" disabled>Select MAU range</option>
-                    <option value="under_10k">Under 10,000</option>
-                    <option value="10k_50k">10,000 – 50,000</option>
-                    <option value="50k_250k">50,000 – 250,000</option>
-                    <option value="250k_1m">250,000 – 1M</option>
-                    <option value="over_1m">Over 1M</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Row 5: Interested Tier (full width) */}
-              <div>
-                <label htmlFor="waitlist-tier" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                  Which tier are you interested in? <span className="text-red-400">*</span>
-                </label>
-                <select
-                  id="waitlist-tier"
-                  required
-                  value={waitlistForm.interested_tier}
-                  onChange={(e) => setWaitlistForm({ ...waitlistForm, interested_tier: e.target.value })}
-                  className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                >
-                  <option value="" disabled>Select a tier</option>
-                  <option value="starter">Starter — $149/mo</option>
-                  <option value="business">Business — $349/mo (Most Popular)</option>
-                  <option value="enterprise">Enterprise — from $899/mo</option>
-                </select>
-              </div>
-
-              {/* Row 6: How did you hear */}
-              <div>
-                <label htmlFor="waitlist-source" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                  How did you hear about us? <span className="text-[#94a3b8]/50 font-normal">(optional)</span>
-                </label>
-                <select
-                  id="waitlist-source"
-                  value={waitlistForm.how_did_you_hear}
-                  onChange={(e) => setWaitlistForm({ ...waitlistForm, how_did_you_hear: e.target.value })}
-                  className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                >
-                  <option value="">Select an option</option>
-                  <option value="search">Search (Google etc.)</option>
-                  <option value="social_media">Social Media</option>
-                  <option value="referral">Referral / Word of mouth</option>
-                  <option value="conference">Conference / Event</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              {/* Row 7: Message */}
-              <div>
-                <label htmlFor="waitlist-message" className="block text-sm font-medium text-[#94a3b8] mb-1.5">
-                  Anything else you&apos;d like us to know? <span className="text-[#94a3b8]/50 font-normal">(optional)</span>
-                </label>
-                <textarea
-                  id="waitlist-message"
-                  rows={3}
-                  maxLength={1000}
-                  value={waitlistForm.message}
-                  onChange={(e) => setWaitlistForm({ ...waitlistForm, message: e.target.value })}
-                  placeholder="Tell us about your integration goals, timeline, or any questions..."
-                  className="block w-full rounded-lg bg-[#0f1629] border border-[#1e2d4a] text-[#f1f5f9] px-4 py-2.5 text-sm placeholder:text-[#94a3b8]/40 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6] resize-none"
-                />
-              </div>
-
-              {waitlistError && (
-                <div className="rounded-lg bg-red-900/20 border border-red-700/40 p-3">
-                  <p className="text-sm text-red-400">{waitlistError}</p>
-                </div>
+                    {waitlistLoading
+                      ? 'Submitting...'
+                      : 'Complete Form — Join the Waitlist'}
+                  </button>
+                  <p className="text-center text-xs text-[#94a3b8]/60">
+                    No commitment. Platform access confirmed on purchase.
+                  </p>
+                </form>
               )}
-
-              <button
-                type="submit"
-                disabled={waitlistLoading}
-                className="w-full bg-[#3b82f6] hover:bg-[#2563eb] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
-              >
-                {waitlistLoading ? 'Submitting...' : 'Complete Form — Join the Waitlist'}
-              </button>
-              <p className="text-center text-xs text-[#94a3b8]/60">
-                No commitment. Platform access confirmed on purchase.
+            </div>
+            <aside className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 lg:sticky lg:top-28">
+              <p className="text-sm font-medium text-[#94a3b8]">
+                Current Waitlist Count
               </p>
-            </form>
-          )}
+              <p className="mt-3 text-5xl font-bold text-[#3b82f6]">
+                {waitlistCount}
+              </p>
+              <p className="mt-3 text-xs text-[#94a3b8]">
+                Starts at 73 and increases after each successful submission.
+              </p>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -576,7 +755,8 @@ export default function HomePage() {
               Simple, Transparent Pricing
             </h2>
             <p className="text-[#94a3b8] text-lg">
-              All tiers include full platform blending. Your brand on every interaction.
+              All tiers include full platform blending. Your brand on every
+              interaction.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -592,14 +772,23 @@ export default function HomePage() {
                     {tier.badge}
                   </span>
                 )}
-                <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">{tier.name}</h3>
+                <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">
+                  {tier.name}
+                </h3>
                 <div className="mb-1">
                   {tier.originalPrice && (
-                    <span className="text-sm text-[#94a3b8] line-through mr-2">{tier.originalPrice}{tier.period}</span>
+                    <span className="text-sm text-[#94a3b8] line-through mr-2">
+                      {tier.originalPrice}
+                      {tier.period}
+                    </span>
                   )}
-                  <span className="text-3xl font-bold text-[#f1f5f9]">{tier.price}</span>
+                  <span className="text-3xl font-bold text-[#f1f5f9]">
+                    {tier.price}
+                  </span>
                   {tier.period && (
-                    <span className="text-[#94a3b8] text-sm">{tier.period}</span>
+                    <span className="text-[#94a3b8] text-sm">
+                      {tier.period}
+                    </span>
                   )}
                 </div>
                 {tier.discountBadge && (
@@ -608,27 +797,42 @@ export default function HomePage() {
                       Limited Time Offer — Early Access Pricing
                     </span>
                     <p className="text-[10px] text-[#94a3b8]/70 mt-1">
-                      Lock in this rate for life. Price increases when early access closes.
+                      Lock in this rate for life. Price increases when early
+                      access closes.
                     </p>
                   </div>
                 )}
-                <p className="text-[#94a3b8] text-sm mb-6">{tier.description}</p>
+                <p className="text-[#94a3b8] text-sm mb-6">
+                  {tier.description}
+                </p>
                 <ul className="space-y-2 mb-6 flex-1">
                   {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-[#94a3b8]">
-                      <span className="text-[#10b981] mt-0.5 flex-shrink-0">✓</span>
+                    <li
+                      key={feature}
+                      className="flex items-start gap-2 text-sm text-[#94a3b8]"
+                    >
+                      <span className="text-[#10b981] mt-0.5 flex-shrink-0">
+                        ✓
+                      </span>
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
                 {tier.enterpriseBands && (
                   <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
-                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">Volume Pricing</p>
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">
+                      Volume Pricing
+                    </p>
                     <ul className="space-y-2">
                       {tier.enterpriseBands.map((band) => (
-                        <li key={band.label} className="flex justify-between items-center text-xs">
+                        <li
+                          key={band.label}
+                          className="flex justify-between items-center text-xs"
+                        >
                           <span className="text-[#94a3b8]">{band.label}</span>
-                          <span className="text-[#f1f5f9] font-semibold">{band.price}</span>
+                          <span className="text-[#f1f5f9] font-semibold">
+                            {band.price}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -654,7 +858,9 @@ export default function HomePage() {
       <section className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">Built for Production</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#f1f5f9] mb-4">
+              Built for Production
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {trustSignals.map((signal) => {
@@ -669,10 +875,15 @@ export default function HomePage() {
                         border: `1px solid ${signal.accentColor}33`,
                       }}
                     >
-                      <Icon className="h-7 w-7" style={{ color: signal.accentColor }} />
+                      <Icon
+                        className="h-7 w-7"
+                        style={{ color: signal.accentColor }}
+                      />
                     </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">{signal.title}</h3>
+                  <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">
+                    {signal.title}
+                  </h3>
                   <p className="text-[#94a3b8] text-sm">{signal.description}</p>
                 </div>
               )
@@ -699,37 +910,16 @@ export default function HomePage() {
                   className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 flex flex-col items-center gap-3"
                   style={{ borderTop: `2px solid ${industry.accentColor}` }}
                 >
-                  <Icon className="h-8 w-8" style={{ color: industry.accentColor }} />
-                  <span className="text-[#f1f5f9] font-medium text-sm">{industry.label}</span>
+                  <Icon
+                    className="h-8 w-8"
+                    style={{ color: industry.accentColor }}
+                  />
+                  <span className="text-[#f1f5f9] font-medium text-sm">
+                    {industry.label}
+                  </span>
                 </div>
               )
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Section 11 — CTA Footer */}
-      <section className="bg-[#3b82f6] py-24 px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to add engagement to your platform?
-          </h2>
-          <p className="text-white/80 text-lg mb-10">
-            See exactly how Ad Rev integrates with your platform — live, in your stack, in days.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#waitlist"
-              className="inline-block bg-white text-[#3b82f6] hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-colors"
-            >
-              Join the Waitlist
-            </a>
-            <a
-              href="mailto:contact@adrevtechnologies.com"
-              className="inline-block text-white hover:text-white/80 font-semibold px-8 py-3 transition-colors underline"
-            >
-              Contact Sales
-            </a>
           </div>
         </div>
       </section>

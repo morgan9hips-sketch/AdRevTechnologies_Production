@@ -8,6 +8,10 @@ export interface PrelaunchModalTier {
   accessWindow: string
   spotsRemaining: number
   spotsTotal: number
+  billingPeriod: 'monthly' | 'annual'
+  annualTotal?: string
+  annualPerMonth?: string
+  annualSaving?: string
 }
 
 export interface PrelaunchModalProps {
@@ -107,7 +111,10 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               Founding Member — Early Access
             </h2>
             <p className="text-sm text-[#94a3b8] mt-1">
-              {tier.name} Plan · {tier.price}/mo
+              {tier.name} Plan ·{' '}
+              {tier.billingPeriod === 'annual'
+                ? `${tier.annualPerMonth}/mo · Billed as ${tier.annualTotal}/yr`
+                : `${tier.price}/mo`}
             </p>
           </div>
           <button
@@ -144,8 +151,23 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
               You are securing a Founding Member spot on the Ad Rev Technologies
-              platform at a locked-in monthly rate of{' '}
-              <span className="text-[#f1f5f9] font-semibold">{tier.price}/mo</span>.
+              platform{' '}
+              {tier.billingPeriod === 'annual' ? (
+                <>
+                  at a locked-in annual rate of{' '}
+                  <span className="text-[#f1f5f9] font-semibold">{tier.annualTotal}/yr</span>{' '}
+                  (equivalent to{' '}
+                  <span className="text-[#f1f5f9] font-semibold">{tier.annualPerMonth}/mo</span>).
+                  You save{' '}
+                  <span className="text-[#f1f5f9] font-semibold">{tier.annualSaving}</span>{' '}
+                  compared to monthly billing.
+                </>
+              ) : (
+                <>
+                  at a locked-in monthly rate of{' '}
+                  <span className="text-[#f1f5f9] font-semibold">{tier.price}/mo</span>.
+                </>
+              )}{' '}
               This is an early access subscription. Full platform access will be
               provisioned within{' '}
               <span className="text-[#f1f5f9] font-semibold">{tier.accessWindow}</span>{' '}
@@ -217,10 +239,23 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               6. Billing
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              Your card will be charged immediately upon completing checkout. Your
-              subscription renews monthly. You may cancel at any time —
-              cancellation stops future charges but does not trigger a refund
-              outside of the refund policy above.
+              {tier.billingPeriod === 'annual' ? (
+                <>
+                  Your card will be charged{' '}
+                  <span className="text-[#f1f5f9] font-semibold">{tier.annualTotal}</span>{' '}
+                  immediately upon completing checkout. This covers 12 months of
+                  access. Your subscription renews annually.
+                </>
+              ) : (
+                <>
+                  Your card will be charged{' '}
+                  <span className="text-[#f1f5f9] font-semibold">{tier.price}</span>{' '}
+                  immediately upon completing checkout. Your subscription renews
+                  monthly.
+                </>
+              )}{' '}
+              You may cancel at any time — cancellation stops future charges but
+              does not trigger a refund outside of the refund policy above.
             </p>
           </section>
 

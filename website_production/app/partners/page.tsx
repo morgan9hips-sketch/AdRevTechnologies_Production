@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Input } from '@/components/ui/input'
+import { PrelaunchModal } from '@/components/prelaunch-modal'
 
 const tiers = [
   {
@@ -29,6 +28,10 @@ const tiers = [
     ],
     highlighted: false,
     enterpriseBands: null,
+    accessWindow: '30–45 days',
+    spotsTotal: 20,
+    spotsRemaining: 16,
+    foundingMember: true,
   },
   {
     id: 'business',
@@ -52,6 +55,10 @@ const tiers = [
     ],
     highlighted: true,
     enterpriseBands: null,
+    accessWindow: '45–60 days',
+    spotsTotal: 10,
+    spotsRemaining: 8,
+    foundingMember: true,
   },
   {
     id: 'enterprise',
@@ -80,46 +87,20 @@ const tiers = [
       { label: '1M – 5M MAU', price: '$2,499/mo' },
       { label: '5M+ MAU', price: 'Custom' },
     ],
+    accessWindow: '60–90 days',
+    spotsTotal: 5,
+    spotsRemaining: 3,
+    foundingMember: true,
   },
 ]
 
 export default function PartnersPage() {
-  const router = useRouter()
-  const [selectedTier, setSelectedTier] = useState('business')
-  const [formData, setFormData] = useState({
-    companyName: '',
-    email: '',
-    website: '',
-    description: '',
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedTier, setSelectedTier] = useState<typeof tiers[0] | null>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    try {
-      const response = await fetch('/api/partners/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          apiTier: selectedTier,
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Registration failed')
-      }
-
-      router.push('/partners/success')
-    } catch {
-      setError('Failed to submit registration. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+  const openModal = (tier: typeof tiers[0]) => {
+    setSelectedTier(tier)
+    setModalOpen(true)
   }
 
   return (
@@ -144,14 +125,11 @@ export default function PartnersPage() {
             {tiers.map((tier) => (
               <div
                 key={tier.id}
-                className={`bg-[#0f1629] rounded-2xl p-8 flex flex-col border cursor-pointer transition-all ${
-                  selectedTier === tier.id
-                    ? 'border-[#3b82f6] ring-1 ring-[#3b82f6]'
-                    : tier.highlighted
+                className={`bg-[#0f1629] rounded-2xl p-8 flex flex-col border transition-all ${
+                  tier.highlighted
                     ? 'border-[#3b82f6]'
                     : 'border-[#1e2d4a] hover:border-[#3b82f6]/50'
                 }`}
-                onClick={() => setSelectedTier(tier.id)}
               >
                 {tier.badge && (
                   <span className="self-start mb-3 inline-block bg-[#3b82f6] text-white text-xs font-semibold px-3 py-1 rounded-full">
@@ -159,6 +137,16 @@ export default function PartnersPage() {
                   </span>
                 )}
                 <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">{tier.name}</h3>
+                {tier.foundingMember && (
+                  <div className="mb-2">
+                    <span className="inline-block bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] text-xs font-semibold px-2.5 py-1 rounded-md">
+                      Founding Member · Early Access
+                    </span>
+                    <p className="text-xs text-[#f59e0b] font-semibold mt-1.5">
+                      🔥 {tier.spotsRemaining} of {tier.spotsTotal} Founding Member spots remaining
+                    </p>
+                  </div>
+                )}
                 <div className="mb-1">
                   {tier.originalPrice && (
                     <span className="text-sm text-[#94a3b8] line-through mr-2">{tier.originalPrice}{tier.period}</span>
@@ -202,14 +190,14 @@ export default function PartnersPage() {
                 )}
                 <button
                   type="button"
-                  onClick={() => setSelectedTier(tier.id)}
+                  onClick={() => openModal(tier)}
                   className={`w-full py-2.5 rounded-lg font-semibold text-sm transition-colors ${
-                    selectedTier === tier.id
-                      ? 'bg-[#3b82f6] text-white'
+                    tier.highlighted
+                      ? 'bg-[#3b82f6] text-white hover:bg-[#2563eb]'
                       : 'border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10'
                   }`}
                 >
-                  {selectedTier === tier.id ? 'Selected' : 'Select Plan'}
+                  Prelaunch Purchase
                 </button>
               </div>
             ))}
@@ -217,117 +205,12 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* Registration Form */}
-      <section className="py-16 px-6">
-        <div className="mx-auto max-w-2xl">
-          <div className="bg-[#0f1629] border border-[#1e2d4a] rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-[#f1f5f9] mb-2">Partner Registration</h2>
-            <p className="text-[#94a3b8] text-sm mb-8">
-              Fill out the form below to apply for partner access. We&apos;ll review your
-              application and get back to you within 24–48 hours.
-            </p>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label
-                  htmlFor="companyName"
-                  className="block text-sm font-medium text-[#94a3b8] mb-1.5"
-                >
-                  Company Name <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="companyName"
-                  type="text"
-                  required
-                  value={formData.companyName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, companyName: e.target.value })
-                  }
-                  className="bg-[#080d1a] border-[#1e2d4a] text-[#f1f5f9] placeholder:text-[#94a3b8]/50 focus:border-[#3b82f6]"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-[#94a3b8] mb-1.5"
-                >
-                  Email Address <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  className="bg-[#080d1a] border-[#1e2d4a] text-[#f1f5f9] placeholder:text-[#94a3b8]/50 focus:border-[#3b82f6]"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="website"
-                  className="block text-sm font-medium text-[#94a3b8] mb-1.5"
-                >
-                  Website
-                </label>
-                <Input
-                  id="website"
-                  type="url"
-                  placeholder="https://example.com"
-                  value={formData.website}
-                  onChange={(e) =>
-                    setFormData({ ...formData, website: e.target.value })
-                  }
-                  className="bg-[#080d1a] border-[#1e2d4a] text-[#f1f5f9] placeholder:text-[#94a3b8]/50 focus:border-[#3b82f6]"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-[#94a3b8] mb-1.5"
-                >
-                  Tell us about your use case <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="description"
-                  rows={4}
-                  required
-                  value={formData.description}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                  className="block w-full rounded-md bg-[#080d1a] border border-[#1e2d4a] text-[#f1f5f9] px-3 py-2 text-sm placeholder:text-[#94a3b8]/50 focus:border-[#3b82f6] focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
-                />
-              </div>
-
-              <div className="rounded-lg bg-[#3b82f6]/10 border border-[#3b82f6]/30 p-4">
-                <p className="text-sm text-[#94a3b8]">
-                  Selected Plan:{' '}
-                  <strong className="capitalize text-[#f1f5f9]">{selectedTier}</strong>
-                </p>
-              </div>
-
-              {error && (
-                <div className="rounded-lg bg-red-900/20 border border-red-700/40 p-4">
-                  <p className="text-sm text-red-400">{error}</p>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[#3b82f6] hover:bg-[#2563eb] disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition-colors"
-              >
-                {loading ? 'Submitting...' : 'Submit Application'}
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+      <PrelaunchModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        tier={selectedTier}
+      />
     </div>
   )
 }
+

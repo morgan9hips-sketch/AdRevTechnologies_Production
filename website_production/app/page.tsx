@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { PrelaunchModal } from '@/components/prelaunch-modal'
 import {
   Shield,
   Zap,
@@ -43,10 +44,12 @@ const pricingTiers = [
       '"Powered by Ad Rev" attribution',
       '10% ad revenue share',
     ],
-    cta: 'Join the Waitlist',
-    ctaHref: '/#waitlist',
     highlighted: false,
     enterpriseBands: null,
+    accessWindow: '30–45 days',
+    spotsTotal: 20,
+    spotsRemaining: 16,
+    foundingMember: true,
   },
   {
     name: 'Business',
@@ -68,10 +71,12 @@ const pricingTiers = [
       '"Powered by Ad Rev" attribution',
       '8% ad revenue share',
     ],
-    cta: 'Join the Waitlist',
-    ctaHref: '/#waitlist',
     highlighted: true,
     enterpriseBands: null,
+    accessWindow: '45–60 days',
+    spotsTotal: 10,
+    spotsRemaining: 8,
+    foundingMember: true,
   },
   {
     name: 'Enterprise',
@@ -92,8 +97,6 @@ const pricingTiers = [
       'Dedicated Support + SLA',
       'Custom Revenue Share',
     ],
-    cta: 'Contact Sales',
-    ctaHref: 'mailto:contact@adrevtechnologies.com',
     highlighted: false,
     enterpriseBands: [
       { label: 'Up to 250k MAU', price: '$899/mo' },
@@ -101,6 +104,10 @@ const pricingTiers = [
       { label: '1M – 5M MAU', price: '$2,499/mo' },
       { label: '5M+ MAU', price: 'Custom' },
     ],
+    accessWindow: '60–90 days',
+    spotsTotal: 5,
+    spotsRemaining: 3,
+    foundingMember: true,
   },
 ]
 
@@ -176,6 +183,14 @@ const industries = [
 ]
 
 export default function HomePage() {
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedTier, setSelectedTier] = useState<typeof pricingTiers[0] | null>(null)
+
+  const openModal = (tier: typeof pricingTiers[0]) => {
+    setSelectedTier(tier)
+    setModalOpen(true)
+  }
+
   const [waitlistForm, setWaitlistForm] = useState({
     name: '',
     email: '',
@@ -775,6 +790,16 @@ export default function HomePage() {
                 <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">
                   {tier.name}
                 </h3>
+                {tier.foundingMember && (
+                  <div className="mb-2">
+                    <span className="inline-block bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] text-xs font-semibold px-2.5 py-1 rounded-md">
+                      Founding Member · Early Access
+                    </span>
+                    <p className="text-xs text-[#f59e0b] font-semibold mt-1.5">
+                      🔥 {tier.spotsRemaining} of {tier.spotsTotal} Founding Member spots remaining
+                    </p>
+                  </div>
+                )}
                 <div className="mb-1">
                   {tier.originalPrice && (
                     <span className="text-sm text-[#94a3b8] line-through mr-2">
@@ -838,16 +863,17 @@ export default function HomePage() {
                     </ul>
                   </div>
                 )}
-                <Link
-                  href={tier.ctaHref}
-                  className={`block text-center font-semibold py-3 rounded-lg transition-colors ${
+                <button
+                  type="button"
+                  onClick={() => openModal(tier)}
+                  className={`block w-full text-center font-semibold py-3 rounded-lg transition-colors ${
                     tier.highlighted
                       ? 'bg-[#3b82f6] hover:bg-[#2563eb] text-white'
                       : 'border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10'
                   }`}
                 >
-                  {tier.cta}
-                </Link>
+                  Prelaunch Purchase
+                </button>
               </div>
             ))}
           </div>
@@ -923,6 +949,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <PrelaunchModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        tier={selectedTier}
+      />
     </div>
   )
 }

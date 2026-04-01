@@ -445,9 +445,7 @@ export default function HomePage() {
               complete the form below to secure your spot and we will be in
               touch within 24–48 hours.
             </p>
-            <p className="text-sm text-[#94a3b8] mt-2">
-              Join {waitlistCount}+ businesses already on the waitlist
-            </p>
+
           </div>
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
             <div>
@@ -773,9 +771,7 @@ export default function HomePage() {
               <p className="mt-3 text-5xl font-bold text-[#3b82f6]">
                 {waitlistCount}
               </p>
-              <p className="mt-3 text-xs text-[#94a3b8]">
-                Starts at 73 and increases after each successful submission.
-              </p>
+
             </aside>
           </div>
         </div>
@@ -821,13 +817,26 @@ export default function HomePage() {
             </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {pricingTiers.map((tier) => (
+            {pricingTiers.map((tier) => {
+              const parsePrice = (s: string) => parseFloat(s.replace(/[^0-9.]/g, ''))
+              const original = parsePrice(tier.originalPrice)
+              const current = billingPeriod === 'annual'
+                ? parsePrice(tier.annualPerMonth)
+                : parsePrice(tier.price)
+              const discountPercent = Math.round((1 - current / original) * 100)
+              return (
               <div
                 key={tier.name}
-                className={`bg-[#0f1629] rounded-2xl p-8 flex flex-col border ${
+                className={`relative overflow-hidden bg-[#0f1629] rounded-2xl p-8 flex flex-col border ${
                   tier.highlighted ? 'border-[#3b82f6]' : 'border-[#1e2d4a]'
                 }`}
               >
+                {/* Gold discount ribbon */}
+                <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
+                  <div className="absolute top-3 right-[-20px] w-24 bg-[#f59e0b] text-white text-[10px] font-bold text-center py-1 rotate-45 shadow-md">
+                    {discountPercent}% OFF
+                  </div>
+                </div>
                 {tier.badge && (
                   <span className="self-start mb-3 inline-block bg-[#3b82f6] text-white text-xs font-semibold px-3 py-1 rounded-full">
                     {tier.badge}
@@ -949,7 +958,8 @@ export default function HomePage() {
                   Prelaunch Purchase
                 </button>
               </div>
-            ))}
+            )
+            })}
           </div>
         </div>
       </section>

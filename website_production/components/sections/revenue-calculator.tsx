@@ -17,7 +17,7 @@ export function RevenueCalculator() {
   const [impressionsPerUser, setImpressionsPerUser] = useState(2)
   const [ecpm, setEcpm] = useState(4.0)
 
-  const monthlyRevenue = (mau * impressionsPerUser / 1000) * ecpm
+  const monthlyRevenue = (mau * impressionsPerUser * 30 / 1000) * ecpm
   const annualRevenue = monthlyRevenue * 12
 
   return (
@@ -26,9 +26,22 @@ export function RevenueCalculator() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           {/* Monthly Active Users */}
           <div>
-            <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-              Monthly Active Users
-            </label>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-[#94a3b8]">
+                Monthly Active Users
+              </label>
+              <input
+                type="number"
+                aria-label="Monthly Active Users number input"
+                min={0}
+                max={2000000}
+                step={1000}
+                value={mau}
+                onChange={(e) => setMau(Number(e.target.value))}
+                onBlur={(e) => setMau(Math.min(2000000, Math.max(0, Number(e.target.value))))}
+                className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
+              />
+            </div>
             <input
               type="range"
               aria-label="Monthly Active Users"
@@ -41,21 +54,34 @@ export function RevenueCalculator() {
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">0</span>
-              <span className="text-lg font-bold text-[#f1f5f9]">
+              <span className="text-lg font-bold text-[#22d3ee]">
                 {mau.toLocaleString()}
               </span>
               <span className="text-xs text-[#94a3b8]">2,000,000</span>
             </div>
           </div>
 
-          {/* Average Impressions Per User Per Month */}
+          {/* Daily Impressions Per User */}
           <div>
-            <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-              Average Impressions Per User Per Month
-            </label>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-[#94a3b8]">
+                Daily Impressions Per User
+              </label>
+              <input
+                type="number"
+                aria-label="Daily Impressions Per User number input"
+                min={1}
+                max={100}
+                step={1}
+                value={impressionsPerUser}
+                onChange={(e) => setImpressionsPerUser(Number(e.target.value))}
+                onBlur={(e) => setImpressionsPerUser(Math.min(100, Math.max(1, Number(e.target.value))))}
+                className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
+              />
+            </div>
             <input
               type="range"
-              aria-label="Average Impressions Per User Per Month"
+              aria-label="Daily Impressions Per User"
               min={1}
               max={100}
               step={1}
@@ -65,7 +91,7 @@ export function RevenueCalculator() {
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">1</span>
-              <span className="text-lg font-bold text-[#f1f5f9]">
+              <span className="text-lg font-bold text-[#22d3ee]">
                 {impressionsPerUser}
               </span>
               <span className="text-xs text-[#94a3b8]">100</span>
@@ -74,9 +100,22 @@ export function RevenueCalculator() {
 
           {/* eCPM */}
           <div>
-            <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-              eCPM ($ per 1,000 impressions)
-            </label>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-[#94a3b8]">
+                eCPM ($ per 1,000 impressions)
+              </label>
+              <input
+                type="number"
+                aria-label="eCPM number input"
+                min={1}
+                max={30}
+                step={0.5}
+                value={ecpm}
+                onChange={(e) => setEcpm(Number(e.target.value))}
+                onBlur={(e) => setEcpm(Math.min(30, Math.max(1, Number(e.target.value))))}
+                className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
+              />
+            </div>
             <input
               type="range"
               aria-label="eCPM dollars per 1000 impressions"
@@ -89,7 +128,7 @@ export function RevenueCalculator() {
             />
             <div className="flex justify-between items-center">
               <span className="text-xs text-[#94a3b8]">$1.00</span>
-              <span className="text-lg font-bold text-[#f1f5f9]">
+              <span className="text-lg font-bold text-[#22d3ee]">
                 ${ecpm.toFixed(2)}
               </span>
               <span className="text-xs text-[#94a3b8]">$30.00</span>

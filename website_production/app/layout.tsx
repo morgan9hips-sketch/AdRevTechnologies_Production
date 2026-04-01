@@ -3,6 +3,7 @@ import './globals.css'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { Providers } from '@/lib/providers'
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata: Metadata = {
   title: 'Ad Rev Technologies — Engagement & Rewards Infrastructure',
@@ -39,6 +40,7 @@ export default function RootLayout({
           <main className="min-h-screen pt-24">{children}</main>
           <Footer />
         </Providers>
+        <Analytics />
       </body>
     </html>
   )

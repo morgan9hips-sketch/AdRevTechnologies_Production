@@ -37,7 +37,7 @@ export function RevenueCalculator() {
                 max={2000000}
                 step={1000}
                 value={mau}
-                onChange={(e) => setMau(Number(e.target.value))}
+                onChange={(e) => setMau(Number(e.target.value) || 0)}
                 onBlur={(e) => setMau(Math.min(2000000, Math.max(0, Number(e.target.value))))}
                 className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
               />
@@ -74,7 +74,7 @@ export function RevenueCalculator() {
                 max={100}
                 step={1}
                 value={impressionsPerUser}
-                onChange={(e) => setImpressionsPerUser(Number(e.target.value))}
+                onChange={(e) => setImpressionsPerUser(Number(e.target.value) || 1)}
                 onBlur={(e) => setImpressionsPerUser(Math.min(100, Math.max(1, Number(e.target.value))))}
                 className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
               />
@@ -111,7 +111,7 @@ export function RevenueCalculator() {
                 max={30}
                 step={0.5}
                 value={ecpm}
-                onChange={(e) => setEcpm(Number(e.target.value))}
+                onChange={(e) => setEcpm(Number(e.target.value) || 1)}
                 onBlur={(e) => setEcpm(Math.min(30, Math.max(1, Number(e.target.value))))}
                 className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
               />

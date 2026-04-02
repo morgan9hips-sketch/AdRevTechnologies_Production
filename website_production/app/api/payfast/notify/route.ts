@@ -30,10 +30,13 @@ function buildSignature(params: Record<string, string>, passphrase?: string): st
     .map((k) => `${k}=${encodeURIComponent(params[k]).replace(/%20/g, '+')}`)
     .join('&')
 
+  // PayFast's documented signature algorithm requires MD5 over the query string.
+  // This is a message authentication code per PayFast API spec — not a password hash.
+  // See: https://developers.payfast.co.za/docs#step_4_generate_signature
   const withPassphrase = passphrase
     ? `${sorted}&passphrase=${encodeURIComponent(passphrase).replace(/%20/g, '+')}`
     : sorted
-  return createHash('md5').update(withPassphrase).digest('hex')
+  return createHash('md5').update(withPassphrase).digest('hex') // lgtm[js/insufficient-password-hash]
 }
 
 function getAccessWindow(tier: string): string {

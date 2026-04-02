@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 export interface PrelaunchModalTier {
+  id?: string
   name: string
   price: string
   accessWindow: string
@@ -23,14 +24,20 @@ export interface PrelaunchModalProps {
 export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
   const [agreed, setAgreed] = useState(false)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
 
-  // Reset checkbox when modal opens for a new tier
+  // Reset state when modal opens for a new tier
   useEffect(() => {
     if (isOpen) {
       setAgreed(false)
       setCheckoutLoading(false)
+      setCheckoutError('')
+      setName('')
+      setEmail('')
       // Focus the close button on open for accessibility
       setTimeout(() => closeButtonRef.current?.focus(), 50)
     }
@@ -78,13 +85,56 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
     }
   }, [isOpen, onClose])
 
-  const handleCheckout = () => {
-    if (!agreed) return
+  const handleCheckout = async () => {
+    if (!agreed || !tier) return
+    if (!name.trim() || !email.trim()) {
+      setCheckoutError('Please enter your full name and email address.')
+      return
+    }
+
     setCheckoutLoading(true)
-    // Placeholder — Lemon Squeezy URL to be added once account is approved
-    setTimeout(() => {
-      window.location.href = '#'
-    }, 800)
+    setCheckoutError('')
+
+    try {
+      const tierId = tier.id || tier.name.toLowerCase()
+      const res = await fetch('/api/payfast/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tier: tierId,
+          billingPeriod: tier.billingPeriod,
+          name: name.trim(),
+          email: email.trim(),
+        }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error((data as { error?: string }).error || 'Checkout failed. Please try again.')
+      }
+
+      const data = await res.json() as { url: string; fields: Record<string, string> }
+
+      // Build and auto-submit a hidden form to PayFast
+      const form = document.createElement('form')
+      form.method = 'POST'
+      form.action = data.url
+
+      for (const [key, value] of Object.entries(data.fields)) {
+        const input = document.createElement('input')
+        input.type = 'hidden'
+        input.name = key
+        input.value = value
+        form.appendChild(input)
+      }
+
+      document.body.appendChild(form)
+      form.submit()
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Checkout failed. Please try again.'
+      setCheckoutError(message)
+      setCheckoutLoading(false)
+    }
   }
 
   if (!isOpen || !tier) return null
@@ -275,6 +325,40 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
 
         {/* Footer */}
         <div className="p-6 border-t border-[#1e2d4a] shrink-0 space-y-4">
+          {/* Name field */}
+          <div>
+            <label htmlFor="checkout-name" className="block text-xs font-semibold text-[#94a3b8] mb-1.5">
+              Full Name
+            </label>
+            <input
+              id="checkout-name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Jane Smith"
+              autoComplete="name"
+              disabled={checkoutLoading}
+              className="w-full bg-[#080d1a] border border-[#1e2d4a] rounded-lg px-3 py-2.5 text-sm text-[#f1f5f9] placeholder-[#475569] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] disabled:opacity-50"
+            />
+          </div>
+
+          {/* Email field */}
+          <div>
+            <label htmlFor="checkout-email" className="block text-xs font-semibold text-[#94a3b8] mb-1.5">
+              Email Address
+            </label>
+            <input
+              id="checkout-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="jane@company.com"
+              autoComplete="email"
+              disabled={checkoutLoading}
+              className="w-full bg-[#080d1a] border border-[#1e2d4a] rounded-lg px-3 py-2.5 text-sm text-[#f1f5f9] placeholder-[#475569] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] disabled:opacity-50"
+            />
+          </div>
+
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
               type="checkbox"
@@ -287,17 +371,21 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
             </span>
           </label>
 
+          {checkoutError && (
+            <p className="text-sm text-red-400 text-center">{checkoutError}</p>
+          )}
+
           <button
             type="button"
             onClick={handleCheckout}
-            disabled={!agreed || checkoutLoading}
+            disabled={!agreed || checkoutLoading || !name.trim() || !email.trim()}
             className="w-full py-3 rounded-lg font-semibold text-sm transition-colors bg-[#3b82f6] text-white hover:bg-[#2563eb] disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 focus:ring-offset-[#0f1629]"
           >
-            {checkoutLoading ? 'Redirecting…' : 'Proceed to Checkout'}
+            {checkoutLoading ? 'Redirecting to PayFast…' : 'Proceed to Checkout'}
           </button>
 
           <p className="text-center text-[10px] text-[#94a3b8]/60">
-            Powered by Lemon Squeezy · Secure checkout · USD pricing · Local currency shown at checkout
+            Powered by PayFast · Secure checkout · USD pricing · Converted to ZAR at checkout
           </p>
         </div>
       </div>

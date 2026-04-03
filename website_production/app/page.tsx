@@ -63,7 +63,7 @@ const pricingTiers = [
     price: '$349',
     originalPrice: '$599',
     period: '/mo',
-    badge: 'Most Popular',
+    badge: null,
     discountBadge: true,
     description:
       'Full campaign toolkit for platforms ready to scale engagement.',
@@ -80,7 +80,7 @@ const pricingTiers = [
       'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
       'Unrewarded Monetisation — banner ads, interstitial ads',
     ],
-    highlighted: true,
+    highlighted: false,
     enterpriseBands: null,
     annualEnterpriseBands: null,
     accessWindow: '45–60 days',
@@ -96,7 +96,7 @@ const pricingTiers = [
     price: 'From $899',
     originalPrice: 'From $1,499',
     period: '/mo',
-    badge: null,
+    badge: 'Most Popular',
     discountBadge: true,
     description: 'Complete infrastructure. Zero attribution. Full control.',
     features: [
@@ -113,7 +113,7 @@ const pricingTiers = [
       'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
       'Unrewarded Monetisation — banner ads, interstitial ads',
     ],
-    highlighted: false,
+    highlighted: true,
     enterpriseBands: [
       { label: 'Up to 250k MAU', price: '$899/mo' },
       { label: '250k – 1M MAU', price: '$1,499/mo' },
@@ -859,7 +859,7 @@ export default function HomePage() {
                       Founding Member · Early Access
                     </span>
                     <p className="text-xs text-[#f59e0b] font-semibold mt-1.5">
-                      🔥 {tier.spotsRemaining} of {tier.spotsTotal} Founding Member spots remaining
+                      🔥 Limited spots remaining
                     </p>
                   </div>
                 )}

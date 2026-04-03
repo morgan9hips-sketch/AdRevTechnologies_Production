@@ -1,50 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createHash } from 'crypto'
 import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/database'
 
-/*
-  SQL — run once in Supabase SQL editor to create the founding_members table:
-
-  CREATE TABLE IF NOT EXISTS founding_members (
-    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    name text NOT NULL,
-    email text NOT NULL,
-    tier text NOT NULL,
-    billing_period text NOT NULL,
-    amount_usd numeric(10,2),
-    amount_zar numeric(10,2),
-    payfast_payment_id text,
-    founding_member_number integer,
-    created_at timestamptz DEFAULT now()
-  );
-*/
-
+const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@adrevtechnologies.com'
-
-function buildSignature(params: Record<string, string>, passphrase?: string): string {
-  const sorted = Object.keys(params)
-    .sort()
-    .filter((k) => k !== 'signature' && params[k] !== '')
-    .map((k) => `${k}=${encodeURIComponent(params[k]).replace(/%20/g, '+')}`)
-    .join('&')
-
-  // PayFast's documented signature algorithm requires MD5 over the query string.
-  // This is a message authentication code per PayFast API spec — not a password hash.
-  // See: https://developers.payfast.co.za/docs#step_4_generate_signature
-  const withPassphrase = passphrase
-    ? `${sorted}&passphrase=${encodeURIComponent(passphrase).replace(/%20/g, '+')}`
-    : sorted
-  return createHash('md5').update(withPassphrase).digest('hex') // lgtm[js/insufficient-password-hash]
-}
 
 function getAccessWindow(tier: string): string {
   switch (tier.toLowerCase()) {
     case 'starter':    return '30–45 days'
     case 'business':   return '45–60 days'
     case 'enterprise': return '60–90 days'
-    default:           return '30–90 days'
+    default:           return '30–45 days'
   }
 }
 
@@ -63,18 +30,21 @@ function getAccountManagerMessage(tier: string): string {
 
 async function sendConfirmationEmail(opts: {
   email: string
-  firstName: string
-  tier: string
-  billingPeriod: string
+  name: string
   foundingMemberNumber: number
+  amount: number
+  currency: string
 }) {
   if (!resend) return
 
-  const { email, firstName, tier, billingPeriod, foundingMemberNumber } = opts
-  const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1)
-  const periodLabel = billingPeriod === 'annual' ? 'Annual' : 'Monthly'
-  const accessWindow = getAccessWindow(tier)
-  const accountManagerMsg = getAccountManagerMessage(tier)
+  const { email, name, foundingMemberNumber, amount, currency } = opts
+  const firstName = name.split(' ')[0] || name
+  const amountFormatted = currency === 'ZAR'
+    ? `R${(amount / 100).toFixed(2)}`
+    : `$${(amount / 100).toFixed(2)} USD`
+
+  const accessWindow = getAccessWindow('starter')
+  const accountManagerMsg = getAccountManagerMessage('starter')
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -88,7 +58,6 @@ async function sendConfirmationEmail(opts: {
     <tr>
       <td align="center" style="padding:40px 16px;">
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;">
-          <!-- Logo / brand -->
           <tr>
             <td style="padding-bottom:32px;">
               <p style="margin:0;font-size:18px;font-weight:700;color:#f1f5f9;letter-spacing:-0.5px;">
@@ -96,8 +65,6 @@ async function sendConfirmationEmail(opts: {
               </p>
             </td>
           </tr>
-
-          <!-- Headline -->
           <tr>
             <td style="background-color:#0f1629;border:1px solid #1e2d4a;border-radius:16px;padding:40px 36px;">
               <h1 style="margin:0 0 8px;font-size:28px;font-weight:800;color:#f1f5f9;line-height:1.2;">
@@ -106,8 +73,6 @@ async function sendConfirmationEmail(opts: {
               <p style="margin:0 0 32px;font-size:18px;font-weight:600;color:#00d4ff;">
                 Welcome to Ad Rev Technologies, ${firstName}.
               </p>
-
-              <!-- Founding Member badge -->
               <div style="background-color:#f59e0b15;border:1px solid #f59e0b4d;border-radius:12px;padding:20px 24px;margin-bottom:32px;text-align:center;">
                 <p style="margin:0 0 4px;font-size:11px;font-weight:700;color:#f59e0b;text-transform:uppercase;letter-spacing:1px;">
                   Founding Member
@@ -116,19 +81,11 @@ async function sendConfirmationEmail(opts: {
                   #${foundingMemberNumber}
                 </p>
               </div>
-
-              <!-- Details -->
               <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #1e2d4a;">
-                    <span style="font-size:13px;color:#94a3b8;">Tier</span>
-                    <span style="float:right;font-size:13px;font-weight:600;color:#f1f5f9;">${tierLabel}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:12px 0;border-bottom:1px solid #1e2d4a;">
-                    <span style="font-size:13px;color:#94a3b8;">Billing</span>
-                    <span style="float:right;font-size:13px;font-weight:600;color:#f1f5f9;">${periodLabel}</span>
+                    <span style="font-size:13px;color:#94a3b8;">Amount Paid</span>
+                    <span style="float:right;font-size:13px;font-weight:600;color:#f1f5f9;">${amountFormatted}</span>
                   </td>
                 </tr>
                 <tr>
@@ -138,23 +95,17 @@ async function sendConfirmationEmail(opts: {
                   </td>
                 </tr>
               </table>
-
-              <!-- Account manager message -->
               <div style="background-color:#00d4ff0d;border:1px solid #00d4ff33;border-radius:10px;padding:20px 24px;margin-bottom:32px;">
                 <p style="margin:0;font-size:14px;color:#f1f5f9;line-height:1.6;">
                   ${accountManagerMsg}
                 </p>
               </div>
-
-              <!-- Contact -->
               <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.6;">
                 Questions? Reach us directly at
                 <a href="mailto:morgan@adrevtechnologies.com" style="color:#00d4ff;text-decoration:none;">morgan@adrevtechnologies.com</a>
               </p>
             </td>
           </tr>
-
-          <!-- Footer -->
           <tr>
             <td style="padding-top:24px;text-align:center;">
               <p style="margin:0;font-size:11px;color:#475569;">
@@ -177,98 +128,126 @@ async function sendConfirmationEmail(opts: {
       html,
     })
   } catch (err) {
-    console.error('PayFast confirmation email failed:', err)
+    console.error('Paystack confirmation email failed:', err)
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const text = await request.text()
-    const params: Record<string, string> = {}
-    for (const pair of text.split('&')) {
-      const idx = pair.indexOf('=')
-      if (idx === -1) continue
-      const key = decodeURIComponent(pair.slice(0, idx).replace(/\+/g, ' '))
-      const val = decodeURIComponent(pair.slice(idx + 1).replace(/\+/g, ' '))
-      params[key] = val
+    const { searchParams } = new URL(request.url)
+    const reference = searchParams.get('reference')
+
+    if (!reference) {
+      return NextResponse.json({ error: 'Missing reference parameter' }, { status: 400 })
     }
 
-    // Validate signature
-    const passphrase = process.env.PAYFAST_PASSPHRASE || undefined
-    const expectedSignature = buildSignature(params, passphrase)
-    if (params.signature !== expectedSignature) {
-      console.error('PayFast ITN: invalid signature', { received: params.signature, expected: expectedSignature })
-      return new NextResponse('Invalid signature', { status: 400 })
+    if (!PAYSTACK_SECRET_KEY) {
+      console.error('Paystack: PAYSTACK_SECRET_KEY is not set')
+      return NextResponse.json({ error: 'Payment service unavailable' }, { status: 503 })
     }
 
-    // Only handle completed payments
-    if (params.payment_status !== 'COMPLETE') {
-      return new NextResponse('OK', { status: 200 })
+    const paystackRes = await fetch(
+      `https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+        },
+      }
+    )
+
+    if (!paystackRes.ok) {
+      const errData = await paystackRes.json().catch(() => ({}))
+      console.error('Paystack verify error:', errData)
+      return NextResponse.json({ error: 'Failed to verify payment' }, { status: 502 })
     }
+
+    const paystackData = await paystackRes.json() as {
+      status: boolean
+      data: {
+        status: string
+        reference: string
+        amount: number
+        currency: string
+        customer: { email: string }
+        metadata: { name?: string; [key: string]: unknown }
+      }
+    }
+
+    if (!paystackData.status || paystackData.data.status !== 'success') {
+      return NextResponse.json({ error: 'Payment not successful' }, { status: 402 })
+    }
+
+    const txn = paystackData.data
+    const email = txn.customer.email
+    const name = (txn.metadata?.name as string) || ''
+    const amount = txn.amount
+    const currency = txn.currency
 
     if (!supabaseAdmin) {
-      console.error('PayFast ITN: supabaseAdmin is null')
-      return new NextResponse('Service unavailable', { status: 503 })
+      console.error('Paystack verify: supabaseAdmin is null')
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
     }
 
-    const email = params.email_address || ''
-    const nameFirst = params.name_first || ''
-    const nameLast = params.name_last || ''
-    const fullName = [nameFirst, nameLast].filter(Boolean).join(' ')
-    const amountZar = parseFloat(params.amount_gross || '0')
-    const pfPaymentId = params.pf_payment_id || ''
-    const tier = params.custom_str1 || ''
-    const billingPeriod = params.custom_str2 || ''
-    const amountUsd = parseFloat(params.custom_str3 || '0')
-
-    // Get current count for founding_member_number
-    const { count } = await supabaseAdmin
+    // Upsert founding member record (idempotent on email).
+    // founding_member_number is GENERATED BY DEFAULT AS IDENTITY — DB assigns it on insert,
+    // and it is preserved (not overwritten) on conflict update.
+    const { error: upsertError } = await supabaseAdmin
       .from('founding_members')
-      .select('*', { count: 'exact', head: true })
+      .upsert(
+        [{
+          name,
+          email,
+          paystack_reference: reference,
+          amount,
+          currency,
+          status: 'active',
+        }],
+        { onConflict: 'email' }
+      )
 
-    const foundingMemberNumber = (count ?? 0) + 1
-
-    // Insert founding member record
-    const { error: insertError } = await supabaseAdmin
-      .from('founding_members')
-      .insert([{
-        name: fullName,
-        email,
-        tier,
-        billing_period: billingPeriod,
-        amount_usd: amountUsd,
-        amount_zar: amountZar,
-        payfast_payment_id: pfPaymentId,
-        founding_member_number: foundingMemberNumber,
-      }])
-
-    if (insertError) {
-      console.error('PayFast ITN: founding_members insert error', insertError)
+    if (upsertError) {
+      console.error('Paystack verify: founding_members upsert error', upsertError)
     }
 
-    // Update waitlist status if email matches
-    const { error: waitlistError } = await supabaseAdmin
+    // Update waitlist status if email matches (fire-and-forget)
+    supabaseAdmin
       .from('waitlist')
       .update({ status: 'converted' })
       .eq('email', email)
       .eq('status', 'pending')
+      .then(({ error }) => {
+        if (error) console.error('Paystack verify: waitlist update error', error)
+      })
 
-    if (waitlistError) {
-      console.error('PayFast ITN: waitlist update error', waitlistError)
-    }
+    // Retrieve founding member number assigned by DB
+    const { data: memberData } = await supabaseAdmin
+      .from('founding_members')
+      .select('founding_member_number')
+      .eq('email', email)
+      .single()
+
+    const actualMemberNumber = memberData?.founding_member_number ?? 1
 
     // Send confirmation email (fire-and-forget)
     sendConfirmationEmail({
       email,
-      firstName: nameFirst,
-      tier,
-      billingPeriod,
-      foundingMemberNumber,
+      name,
+      foundingMemberNumber: actualMemberNumber,
+      amount,
+      currency,
     }).catch(() => {})
 
-    return new NextResponse('OK', { status: 200 })
+    return NextResponse.json({
+      success: true,
+      reference,
+      email,
+      name,
+      amount,
+      currency,
+      founding_member_number: actualMemberNumber,
+    })
   } catch (error) {
-    console.error('PayFast ITN unexpected error:', error)
-    return new NextResponse('Internal server error', { status: 500 })
+    console.error('Paystack verify unexpected error:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

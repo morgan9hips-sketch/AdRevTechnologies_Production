@@ -96,15 +96,18 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
     setCheckoutError('')
 
     try {
-      const tierId = tier.id || tier.name.toLowerCase()
-      const res = await fetch('/api/payfast/checkout', {
+      const res = await fetch('/api/paystack/initialize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          tier: tierId,
-          billingPeriod: tier.billingPeriod,
-          name: name.trim(),
           email: email.trim(),
+          name: name.trim(),
+          amount: 249900,
+          currency: 'ZAR',
+          metadata: {
+            tier: tier.id || tier.name.toLowerCase(),
+            billingPeriod: tier.billingPeriod,
+          },
         }),
       })
 
@@ -113,23 +116,10 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
         throw new Error((data as { error?: string }).error || 'Checkout failed. Please try again.')
       }
 
-      const data = await res.json() as { url: string; fields: Record<string, string> }
+      const data = await res.json() as { authorization_url: string; reference: string }
 
-      // Build and auto-submit a hidden form to PayFast
-      const form = document.createElement('form')
-      form.method = 'POST'
-      form.action = data.url
-
-      for (const [key, value] of Object.entries(data.fields)) {
-        const input = document.createElement('input')
-        input.type = 'hidden'
-        input.name = key
-        input.value = value
-        form.appendChild(input)
-      }
-
-      document.body.appendChild(form)
-      form.submit()
+      // Redirect to Paystack hosted checkout page
+      window.location.href = data.authorization_url
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Checkout failed. Please try again.'
       setCheckoutError(message)
@@ -381,11 +371,11 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
             disabled={!agreed || checkoutLoading || !name.trim() || !email.trim()}
             className="w-full py-3 rounded-lg font-semibold text-sm transition-colors bg-[#3b82f6] text-white hover:bg-[#2563eb] disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 focus:ring-offset-[#0f1629]"
           >
-            {checkoutLoading ? 'Redirecting to PayFast…' : 'Proceed to Checkout'}
+            {checkoutLoading ? 'Redirecting to Paystack…' : 'Proceed to Checkout'}
           </button>
 
           <p className="text-center text-[10px] text-[#94a3b8]/60">
-            Powered by PayFast · Secure checkout · USD pricing · Converted to ZAR at checkout
+            Powered by Paystack · Secure checkout · ZAR &amp; USD accepted
           </p>
         </div>
       </div>

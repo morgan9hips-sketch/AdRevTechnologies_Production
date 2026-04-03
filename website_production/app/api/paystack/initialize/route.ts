@@ -25,6 +25,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payment service unavailable' }, { status: 503 })
     }
 
+    const tier = metadata?.tier ?? 'unknown'
+    console.log(`Paystack initialize: tier=${tier} amount=${amount} currency=${currency} email=${email}`)
+
     const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
       method: 'POST',
       headers: {

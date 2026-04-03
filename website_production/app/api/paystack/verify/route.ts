@@ -182,6 +182,7 @@ export async function GET(request: NextRequest) {
     const name = (txn.metadata?.name as string) || ''
     const amount = txn.amount
     const currency = txn.currency
+    const is_test = amount <= 5000
 
     if (!supabaseAdmin) {
       console.error('Paystack verify: supabaseAdmin is null')
@@ -201,6 +202,7 @@ export async function GET(request: NextRequest) {
           amount,
           currency,
           status: 'active',
+          is_test,
         }],
         { onConflict: 'email' }
       )
@@ -244,6 +246,7 @@ export async function GET(request: NextRequest) {
       name,
       amount,
       currency,
+      is_test,
       founding_member_number: actualMemberNumber,
     })
   } catch (error) {

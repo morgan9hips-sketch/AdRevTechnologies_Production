@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
     const amount = txn.amount
     const currency = txn.currency
     const reference = txn.reference
+    const is_test = amount <= 5000
 
     if (!supabaseAdmin) {
       console.error('Paystack webhook: supabaseAdmin is null')
@@ -66,6 +67,7 @@ export async function POST(request: NextRequest) {
               amount,
               currency,
               status: 'active',
+              is_test,
             }],
             { onConflict: 'email' }
           )

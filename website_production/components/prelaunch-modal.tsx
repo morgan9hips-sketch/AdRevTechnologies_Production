@@ -13,6 +13,10 @@ export interface PrelaunchModalTier {
   annualTotal?: string
   annualPerMonth?: string
   annualSaving?: string
+  /** Override the Paystack amount in kobo. Defaults to 249900 (R2,499). */
+  amount?: number
+  /** True for the R20 test payment tier. */
+  isTest?: boolean
 }
 
 export interface PrelaunchModalProps {
@@ -102,7 +106,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
         body: JSON.stringify({
           email: email.trim(),
           name: name.trim(),
-          amount: 249900,
+          amount: tier.amount ?? 249900,
           currency: 'ZAR',
           metadata: {
             tier: tier.id || tier.name.toLowerCase(),

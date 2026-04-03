@@ -11,6 +11,7 @@ interface VerifyResult {
   name: string
   amount: number
   currency: string
+  is_test?: boolean
   founding_member_number: number
 }
 
@@ -149,6 +150,15 @@ function SuccessContent() {
               morgan@adrevtechnologies.com
             </a>
           </p>
+
+          {/* TEST TIER — REMOVE BEFORE FULL PUBLIC LAUNCH */}
+          {verifyData?.is_test && (
+            <div className="bg-[#f59e0b]/10 border border-[#f59e0b]/40 rounded-xl p-4 text-center">
+              <p className="text-sm font-semibold text-[#f59e0b]">
+                ✅ Test payment successful — R20 charged to your card. This was a live payment test.
+              </p>
+            </div>
+          )}
 
           {/* CTA */}
           <Link

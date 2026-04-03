@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac } from 'crypto'
 import { supabaseAdmin } from '@/lib/database'
+import { TEST_PAYMENT_THRESHOLD_KOBO } from '@/lib/paystack-constants'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
 
@@ -44,6 +45,7 @@ export async function POST(request: NextRequest) {
     const amount = txn.amount
     const currency = txn.currency
     const reference = txn.reference
+    const is_test = amount <= TEST_PAYMENT_THRESHOLD_KOBO
 
     if (!supabaseAdmin) {
       console.error('Paystack webhook: supabaseAdmin is null')
@@ -66,6 +68,7 @@ export async function POST(request: NextRequest) {
               amount,
               currency,
               status: 'active',
+              is_test,
             }],
             { onConflict: 'email' }
           )

@@ -22,20 +22,6 @@ import {
 import { RevenueCalculator } from '@/components/sections/revenue-calculator'
 import { EngagementMock } from '@/components/sections/engagement-mock'
 
-// TEST TIER — REMOVE BEFORE FULL PUBLIC LAUNCH
-const testPaymentTier = {
-  id: 'test',
-  name: 'Test Payment',
-  price: 'R20',
-  label: 'Test Payment',
-  description: 'R20 live payment test — full end-to-end verification',
-  accessWindow: 'N/A — test only',
-  spotsRemaining: 99,
-  spotsTotal: 99,
-  foundingMember: false,
-  amount: 2000, // R20 in kobo (R20 × 100). Below TEST_PAYMENT_THRESHOLD_KOBO so is_test=true.
-  isTest: true,
-}
 
 const pricingTiers = [
   {
@@ -836,31 +822,6 @@ export default function HomePage() {
               }`}>
                 3 months free
               </span>
-            </button>
-          </div>
-          {/* TEST TIER — REMOVE BEFORE FULL PUBLIC LAUNCH */}
-          <div className="mb-8 border border-[#f59e0b]/60 bg-[#f59e0b]/5 rounded-2xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <span className="inline-block bg-[#f59e0b] text-black text-xs font-bold px-2.5 py-1 rounded-md tracking-wider">
-                TEST
-              </span>
-              <div>
-                <p className="font-bold text-[#f1f5f9]">Test Payment — R20</p>
-                <p className="text-sm text-[#94a3b8]">R20 live payment test — full end-to-end verification</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedTier({
-                  ...testPaymentTier,
-                  billingPeriod: 'monthly',
-                })
-                setModalOpen(true)
-              }}
-              className="shrink-0 border border-[#f59e0b] text-[#f59e0b] hover:bg-[#f59e0b]/10 font-semibold py-2.5 px-6 rounded-lg transition-colors text-sm"
-            >
-              Pay R20 Test
             </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

@@ -65,8 +65,8 @@ function SuccessContent() {
           <p className="text-[#94a3b8]">{errorMessage}</p>
           <p className="text-sm text-[#94a3b8]">
             If you completed payment, please contact{' '}
-            <a href="mailto:morgan@adrevtechnologies.com" className="text-[#00d4ff] hover:underline">
-              morgan@adrevtechnologies.com
+            <a href="mailto:admin@adrevtechnologies.com" className="text-[#00d4ff] hover:underline">
+              admin@adrevtechnologies.com
             </a>{' '}
             with your payment reference.
           </p>
@@ -144,21 +144,12 @@ function SuccessContent() {
           <p className="text-sm text-[#94a3b8] text-center">
             A confirmation email has been sent to you. For direct support, contact{' '}
             <a
-              href="mailto:morgan@adrevtechnologies.com"
+              href="mailto:admin@adrevtechnologies.com"
               className="text-[#00d4ff] hover:underline"
             >
-              morgan@adrevtechnologies.com
+              admin@adrevtechnologies.com
             </a>
           </p>
-
-          {/* TEST TIER — REMOVE BEFORE FULL PUBLIC LAUNCH */}
-          {verifyData?.is_test && (
-            <div className="bg-[#f59e0b]/10 border border-[#f59e0b]/40 rounded-xl p-4 text-center">
-              <p className="text-sm font-semibold text-[#f59e0b]">
-                ✅ Test payment successful — R20 charged to your card. This was a live payment test.
-              </p>
-            </div>
-          )}
 
           {/* CTA */}
           <Link

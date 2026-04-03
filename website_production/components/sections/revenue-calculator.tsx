@@ -71,11 +71,11 @@ export function RevenueCalculator() {
                 type="number"
                 aria-label="Daily Impressions Per User number input"
                 min={1}
-                max={100}
+                max={10}
                 step={1}
                 value={impressionsPerUser}
                 onChange={(e) => setImpressionsPerUser(Number(e.target.value) || 1)}
-                onBlur={(e) => setImpressionsPerUser(Math.min(100, Math.max(1, Number(e.target.value))))}
+                onBlur={(e) => setImpressionsPerUser(Math.min(10, Math.max(1, Number(e.target.value))))}
                 className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
               />
             </div>
@@ -83,7 +83,7 @@ export function RevenueCalculator() {
               type="range"
               aria-label="Daily Impressions Per User"
               min={1}
-              max={100}
+              max={10}
               step={1}
               value={impressionsPerUser}
               onChange={(e) => setImpressionsPerUser(Number(e.target.value))}
@@ -94,7 +94,7 @@ export function RevenueCalculator() {
               <span className="text-lg font-bold text-[#22d3ee]">
                 {impressionsPerUser}
               </span>
-              <span className="text-xs text-[#94a3b8]">100</span>
+              <span className="text-xs text-[#94a3b8]">10</span>
             </div>
           </div>
 

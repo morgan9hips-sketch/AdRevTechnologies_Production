@@ -51,7 +51,7 @@ export function Header() {
     localStorage.removeItem('refresh_token')
     setIsAuthenticated(false)
     setUserInfo(null)
-    window.location.href = '/'
+    window.location.href = '/' 
   }
 
   const isActive = (item: { href: string; highlight: boolean }) => {

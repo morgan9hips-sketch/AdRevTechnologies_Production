@@ -5,6 +5,7 @@ import {
   Area,
   BarChart,
   Bar,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -61,6 +62,22 @@ export function RevenueChart() {
             stroke="#3b82f6"
             strokeWidth={2}
             fill="url(#colorRevenue)"
+            dot={(props) => {
+              const { cx, cy, index } = props
+              const isDown =
+                index > 0 &&
+                revenueData[index].revenue < revenueData[index - 1].revenue
+              return (
+                <circle
+                  key={`dot-rev-${index}`}
+                  cx={cx}
+                  cy={cy}
+                  r={3}
+                  fill={isDown ? '#ef4444' : '#3b82f6'}
+                  stroke="none"
+                />
+              )
+            }}
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -98,7 +115,18 @@ export function CompletionsChart() {
               color: '#f1f5f9',
             }}
           />
-          <Bar dataKey="completions" fill="#10b981" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="completions" radius={[3, 3, 0, 0]}>
+            {revenueData.map((entry, index) => (
+              <Cell
+                key={`cell-comp-${index}`}
+                fill={
+                  index === 0 || entry.completions >= revenueData[index - 1].completions
+                    ? '#10b981'
+                    : '#ef4444'
+                }
+              />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -56,7 +56,7 @@ export function Sidebar() {
           </div>
         </div>
         <p className="text-xs mt-2" style={{ color: '#94a3b8' }}>
-          Demo Tenant · SportsBet Pro
+          Demo Tenant · BookieAI
         </p>
       </div>
 

@@ -41,7 +41,7 @@ export function Topbar() {
       {/* User info */}
       <div className="flex items-center gap-3">
         <div className="text-right hidden sm:block">
-          <p className="text-sm font-medium text-white">SportsBet Pro</p>
+          <p className="text-sm font-medium text-white">BookieAI</p>
           <span
             className="text-xs px-2 py-0.5 rounded font-medium"
             style={{
@@ -54,9 +54,9 @@ export function Topbar() {
         </div>
         <div
           className="h-9 w-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-          style={{ backgroundColor: '#3b82f6' }}
+          style={{ backgroundColor: '#16a34a' }}
         >
-          SP
+          BA
         </div>
       </div>
     </header>

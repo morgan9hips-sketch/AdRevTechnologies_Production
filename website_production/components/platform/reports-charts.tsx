@@ -57,6 +57,22 @@ export function RevenueTrendChart() {
             stroke="#10b981"
             strokeWidth={2}
             fill="url(#colorGreen)"
+            dot={(props) => {
+              const { cx, cy, index } = props
+              const isDown =
+                index > 0 &&
+                revenueData[index].revenue < revenueData[index - 1].revenue
+              return (
+                <circle
+                  key={`dot-trend-${index}`}
+                  cx={cx}
+                  cy={cy}
+                  r={3}
+                  fill={isDown ? '#ef4444' : '#10b981'}
+                  stroke="none"
+                />
+              )
+            }}
           />
         </AreaChart>
       </ResponsiveContainer>

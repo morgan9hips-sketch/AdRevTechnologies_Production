@@ -30,7 +30,7 @@ const pricingTiers = [
     originalPrice: '$249',
     period: '/mo',
     badge: null,
-    discountBadge: true,
+    discountBadge: false,
     description: 'Core engagement infrastructure. API and SDK. Deploy in days.',
     features: [
       'Video Ad Engine (API + SDK)',
@@ -44,19 +44,21 @@ const pricingTiers = [
       'Platform Blending — your brand on every interaction',
       '"Powered by Ad Rev" attribution',
       '10% ad revenue share',
-      'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
+      'Rewarded Survey Campaigns',
       'Unrewarded Monetisation — banner ads, interstitial ads',
     ],
     highlighted: false,
     enterpriseBands: null,
     annualEnterpriseBands: null,
     accessWindow: '30–45 days',
-    spotsTotal: 20,
-    spotsRemaining: 16,
-    foundingMember: true,
+    spotsTotal: 0,
+    spotsRemaining: 0,
+    foundingMember: false,
     annualTotal: '$1,341',
     annualPerMonth: '$111.75',
     annualSaving: '$447',
+    ctaType: 'waitlist',
+    launchNote: 'Available on platform launch',
   },
   {
     name: 'Business',
@@ -64,9 +66,8 @@ const pricingTiers = [
     originalPrice: '$599',
     period: '/mo',
     badge: null,
-    discountBadge: true,
-    description:
-      'Full campaign toolkit for platforms ready to scale engagement.',
+    discountBadge: false,
+    description: 'Full campaign toolkit for platforms ready to scale engagement.',
     features: [
       'Everything in Starter',
       'Custom Campaigns (Summer Sale, Black Friday etc.)',
@@ -77,19 +78,21 @@ const pricingTiers = [
       'Advanced Analytics & Reporting',
       '"Powered by Ad Rev" attribution',
       '8% ad revenue share',
-      'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
+      'Rewarded Survey Campaigns',
       'Unrewarded Monetisation — banner ads, interstitial ads',
     ],
     highlighted: false,
     enterpriseBands: null,
     annualEnterpriseBands: null,
     accessWindow: '45–60 days',
-    spotsTotal: 10,
-    spotsRemaining: 8,
-    foundingMember: true,
+    spotsTotal: 0,
+    spotsRemaining: 0,
+    foundingMember: false,
     annualTotal: '$3,141',
     annualPerMonth: '$261.75',
     annualSaving: '$1,047',
+    ctaType: 'waitlist',
+    launchNote: 'Available on platform launch',
   },
   {
     name: 'Enterprise',
@@ -97,7 +100,7 @@ const pricingTiers = [
     originalPrice: 'From $1,499',
     period: '/mo',
     badge: 'Most Popular',
-    discountBadge: true,
+    discountBadge: false,
     description: 'Complete infrastructure. Zero attribution. Full control.',
     features: [
       'Everything in Business',
@@ -110,10 +113,10 @@ const pricingTiers = [
       'Dedicated Support + SLA',
       'Custom Revenue Share',
       'Social Media Campaign — ad posting and promotional posting with post promotion redirect links',
-      'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
+      'Rewarded Survey Campaigns',
       'Unrewarded Monetisation — banner ads, interstitial ads',
     ],
-    highlighted: true,
+    highlighted: false,
     enterpriseBands: [
       { label: 'Up to 250k MAU', price: '$899/mo' },
       { label: '250k – 1M MAU', price: '$1,499/mo' },
@@ -127,12 +130,51 @@ const pricingTiers = [
       { label: '3M+ MAU', monthly: 'Custom', annual: 'Custom', saving: '' },
     ],
     accessWindow: '60–90 days',
-    spotsTotal: 5,
-    spotsRemaining: 3,
-    foundingMember: true,
+    spotsTotal: 0,
+    spotsRemaining: 0,
+    foundingMember: false,
     annualTotal: 'From $8,091',
     annualPerMonth: 'From $674.25',
     annualSaving: 'From $2,697',
+    ctaType: 'waitlist',
+    launchNote: 'Available on platform launch',
+  },
+  {
+    name: 'Prelaunch Early Access',
+    price: '$499',
+    originalPrice: '$1,499',
+    period: '/mo',
+    badge: '🔥 Founding Member',
+    discountBadge: true,
+    description: 'Full Enterprise access from day one. Rate locked forever. Earn ad revenue while the platform completes its build.',
+    features: [
+      'Full Enterprise feature access immediately',
+      'Earn ad revenue from day one',
+      'Rate locked for life — $499/mo forever, never increases',
+      'Founding client status — direct input on product roadmap',
+      'First access to every new feature before general release',
+      'Dedicated onboarding support',
+      'Priority webhook SLA',
+      'Custom SDK Theming — match your design system exactly',
+      'Full White-label — zero Ad Rev attribution',
+      'WhatsApp Direct Message Campaigns',
+      'Social Media Campaign automation',
+      'Custom Revenue Share',
+      'Rewarded Survey Campaigns',
+      'Unrewarded Monetisation — banner ads, interstitial ads',
+    ],
+    highlighted: true,
+    enterpriseBands: null,
+    annualEnterpriseBands: null,
+    accessWindow: 'Immediate',
+    spotsTotal: 10,
+    spotsRemaining: 10,
+    foundingMember: true,
+    annualTotal: '$5,988',
+    annualPerMonth: '$499',
+    annualSaving: '$0',
+    ctaType: 'purchase',
+    launchNote: null,
   },
 ]
 
@@ -793,8 +835,7 @@ export default function HomePage() {
               Simple, Transparent Pricing
             </h2>
             <p className="text-[#94a3b8] text-lg">
-              All tiers include full platform blending. Your brand on every
-              interaction.
+              All tiers include full platform blending. One prelaunch spot available now — tiers open on launch.
             </p>
           </div>
           <div className="flex items-center justify-center gap-1 mb-10 bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-1 w-fit mx-auto">
@@ -824,14 +865,11 @@ export default function HomePage() {
               </span>
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <p className="text-center text-xs text-[#94a3b8]/60 mt-3">
+            Prelaunch Early Access is billed annually only · All other tiers available monthly or annually on launch
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {pricingTiers.map((tier) => {
-              const parsePrice = (s: string) => parseFloat(s.replace(/[^0-9.]/g, ''))
-              const original = parsePrice(tier.originalPrice)
-              const current = billingPeriod === 'annual'
-                ? parsePrice(tier.annualPerMonth)
-                : parsePrice(tier.price)
-              const discountPercent = Math.round((1 - current / original) * 100)
               return (
               <div
                 key={tier.name}
@@ -840,11 +878,13 @@ export default function HomePage() {
                 }`}
               >
                 {/* Gold discount ribbon */}
-                <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
-                  <div className="absolute top-3 right-[-20px] w-24 bg-[#f59e0b] text-white text-[10px] font-bold text-center py-1 rotate-45 shadow-md">
-                    {discountPercent}% OFF
+                {tier.ctaType === 'purchase' && (
+                  <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
+                    <div className="absolute top-3 right-[-20px] w-24 bg-[#f59e0b] text-white text-[10px] font-bold text-center py-1 rotate-45 shadow-md">
+                      67% OFF
+                    </div>
                   </div>
-                </div>
+                )}
                 {tier.badge && (
                   <span className="self-start mb-3 inline-block bg-[#3b82f6] text-white text-xs font-semibold px-3 py-1 rounded-full">
                     {tier.badge}
@@ -856,11 +896,8 @@ export default function HomePage() {
                 {tier.foundingMember && (
                   <div className="mb-2">
                     <span className="inline-block bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] text-xs font-semibold px-2.5 py-1 rounded-md">
-                      Founding Member · Early Access
+                      🔥 Founding Member · 10 Spots Only
                     </span>
-                    <p className="text-xs text-[#f59e0b] font-semibold mt-1.5">
-                      🔥 Limited spots remaining
-                    </p>
                   </div>
                 )}
                 <div className="mb-1">
@@ -954,20 +991,35 @@ export default function HomePage() {
                     </ul>
                   </div>
                 )}
-                <p className="text-center text-[10px] text-[#475569] mb-3">
-                  Secured by Paystack · Secure checkout
-                </p>
-                <button
-                  type="button"
-                  onClick={() => openModal(tier)}
-                  className={`block w-full text-center font-semibold py-3 rounded-lg transition-colors ${
-                    tier.highlighted
-                      ? 'bg-[#3b82f6] hover:bg-[#2563eb] text-white'
-                      : 'border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10'
-                  }`}
-                >
-                  Prelaunch Purchase
-                </button>
+                {tier.ctaType === 'purchase' ? (
+                  <>
+                    <p className="text-center text-[10px] text-[#475569] mb-3">
+                      Secured by Paystack · Secure checkout
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => openModal(tier)}
+                      className="block w-full text-center font-semibold py-3 rounded-lg transition-colors bg-[#3b82f6] hover:bg-[#2563eb] text-white"
+                    >
+                      Get Early Access — $499/mo
+                    </button>
+                    <p className="text-center text-[10px] text-[#94a3b8]/60 mt-2">
+                      Billed annually · $5,988/yr · Rate locked for life
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-lg px-4 py-3 mb-3 text-center">
+                      <p className="text-xs text-[#94a3b8] font-medium">{tier.launchNote}</p>
+                    </div>
+                    <a
+                      href="#waitlist"
+                      className="block w-full text-center font-semibold py-3 rounded-lg transition-colors border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10"
+                    >
+                      Join the Waitlist for this Tier
+                    </a>
+                  </>
+                )}
               </div>
             )
             })}

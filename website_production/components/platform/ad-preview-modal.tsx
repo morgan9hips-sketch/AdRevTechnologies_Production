@@ -37,6 +37,11 @@ export function AdPreviewModal({ open, onClose }: AdPreviewModalProps) {
             style={{ borderColor: '#1e2d4a' }}
           >
             <p className="text-sm font-bold text-white">BookieAI Rewards</p>
+          </div>
+
+          {/* Video placeholder */}
+          <div
+            className="mx-4 mt-4 rounded-lg flex flex-col items-center justify-center"
             style={{
               backgroundColor: '#080d1a',
               height: '160px',

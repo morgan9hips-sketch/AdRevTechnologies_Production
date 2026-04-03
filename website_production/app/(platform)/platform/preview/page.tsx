@@ -43,7 +43,7 @@ function MockBettingApp() {
               ● LIVE
             </span>
             <span className="text-xs" style={{ color: '#9ca3af' }}>
-              67&apos;
+              {"67'"}
             </span>
           </div>
           <div className="flex items-center justify-between">
@@ -262,7 +262,7 @@ export default function PreviewPage() {
               Your brand on every touchpoint.
             </p>
             <p className="text-sm" style={{ color: '#94a3b8' }}>
-              Users never see &ldquo;Ad Rev&rdquo;. The engine is ours. The experience is yours.
+              {`Users never see "Ad Rev". The engine is ours. The experience is yours.`}
             </p>
           </div>
         </div>

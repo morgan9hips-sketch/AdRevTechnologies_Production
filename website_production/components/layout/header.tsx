@@ -7,12 +7,12 @@ import { Menu, X, User, LogOut } from 'lucide-react'
 import { Logo } from '@/components/logo'
 
 const navigation = [
-  { name: 'How It Works', href: '/#how-it-works', highlight: false },
-  { name: 'Pricing', href: '/#pricing', highlight: false },
-  { name: 'Docs', href: '/docs', highlight: false },
-  { name: 'Developers', href: '/developers', highlight: false },
-  { name: 'Platform', href: '/platform/analytics', highlight: true },
-  { name: 'Partners', href: '/partners', highlight: false },
+  { name: 'How It Works', href: '/#how-it-works' },
+  { name: 'Pricing', href: '/#pricing' },
+  { name: 'Docs', href: '/docs' },
+  { name: 'Developers', href: '/developers' },
+  { name: 'Platform', href: '/platform/analytics' },
+  { name: 'Partners', href: '/partners' },
 ]
 
 export function Header() {
@@ -54,10 +54,7 @@ export function Header() {
     window.location.href = '/' 
   }
 
-  const isActive = (item: { href: string; highlight: boolean }) => {
-    if (item.highlight) return pathname?.startsWith('/platform') ?? false
-    return pathname === item.href
-  }
+  const isActive = (href: string) => pathname === href
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#080d1a]/90 backdrop-blur-md border-b border-[#1e2d4a]">
@@ -86,15 +83,12 @@ export function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className={`text-sm font-semibold leading-6 transition-colors flex items-center gap-1.5 ${
-                isActive(item)
+              className={`text-sm font-semibold leading-6 transition-colors ${
+                isActive(item.href)
                   ? 'text-[#3b82f6]'
                   : 'text-[#94a3b8] hover:text-[#f1f5f9]'
               }`}
             >
-              {item.highlight && (
-                <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] flex-shrink-0" />
-              )}
               {item.name}
             </Link>
           ))}
@@ -144,9 +138,6 @@ export function Header() {
                 className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-[#94a3b8] hover:bg-[#1e2d4a] hover:text-[#f1f5f9] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {item.highlight && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] flex-shrink-0" />
-                )}
                 {item.name}
               </Link>
             ))}

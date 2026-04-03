@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/database'
+import { TEST_PAYMENT_THRESHOLD_KOBO } from '@/lib/paystack-constants'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
@@ -182,7 +183,7 @@ export async function GET(request: NextRequest) {
     const name = (txn.metadata?.name as string) || ''
     const amount = txn.amount
     const currency = txn.currency
-    const is_test = amount <= 5000
+    const is_test = amount <= TEST_PAYMENT_THRESHOLD_KOBO
 
     if (!supabaseAdmin) {
       console.error('Paystack verify: supabaseAdmin is null')

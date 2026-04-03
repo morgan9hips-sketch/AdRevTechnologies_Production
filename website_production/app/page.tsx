@@ -33,7 +33,7 @@ const testPaymentTier = {
   spotsRemaining: 99,
   spotsTotal: 99,
   foundingMember: false,
-  amount: 2000,
+  amount: 2000, // R20 in kobo (R20 × 100). Below TEST_PAYMENT_THRESHOLD_KOBO so is_test=true.
   isTest: true,
 }
 

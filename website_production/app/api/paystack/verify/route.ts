@@ -1,20 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/database'
-import { TEST_PAYMENT_THRESHOLD_KOBO } from '@/lib/paystack-constants'
+import { TEST_PAYMENT_THRESHOLD_KOBO, getAccessWindow } from '@/lib/paystack-constants'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@adrevtechnologies.com'
 
-function getAccessWindow(tier: string): string {
-  switch (tier.toLowerCase()) {
-    case 'starter':    return '30–45 days'
-    case 'business':   return '45–60 days'
-    case 'enterprise': return '60–90 days'
-    default:           return '30–45 days'
-  }
-}
 
 function getAccountManagerMessage(tier: string): string {
   switch (tier.toLowerCase()) {
@@ -35,17 +27,18 @@ async function sendConfirmationEmail(opts: {
   foundingMemberNumber: number
   amount: number
   currency: string
+  tier: string | null
 }) {
   if (!resend) return
 
-  const { email, name, foundingMemberNumber, amount, currency } = opts
+  const { email, name, foundingMemberNumber, amount, currency, tier } = opts
   const firstName = name.split(' ')[0] || name
   const amountFormatted = currency === 'ZAR'
     ? `R${(amount / 100).toFixed(2)}`
     : `$${(amount / 100).toFixed(2)} USD`
 
-  const accessWindow = getAccessWindow('starter')
-  const accountManagerMsg = getAccountManagerMessage('starter')
+  const accessWindow = getAccessWindow(tier)
+  const accountManagerMsg = getAccountManagerMessage(tier ?? 'starter')
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -103,7 +96,7 @@ async function sendConfirmationEmail(opts: {
               </div>
               <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.6;">
                 Questions? Reach us directly at
-                <a href="mailto:morgan@adrevtechnologies.com" style="color:#00d4ff;text-decoration:none;">morgan@adrevtechnologies.com</a>
+                <a href="mailto:admin@adrevtechnologies.com" style="color:#00d4ff;text-decoration:none;">admin@adrevtechnologies.com</a>
               </p>
             </td>
           </tr>
@@ -184,6 +177,9 @@ export async function GET(request: NextRequest) {
     const amount = txn.amount
     const currency = txn.currency
     const is_test = amount <= TEST_PAYMENT_THRESHOLD_KOBO
+    const tier = (txn.metadata?.tier as string) || null
+    const billingPeriod = (txn.metadata?.billingPeriod as string) || null
+    const accessWindow = getAccessWindow(tier)
 
     if (!supabaseAdmin) {
       console.error('Paystack verify: supabaseAdmin is null')
@@ -204,6 +200,9 @@ export async function GET(request: NextRequest) {
           currency,
           status: 'active',
           is_test,
+          tier,
+          billing_period: billingPeriod,
+          access_window: accessWindow,
         }],
         { onConflict: 'email' }
       )
@@ -238,6 +237,7 @@ export async function GET(request: NextRequest) {
       foundingMemberNumber: actualMemberNumber,
       amount,
       currency,
+      tier,
     }).catch(() => {})
 
     return NextResponse.json({

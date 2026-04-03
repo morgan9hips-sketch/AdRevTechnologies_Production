@@ -14,6 +14,9 @@ type FoundingMember = {
   is_test: boolean
   founding_member_number: number
   created_at: string
+  tier: string | null
+  billing_period: string | null
+  access_window: string | null
 }
 
 export default function AdminFoundingMembersPage() {
@@ -136,6 +139,9 @@ export default function AdminFoundingMembersPage() {
                     <th className="text-left px-4 py-3 font-medium">Name</th>
                     <th className="text-left px-4 py-3 font-medium">Email</th>
                     <th className="text-left px-4 py-3 font-medium">Amount</th>
+                    <th className="text-left px-4 py-3 font-medium">Tier</th>
+                    <th className="text-left px-4 py-3 font-medium">Billing</th>
+                    <th className="text-left px-4 py-3 font-medium">Access Window</th>
                     <th className="text-left px-4 py-3 font-medium">Reference</th>
                     <th className="text-left px-4 py-3 font-medium">Joined</th>
                     <th className="text-left px-4 py-3 font-medium">Status</th>
@@ -178,6 +184,21 @@ export default function AdminFoundingMembersPage() {
                             ? `R${(member.amount / 100).toFixed(2)}`
                             : `$${(member.amount / 100).toFixed(2)} ${member.currency}`
                           : '—'}
+                      </td>
+                      <td className="px-4 py-3 text-[#f1f5f9] capitalize">
+                        {member.tier
+                          ? member.tier.charAt(0).toUpperCase() + member.tier.slice(1).toLowerCase()
+                          : '—'}
+                      </td>
+                      <td className="px-4 py-3 text-[#f1f5f9]">
+                        {member.billing_period
+                          ? member.billing_period.toLowerCase() === 'annual'
+                            ? 'Annual'
+                            : 'Monthly'
+                          : '—'}
+                      </td>
+                      <td className="px-4 py-3 text-[#f1f5f9] whitespace-nowrap">
+                        {member.access_window || '—'}
                       </td>
                       <td className="px-4 py-3 text-[#94a3b8] font-mono text-xs">
                         {member.paystack_reference || '—'}

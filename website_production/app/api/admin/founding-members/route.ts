@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await supabaseAdmin
     .from('founding_members')
-    .select('*')
+    .select('id, founding_member_number, name, email, paystack_reference, amount, currency, status, is_test, tier, billing_period, access_window, created_at')
     .order('founding_member_number', { ascending: true })
 
   if (error) {

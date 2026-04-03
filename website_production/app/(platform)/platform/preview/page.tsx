@@ -8,25 +8,25 @@ function MockBettingApp() {
   return (
     <div
       className="rounded-2xl overflow-hidden shadow-2xl w-full max-w-sm mx-auto"
-      style={{ backgroundColor: '#111827', border: '1px solid #374151' }}
+      style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}
     >
       {/* App top bar */}
       <div
         className="flex items-center justify-between px-4 py-3 border-b"
-        style={{ backgroundColor: '#1f2937', borderColor: '#374151' }}
+        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
       >
         {/* Logo placeholder */}
         <div className="flex items-center gap-2">
           <div
             className="rounded"
-            style={{ width: '80px', height: '22px', backgroundColor: '#374151' }}
+            style={{ width: '80px', height: '22px', backgroundColor: '#dcfce7' }}
           />
-          <span className="text-xs font-semibold text-white">SportsBet Pro</span>
+          <span className="text-xs font-semibold" style={{ color: '#16a34a' }}>BookieAI</span>
         </div>
         {/* Nav */}
-        <div className="flex gap-3 text-xs" style={{ color: '#9ca3af' }}>
+        <div className="flex gap-3 text-xs" style={{ color: '#64748b' }}>
           <span>Home</span>
-          <span className="text-white font-medium">Live</span>
+          <span className="font-medium" style={{ color: '#16a34a' }}>Live</span>
           <span>My Bets</span>
           <span>Wallet</span>
         </div>
@@ -36,25 +36,25 @@ function MockBettingApp() {
       <div className="px-4 py-3">
         <div
           className="rounded-xl px-4 py-3 mb-3"
-          style={{ backgroundColor: '#1f2937', border: '1px solid #374151' }}
+          style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}
         >
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-semibold" style={{ color: '#10b981' }}>
+            <span className="text-xs font-semibold" style={{ color: '#16a34a' }}>
               ● LIVE
             </span>
-            <span className="text-xs" style={{ color: '#9ca3af' }}>
+            <span className="text-xs" style={{ color: '#64748b' }}>
               {"67'"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-white">Arsenal</span>
-            <span className="text-xl font-bold text-white px-4">2 – 1</span>
-            <span className="text-sm font-semibold text-white">Chelsea</span>
+            <span className="text-sm font-semibold" style={{ color: '#0f172a' }}>Arsenal</span>
+            <span className="text-xl font-bold px-4" style={{ color: '#0f172a' }}>2 – 1</span>
+            <span className="text-sm font-semibold" style={{ color: '#0f172a' }}>Chelsea</span>
           </div>
         </div>
 
         {/* Bet slip */}
-        <div className="text-xs font-semibold mb-2 text-white">Bet Slip</div>
+        <div className="text-xs font-semibold mb-2" style={{ color: '#0f172a' }}>Bet Slip</div>
         <div className="space-y-1.5 mb-3">
           {[
             { label: 'Arsenal Win', odds: '1.85' },
@@ -63,10 +63,10 @@ function MockBettingApp() {
             <div
               key={bet.label}
               className="flex justify-between items-center rounded-lg px-3 py-2 text-xs"
-              style={{ backgroundColor: '#1f2937', color: '#d1d5db' }}
+              style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', color: '#475569' }}
             >
               <span>{bet.label}</span>
-              <span className="font-semibold text-white">{bet.odds}</span>
+              <span className="font-semibold" style={{ color: '#0f172a' }}>{bet.odds}</span>
             </div>
           ))}
         </div>
@@ -75,27 +75,27 @@ function MockBettingApp() {
         <div
           className="rounded-xl p-4 flex items-center gap-3"
           style={{
-            backgroundColor: '#0f1629',
-            border: '1px solid rgba(59,130,246,0.3)',
+            backgroundColor: '#ffffff',
+            border: '1px solid rgba(22,163,74,0.3)',
           }}
         >
           <div
             className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ backgroundColor: 'rgba(59,130,246,0.15)', border: '1.5px solid #3b82f6' }}
+            style={{ backgroundColor: 'rgba(22,163,74,0.1)', border: '1.5px solid #16a34a' }}
           >
-            <Play className="h-5 w-5" style={{ color: '#3b82f6' }} />
+            <Play className="h-5 w-5" style={{ color: '#16a34a' }} />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-white mb-0.5">
+            <p className="text-xs font-semibold mb-0.5" style={{ color: '#0f172a' }}>
               Watch a 30s video — earn 50 bonus points
             </p>
-            <p className="text-xs" style={{ color: '#94a3b8' }}>
-              Powered by SportsBet Pro Rewards
+            <p className="text-xs" style={{ color: '#64748b' }}>
+              Powered by BookieAI Rewards
             </p>
           </div>
           <button
-            className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors hover:bg-blue-600"
-            style={{ backgroundColor: '#3b82f6' }}
+            className="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-white"
+            style={{ backgroundColor: '#16a34a' }}
           >
             Watch Now
           </button>
@@ -125,7 +125,7 @@ function AdExperienceSection() {
             className="text-center py-4 border-b"
             style={{ borderColor: '#1e2d4a' }}
           >
-            <p className="text-sm font-bold text-white">SportsBet Pro Rewards</p>
+            <p className="text-sm font-bold text-white">BookieAI Rewards</p>
           </div>
 
           {/* Video placeholder */}
@@ -235,7 +235,7 @@ export default function PreviewPage() {
               : { color: '#94a3b8' }
           }
         >
-          SportsBet Pro — Host App View
+          BookieAI — Host App View
         </button>
         <button
           onClick={() => setActiveTab('user')}

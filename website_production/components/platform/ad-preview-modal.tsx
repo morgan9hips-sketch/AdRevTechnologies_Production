@@ -36,12 +36,7 @@ export function AdPreviewModal({ open, onClose }: AdPreviewModalProps) {
             className="text-center py-4 border-b"
             style={{ borderColor: '#1e2d4a' }}
           >
-            <p className="text-sm font-bold text-white">SportsBet Pro Rewards</p>
-          </div>
-
-          {/* Video placeholder */}
-          <div
-            className="mx-4 mt-4 rounded-lg flex flex-col items-center justify-center"
+            <p className="text-sm font-bold text-white">BookieAI Rewards</p>
             style={{
               backgroundColor: '#080d1a',
               height: '160px',
@@ -116,7 +111,7 @@ export function AdCompletionState() {
         className="text-center py-4 border-b"
         style={{ borderColor: '#1e2d4a' }}
       >
-        <p className="text-sm font-bold text-white">SportsBet Pro Rewards</p>
+        <p className="text-sm font-bold text-white">BookieAI Rewards</p>
       </div>
 
       <div className="flex flex-col items-center py-8 px-4">
@@ -137,7 +132,7 @@ export function AdCompletionState() {
 
         <p className="text-base font-bold text-white mb-1">50 Bonus Points Added!</p>
         <p className="text-xs text-center mb-6" style={{ color: '#94a3b8' }}>
-          Points added to your SportsBet Pro wallet
+          Points added to your BookieAI wallet
         </p>
 
         <button

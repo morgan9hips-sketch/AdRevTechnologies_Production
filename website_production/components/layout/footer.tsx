@@ -120,6 +120,19 @@ export function Footer() {
                 )
               })}
             </div>
+            <a
+              href="https://paystack.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Secured by Paystack (opens in new tab)"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://website.assets.paystack.com/assets/img/logos/paystack-logo-embed.png"
+                alt="Secured by Paystack"
+                className="h-6 opacity-70 hover:opacity-100 transition-opacity"
+              />
+            </a>
             <div className="text-right">
               <p className="text-sm text-gray-400">
                 &copy; {new Date().getFullYear()} Ad Rev Technologies. All rights reserved.

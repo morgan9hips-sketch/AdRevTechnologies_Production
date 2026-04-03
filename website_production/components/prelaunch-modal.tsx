@@ -378,9 +378,15 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
             {checkoutLoading ? 'Redirecting to Paystack…' : 'Proceed to Checkout'}
           </button>
 
-          <p className="text-center text-[10px] text-[#94a3b8]/60">
-            Powered by Paystack · Secure checkout · ZAR &amp; USD accepted
-          </p>
+          <div className="flex items-center justify-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://website.assets.paystack.com/assets/img/logos/paystack-logo-embed.png"
+              alt="Secured by Paystack"
+              className="h-4 opacity-60"
+            />
+            <span className="text-[10px] text-[#94a3b8]/60">Secure checkout · ZAR &amp; USD accepted</span>
+          </div>
         </div>
       </div>
     </div>

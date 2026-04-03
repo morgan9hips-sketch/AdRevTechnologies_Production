@@ -954,6 +954,15 @@ export default function HomePage() {
                     </ul>
                   </div>
                 )}
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://website.assets.paystack.com/assets/img/logos/paystack-logo-embed.png"
+                    alt="Secured by Paystack"
+                    className="h-4 opacity-60"
+                  />
+                  <span className="text-[10px] text-[#475569]">Secure checkout</span>
+                </div>
                 <button
                   type="button"
                   onClick={() => openModal(tier)}

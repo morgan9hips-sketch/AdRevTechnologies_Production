@@ -8,7 +8,7 @@ function MockBettingApp() {
   return (
     <div
       className="rounded-xl overflow-hidden w-full mx-auto"
-      style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', minWidth: '600px' }}
+      style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', minWidth: '600px' }}
     >
       {/* App top bar */}
       <div

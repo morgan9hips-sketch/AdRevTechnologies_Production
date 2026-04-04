@@ -109,14 +109,14 @@ export function AdCompletionState() {
   return (
     <div
       className="rounded-2xl overflow-hidden w-full max-w-sm"
-      style={{ backgroundColor: '#0f1629', border: '1px solid #1e2d4a' }}
+      style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}
     >
       {/* Header */}
       <div
         className="text-center py-4 border-b"
-        style={{ borderColor: '#1e2d4a' }}
+        style={{ borderColor: '#e2e8f0' }}
       >
-        <p className="text-sm font-bold text-white">BookieAI Rewards</p>
+        <p className="text-sm font-bold" style={{ color: '#0f172a' }}>BookieAI Rewards</p>
       </div>
 
       <div className="flex flex-col items-center py-8 px-4">
@@ -135,14 +135,14 @@ export function AdCompletionState() {
           50 pts
         </div>
 
-        <p className="text-base font-bold text-white mb-1">50 Bonus Points Added!</p>
-        <p className="text-xs text-center mb-6" style={{ color: '#94a3b8' }}>
+        <p className="text-base font-bold mb-1" style={{ color: '#0f172a' }}>50 Bonus Points Added!</p>
+        <p className="text-xs text-center mb-6" style={{ color: '#64748b' }}>
           Points added to your BookieAI wallet
         </p>
 
         <button
-          className="w-full rounded-lg py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-600"
-          style={{ backgroundColor: '#10b981' }}
+          className="w-full rounded-lg py-2.5 text-sm font-semibold text-white transition-colors"
+          style={{ backgroundColor: '#16a34a' }}
         >
           Continue
         </button>

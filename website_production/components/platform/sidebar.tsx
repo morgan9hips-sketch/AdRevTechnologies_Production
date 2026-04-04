@@ -11,7 +11,7 @@ import {
   Settings,
   Key,
   Zap,
-  ArrowLeft,
+  Home,
 } from 'lucide-react'
 
 const navItems = [
@@ -67,10 +67,10 @@ export function Sidebar() {
         <div className="mb-3 pb-3 border-b" style={{ borderColor: '#1e2d4a' }}>
           <a
             href="https://www.adrevtechnologies.com"
-            className="flex items-center gap-2 px-3 py-2 text-xs text-[#64748b] hover:text-[#f1f5f9] transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-[#94a3b8] hover:text-[#f1f5f9] hover:bg-[#1e2d4a]/50 transition-colors"
           >
-            <ArrowLeft className="h-3.5 w-3.5 flex-shrink-0" />
-            adrevtechnologies.com
+            <Home className="h-5 w-5 flex-shrink-0" />
+            Home
           </a>
         </div>
         {navItems.map((item) => {

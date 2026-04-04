@@ -112,41 +112,41 @@ function AdExperienceSection() {
       <div className="w-full max-w-sm">
         <div
           className="text-center mb-3 text-xs font-semibold px-3 py-1 rounded-full inline-block"
-          style={{ backgroundColor: '#1e2d4a', color: '#94a3b8' }}
+          style={{ backgroundColor: '#e2e8f0', color: '#475569' }}
         >
           Before completion
         </div>
         <div
           className="rounded-2xl overflow-hidden w-full"
-          style={{ backgroundColor: '#0f1629', border: '1px solid #1e2d4a' }}
+          style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}
         >
           {/* Header */}
           <div
             className="text-center py-4 border-b"
-            style={{ borderColor: '#1e2d4a' }}
+            style={{ borderColor: '#e2e8f0' }}
           >
-            <p className="text-sm font-bold text-white">BookieAI Rewards</p>
+            <p className="text-sm font-bold" style={{ color: '#0f172a' }}>BookieAI Rewards</p>
           </div>
 
           {/* Video placeholder */}
           <div
             className="mx-4 mt-4 rounded-lg flex flex-col items-center justify-center"
             style={{
-              backgroundColor: '#080d1a',
+              backgroundColor: '#f8fafc',
               height: '150px',
-              border: '1px solid #1e2d4a',
+              border: '1px solid #e2e8f0',
             }}
           >
             <div
               className="h-12 w-12 rounded-full flex items-center justify-center mb-2"
               style={{
-                backgroundColor: 'rgba(59,130,246,0.2)',
+                backgroundColor: 'rgba(59,130,246,0.1)',
                 border: '2px solid #3b82f6',
               }}
             >
               <Play className="h-5 w-5" style={{ color: '#3b82f6' }} />
             </div>
-            <p className="text-xs" style={{ color: '#94a3b8' }}>
+            <p className="text-xs" style={{ color: '#64748b' }}>
               30 second video
             </p>
           </div>
@@ -155,7 +155,7 @@ function AdExperienceSection() {
           <div className="mx-4 mt-3">
             <div
               className="w-full rounded-full h-1"
-              style={{ backgroundColor: '#1e2d4a' }}
+              style={{ backgroundColor: '#e2e8f0' }}
             >
               <div
                 className="h-1 rounded-full"
@@ -166,7 +166,7 @@ function AdExperienceSection() {
 
           {/* Info */}
           <div className="text-center px-4 pt-3 pb-2">
-            <p className="text-sm font-medium text-white mb-2">
+            <p className="text-sm font-medium mb-2" style={{ color: '#0f172a' }}>
               Complete this video to earn 50 Bonus Points
             </p>
             <div
@@ -175,7 +175,7 @@ function AdExperienceSection() {
             >
               50 pts
             </div>
-            <p className="text-xs" style={{ color: '#94a3b8' }}>
+            <p className="text-xs" style={{ color: '#64748b' }}>
               0 / 30 seconds
             </p>
           </div>
@@ -185,7 +185,7 @@ function AdExperienceSection() {
             <button
               disabled
               className="text-xs px-4 py-1.5 rounded-lg opacity-30 cursor-not-allowed"
-              style={{ color: '#94a3b8', border: '1px solid #1e2d4a' }}
+              style={{ color: '#64748b', border: '1px solid #e2e8f0' }}
             >
               Skip available in 30s
             </button>
@@ -270,14 +270,14 @@ export default function PreviewPage() {
 
       {/* Tab 2 — End User Ad Experience */}
       {activeTab === 'user' && (
-        <div>
+        <div className="rounded-xl p-6" style={{ backgroundColor: '#f8fafc' }}>
           <AdExperienceSection />
           <div
             className="mt-6 rounded-xl border p-5"
-            style={{ backgroundColor: '#0f1629', borderColor: '#1e2d4a' }}
+            style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
           >
-            <p className="text-sm font-semibold text-white mb-1">Technical note</p>
-            <p className="text-sm" style={{ color: '#94a3b8' }}>
+            <p className="text-sm font-semibold mb-1" style={{ color: '#0f172a' }}>Technical note</p>
+            <p className="text-sm" style={{ color: '#64748b' }}>
               Ad completion is verified server-side. Reward event fires via webhook to your
               loyalty system. Users cannot game the system.
             </p>

@@ -117,11 +117,8 @@ function AdExperienceSection() {
           style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}
         >
           {/* Header */}
-          <div
-            className="text-center py-4 border-b"
-            style={{ borderColor: '#e2e8f0' }}
-          >
-            <p className="text-sm font-bold" style={{ color: '#0f172a' }}>BookieAI Rewards</p>
+          <div className="px-4 py-3" style={{ backgroundColor: '#16a34a' }}>
+            <p className="text-sm font-bold text-center" style={{ color: '#ffffff' }}>BookieAI Rewards</p>
           </div>
 
           {/* Video placeholder */}

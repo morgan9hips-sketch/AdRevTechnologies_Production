@@ -90,6 +90,9 @@ export function Header() {
               }`}
             >
               {item.name}
+              {item.name === 'Platform' && (
+                <span className="ml-1 inline-flex items-center rounded-full bg-[#16a34a] px-1.5 py-0.5 text-[10px] font-semibold text-white leading-none">NEW</span>
+              )}
             </Link>
           ))}
         </div>
@@ -139,6 +142,9 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
+                {item.name === 'Platform' && (
+                  <span className="ml-1 inline-flex items-center rounded-full bg-[#16a34a] px-1.5 py-0.5 text-[10px] font-semibold text-white leading-none">NEW</span>
+                )}
               </Link>
             ))}
             <div className="mt-4 space-y-2">

@@ -7,26 +7,26 @@ import { AdCompletionState } from '@/components/platform/ad-preview-modal'
 function MockBettingApp() {
   return (
     <div
-      className="rounded-2xl overflow-hidden shadow-2xl w-full max-w-sm mx-auto"
-      style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}
+      className="rounded-xl overflow-hidden w-full mx-auto"
+      style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', minWidth: '600px' }}
     >
       {/* App top bar */}
       <div
-        className="flex items-center justify-between px-4 py-3 border-b"
-        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
+        className="flex items-center justify-between px-4 py-3"
+        style={{ backgroundColor: '#16a34a' }}
       >
         {/* Logo placeholder */}
         <div className="flex items-center gap-2">
           <div
             className="rounded"
-            style={{ width: '80px', height: '22px', backgroundColor: '#dcfce7' }}
+            style={{ width: '80px', height: '22px', backgroundColor: 'rgba(255,255,255,0.2)' }}
           />
-          <span className="text-xs font-semibold" style={{ color: '#16a34a' }}>BookieAI</span>
+          <span className="text-xs font-semibold" style={{ color: '#ffffff' }}>BookieAI</span>
         </div>
         {/* Nav */}
-        <div className="flex gap-3 text-xs" style={{ color: '#64748b' }}>
+        <div className="flex gap-3 text-xs" style={{ color: '#ffffff' }}>
           <span>Home</span>
-          <span className="font-medium" style={{ color: '#16a34a' }}>Live</span>
+          <span className="font-medium">Live</span>
           <span>My Bets</span>
           <span>Wallet</span>
         </div>

@@ -17,10 +17,6 @@ function MockBettingApp() {
       >
         {/* Logo placeholder */}
         <div className="flex items-center gap-2">
-          <div
-            className="rounded"
-            style={{ width: '80px', height: '22px', backgroundColor: 'rgba(255,255,255,0.2)' }}
-          />
           <span className="text-xs font-semibold" style={{ color: '#ffffff' }}>BookieAI</span>
         </div>
         {/* Nav */}

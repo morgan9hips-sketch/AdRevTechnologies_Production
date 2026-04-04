@@ -11,6 +11,7 @@ import {
   Settings,
   Key,
   Zap,
+  ArrowLeft,
 } from 'lucide-react'
 
 const navItems = [
@@ -62,6 +63,16 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1">
+        {/* Home link */}
+        <div className="mb-3 pb-3 border-b" style={{ borderColor: '#1e2d4a' }}>
+          <a
+            href="https://www.adrevtechnologies.com"
+            className="flex items-center gap-2 px-3 py-2 text-xs text-[#64748b] hover:text-[#f1f5f9] transition-colors"
+          >
+            <ArrowLeft className="h-3.5 w-3.5 flex-shrink-0" />
+            adrevtechnologies.com
+          </a>
+        </div>
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/')

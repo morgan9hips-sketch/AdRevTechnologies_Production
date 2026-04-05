@@ -107,7 +107,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
           email: email.trim(),
           name: name.trim(),
           amount: tier.amount ?? 249900,
-          currency: 'ZAR',
+          currency: 'USD',
           metadata: {
             tier: tier.id || tier.name.toLowerCase(),
             billingPeriod: tier.billingPeriod,

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { PrelaunchModal, PrelaunchModalTier } from '@/components/prelaunch-modal'
 import {
@@ -174,6 +174,7 @@ const pricingTiers = [
     annualPerMonth: '$499',
     annualSaving: '$0',
     ctaType: 'purchase',
+    amount: 598800,
     launchNote: null,
   },
 ]
@@ -275,18 +276,6 @@ export default function HomePage() {
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false)
   const [waitlistLoading, setWaitlistLoading] = useState(false)
   const [waitlistError, setWaitlistError] = useState('')
-  const [waitlistCount, setWaitlistCount] = useState(73)
-
-  useEffect(() => {
-    fetch('/api/waitlist')
-      .then((r) => r.json())
-      .then((d) => {
-        if (typeof d.count === 'number') {
-          setWaitlistCount(Math.max(73, d.count))
-        }
-      })
-      .catch(() => {})
-  }, [])
 
   const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -304,7 +293,6 @@ export default function HomePage() {
           data?.error || 'Something went wrong. Please try again.',
         )
       }
-      setWaitlistCount((current) => current + 1)
       setWaitlistSubmitted(true)
     } catch (err: unknown) {
       const message =
@@ -497,7 +485,7 @@ export default function HomePage() {
             </p>
 
           </div>
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+          <div className="grid gap-8">
             <div>
               {waitlistSubmitted ? (
                 <div className="bg-[#10b981]/10 border border-[#10b981]/30 rounded-xl p-8 text-center">
@@ -814,15 +802,6 @@ export default function HomePage() {
                 </form>
               )}
             </div>
-            <aside className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 lg:sticky lg:top-28">
-              <p className="text-sm font-medium text-[#94a3b8]">
-                Current Waitlist Count
-              </p>
-              <p className="mt-3 text-5xl font-bold text-[#3b82f6]">
-                {waitlistCount}
-              </p>
-
-            </aside>
           </div>
         </div>
       </section>

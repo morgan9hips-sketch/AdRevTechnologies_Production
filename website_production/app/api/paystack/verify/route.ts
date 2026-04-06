@@ -38,7 +38,10 @@ async function sendConfirmationEmail(opts: {
   currency: string
   tier: string | null
 }) {
-  if (!resend) return
+  if (!resend) {
+    console.warn('Paystack confirmation email skipped: RESEND_API_KEY is not configured')
+    return
+  }
 
   const { email, name, foundingMemberNumber, amount, currency, tier } = opts
   const firstName = name.split(' ')[0] || name
@@ -276,15 +279,15 @@ export async function GET(request: NextRequest) {
 
     const actualMemberNumber = memberData?.founding_member_number ?? 1
 
-    // Send confirmation email (fire-and-forget)
-    sendConfirmationEmail({
+    // Await the email send so the serverless request does not exit before Resend finishes.
+    await sendConfirmationEmail({
       email,
       name,
       foundingMemberNumber: actualMemberNumber,
       amount,
       currency,
       tier,
-    }).catch(() => {})
+    })
 
     return NextResponse.json({
       success: true,

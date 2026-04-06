@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
   buildEarlyAccessMetadata,
+  EARLY_ACCESS_ANNUAL_CHARGE,
   EARLY_ACCESS_ANNUAL_OFFER,
 } from '@/lib/paystack'
 
@@ -49,8 +50,8 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           email,
-          amount: EARLY_ACCESS_ANNUAL_OFFER.amountMinor,
-          currency: EARLY_ACCESS_ANNUAL_OFFER.currency,
+          amount: EARLY_ACCESS_ANNUAL_CHARGE.amountMinor,
+          currency: EARLY_ACCESS_ANNUAL_CHARGE.currency,
           callback_url: CALLBACK_URL,
           metadata: {
             ...buildEarlyAccessMetadata({ email, name, requestedTier }),

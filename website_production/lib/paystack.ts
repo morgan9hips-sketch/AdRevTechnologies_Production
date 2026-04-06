@@ -4,8 +4,8 @@ export const EARLY_ACCESS_ANNUAL_OFFER = Object.freeze({
   planSlug: 'prelaunch-early-access',
   planName: 'Prelaunch Early Access',
   amountUsd: 5988,
-  amountMinor: 598800,
-  currency: 'USD' as const,
+  amountMinor: 2000,
+  currency: 'ZAR' as const,
   billingPeriod: 'annual' as const,
 })
 

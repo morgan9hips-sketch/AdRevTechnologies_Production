@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { PrelaunchModal } from '@/components/prelaunch-modal'
 
 const tiers = [
   {
@@ -120,14 +119,6 @@ const tiers = [
 
 export default function PartnersPage() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly')
-  const [modalOpen, setModalOpen] = useState(false)
-  type SelectedTier = typeof tiers[0] & { billingPeriod: 'monthly' | 'annual' }
-  const [selectedTier, setSelectedTier] = useState<SelectedTier | null>(null)
-
-  const openModal = (tier: typeof tiers[0]) => {
-    setSelectedTier({ ...tier, billingPeriod })
-    setModalOpen(true)
-  }
 
   return (
     <div className="bg-[#080d1a] text-[#f1f5f9] min-h-screen">
@@ -271,28 +262,21 @@ export default function PartnersPage() {
                     </ul>
                   </div>
                 )}
-                <button
-                  type="button"
-                  onClick={() => openModal(tier)}
-                  className={`w-full py-2.5 rounded-lg font-semibold text-sm transition-colors ${
+                <a
+                  href="/#waitlist"
+                  className={`block w-full py-2.5 rounded-lg text-center font-semibold text-sm transition-colors ${
                     tier.highlighted
                       ? 'bg-[#3b82f6] text-white hover:bg-[#2563eb]'
                       : 'border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10'
                   }`}
                 >
-                  Prelaunch Purchase
-                </button>
+                  Join the Waitlist
+                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      <PrelaunchModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        tier={selectedTier}
-      />
     </div>
   )
 }

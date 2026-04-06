@@ -4,14 +4,14 @@ export const EARLY_ACCESS_ANNUAL_OFFER = Object.freeze({
   planSlug: 'prelaunch-early-access',
   planName: 'Prelaunch Early Access',
   amountUsd: 5988,
-  amountMinor: 2000,
-  currency: 'ZAR' as const,
+  amountMinor: 598800,
+  currency: 'USD' as const,
   billingPeriod: 'annual' as const,
 })
 
 export const EARLY_ACCESS_ANNUAL_CHARGE = Object.freeze({
-  amountMinor: 2000,
-  currency: 'ZAR' as const,
+  amountMinor: 598800,
+  currency: 'USD' as const,
 })
 
 type PaystackMetadata = {

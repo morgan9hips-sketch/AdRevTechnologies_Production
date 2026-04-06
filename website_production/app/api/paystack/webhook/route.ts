@@ -1,24 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createHmac } from 'crypto'
 import { supabaseAdmin } from '@/lib/database'
-import { TEST_PAYMENT_THRESHOLD_KOBO, getAccessWindow } from '@/lib/paystack-constants'
+import {
+  TEST_PAYMENT_THRESHOLD_KOBO,
+  getAccessWindow,
+} from '@/lib/paystack-constants'
+import {
+  EARLY_ACCESS_ANNUAL_OFFER,
+  isLockedEarlyAccessTransaction,
+  verifyPaystackSignature,
+} from '@/lib/paystack'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
-
-function verifySignature(body: string, signature: string): boolean {
-  if (!PAYSTACK_SECRET_KEY) return false
-  const expected = createHmac('sha512', PAYSTACK_SECRET_KEY)
-    .update(body)
-    .digest('hex')
-  return expected === signature
-}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text()
     const signature = request.headers.get('x-paystack-signature') || ''
 
-    if (!verifySignature(body, signature)) {
+    if (!verifyPaystackSignature(body, signature, PAYSTACK_SECRET_KEY)) {
       console.error('Paystack webhook: invalid signature')
       return new NextResponse('Invalid signature', { status: 400 })
     }
@@ -39,15 +38,27 @@ export async function POST(request: NextRequest) {
       return new NextResponse('OK', { status: 200 })
     }
 
+    if (!isLockedEarlyAccessTransaction(event.data)) {
+      console.warn(
+        'Paystack webhook: ignored transaction outside locked Early Access offer',
+      )
+      return new NextResponse('OK', { status: 200 })
+    }
+
     const txn = event.data
     const email = txn.customer.email
-    const name = (txn.metadata?.name as string) || ''
-    const amount = txn.amount
-    const currency = txn.currency
+    const name =
+      (txn.metadata?.customerName as string) ||
+      (txn.metadata?.name as string) ||
+      ''
+    const amount = EARLY_ACCESS_ANNUAL_OFFER.amountMinor
+    const currency = EARLY_ACCESS_ANNUAL_OFFER.currency
     const reference = txn.reference
     const is_test = amount <= TEST_PAYMENT_THRESHOLD_KOBO
-    const tier = (txn.metadata?.tier as string) || null
-    const billingPeriod = (txn.metadata?.billingPeriod as string) || null
+    const tier =
+      (txn.metadata?.requestedTier as string) ||
+      EARLY_ACCESS_ANNUAL_OFFER.planName
+    const billingPeriod = EARLY_ACCESS_ANNUAL_OFFER.billingPeriod
     const accessWindow = getAccessWindow(tier)
 
     if (!supabaseAdmin) {
@@ -61,10 +72,9 @@ export async function POST(request: NextRequest) {
     // preserved on conflict update.
     Promise.resolve().then(async () => {
       try {
-        const { error } = await supabaseAdmin!
-          .from('founding_members')
-          .upsert(
-            [{
+        const { error } = await supabaseAdmin!.from('founding_members').upsert(
+          [
+            {
               name,
               email,
               paystack_reference: reference,
@@ -75,12 +85,16 @@ export async function POST(request: NextRequest) {
               tier,
               billing_period: billingPeriod,
               access_window: accessWindow,
-            }],
-            { onConflict: 'email' }
-          )
+            },
+          ],
+          { onConflict: 'email' },
+        )
 
         if (error) {
-          console.error('Paystack webhook: founding_members upsert error', error)
+          console.error(
+            'Paystack webhook: founding_members upsert error',
+            error,
+          )
         }
 
         await supabaseAdmin!

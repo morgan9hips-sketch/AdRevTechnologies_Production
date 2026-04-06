@@ -61,7 +61,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
       const modal = overlayRef.current
       if (!modal) return
       const focusable = modal.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
       )
       const first = focusable[0]
       const last = focusable[focusable.length - 1]
@@ -106,26 +106,37 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
         body: JSON.stringify({
           email: email.trim(),
           name: name.trim(),
-          amount: tier.amount ?? 249900,
-          currency: 'USD',
-          metadata: {
-            tier: tier.id || tier.name.toLowerCase(),
-            billingPeriod: tier.billingPeriod,
-          },
+          requestedTier: tier.id || tier.name,
         }),
       })
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
-        throw new Error((data as { error?: string }).error || 'Checkout failed. Please try again.')
+        throw new Error(
+          (data as { error?: string }).error ||
+            'Checkout failed. Please try again.',
+        )
       }
 
-      const data = await res.json() as { authorization_url: string; reference: string }
+      const data = (await res.json()) as {
+        authorization_url?: string
+        authorizationUrl?: string
+        reference?: string
+      }
 
       // Redirect to Paystack hosted checkout page
-      window.location.href = data.authorization_url
+      const authorizationUrl = data.authorization_url || data.authorizationUrl
+
+      if (!authorizationUrl) {
+        throw new Error('Checkout failed. Missing Paystack authorization URL.')
+      }
+
+      window.location.href = authorizationUrl
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Checkout failed. Please try again.'
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Checkout failed. Please try again.'
       setCheckoutError(message)
       setCheckoutLoading(false)
     }
@@ -199,22 +210,33 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               {tier.billingPeriod === 'annual' ? (
                 <>
                   at a locked-in annual rate of{' '}
-                  <span className="text-[#f1f5f9] font-semibold">{tier.annualTotal}/yr</span>{' '}
+                  <span className="text-[#f1f5f9] font-semibold">
+                    {tier.annualTotal}/yr
+                  </span>{' '}
                   (equivalent to{' '}
-                  <span className="text-[#f1f5f9] font-semibold">{tier.annualPerMonth}/mo</span>).
-                  You save{' '}
-                  <span className="text-[#f1f5f9] font-semibold">{tier.annualSaving}</span>{' '}
+                  <span className="text-[#f1f5f9] font-semibold">
+                    {tier.annualPerMonth}/mo
+                  </span>
+                  ). You save{' '}
+                  <span className="text-[#f1f5f9] font-semibold">
+                    {tier.annualSaving}
+                  </span>{' '}
                   compared to monthly billing.
                 </>
               ) : (
                 <>
                   at a locked-in monthly rate of{' '}
-                  <span className="text-[#f1f5f9] font-semibold">{tier.price}/mo</span>.
+                  <span className="text-[#f1f5f9] font-semibold">
+                    {tier.price}/mo
+                  </span>
+                  .
                 </>
               )}{' '}
               This is an early access subscription. Full platform access will be
               provisioned within{' '}
-              <span className="text-[#f1f5f9] font-semibold">{tier.accessWindow}</span>{' '}
+              <span className="text-[#f1f5f9] font-semibold">
+                {tier.accessWindow}
+              </span>{' '}
               of your purchase date.
             </p>
           </section>
@@ -225,9 +247,9 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               2. Founding Member Price Lock
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              Your prelaunch rate is locked for life. As long as your subscription
-              remains active, your monthly rate will never increase — regardless
-              of future pricing changes.
+              Your prelaunch rate is locked for life. As long as your
+              subscription remains active, your monthly rate will never increase
+              — regardless of future pricing changes.
             </p>
           </section>
 
@@ -238,11 +260,14 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
               Platform access will be provisioned within{' '}
-              <span className="text-[#f1f5f9] font-semibold">{tier.accessWindow}</span>{' '}
-              of your purchase. You will receive onboarding instructions via email
-              as soon as your environment is ready. The platform is functional at
-              launch but may not yet include all planned features — additional
-              features will be rolled out progressively during your access window.
+              <span className="text-[#f1f5f9] font-semibold">
+                {tier.accessWindow}
+              </span>{' '}
+              of your purchase. You will receive onboarding instructions via
+              email as soon as your environment is ready. The platform is
+              functional at launch but may not yet include all planned features
+              — additional features will be rolled out progressively during your
+              access window.
             </p>
           </section>
 
@@ -253,8 +278,10 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
               Founding Member access on the {tier.name} plan is limited to{' '}
-              <span className="text-[#f1f5f9] font-semibold">{tier.spotsTotal} tenants</span>.
-              There are currently{' '}
+              <span className="text-[#f1f5f9] font-semibold">
+                {tier.spotsTotal} tenants
+              </span>
+              . There are currently{' '}
               <span className="text-[#f1f5f9] font-semibold">
                 {tier.spotsRemaining} spots remaining
               </span>
@@ -269,11 +296,11 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               5. Refund Policy
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              If platform access is not provisioned within the stated access window
-              from your purchase date, you are entitled to a full refund. If access
-              is successfully provisioned, a 14-day refund window begins from the
-              date access is granted — not the date of purchase. No refund is
-              available after the 14-day post-access window.
+              If platform access is not provisioned within the stated access
+              window from your purchase date, you are entitled to a full refund.
+              If access is successfully provisioned, a 14-day refund window
+              begins from the date access is granted — not the date of purchase.
+              No refund is available after the 14-day post-access window.
             </p>
           </section>
 
@@ -286,14 +313,18 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               {tier.billingPeriod === 'annual' ? (
                 <>
                   Your card will be charged{' '}
-                  <span className="text-[#f1f5f9] font-semibold">{tier.annualTotal}</span>{' '}
+                  <span className="text-[#f1f5f9] font-semibold">
+                    {tier.annualTotal}
+                  </span>{' '}
                   immediately upon completing checkout. This covers 12 months of
                   access. Your subscription renews annually.
                 </>
               ) : (
                 <>
                   Your card will be charged{' '}
-                  <span className="text-[#f1f5f9] font-semibold">{tier.price}</span>{' '}
+                  <span className="text-[#f1f5f9] font-semibold">
+                    {tier.price}
+                  </span>{' '}
                   immediately upon completing checkout. Your subscription renews
                   monthly.
                 </>
@@ -321,7 +352,10 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
         <div className="p-6 border-t border-[#1e2d4a] shrink-0 space-y-4">
           {/* Name field */}
           <div>
-            <label htmlFor="checkout-name" className="block text-xs font-semibold text-[#94a3b8] mb-1.5">
+            <label
+              htmlFor="checkout-name"
+              className="block text-xs font-semibold text-[#94a3b8] mb-1.5"
+            >
               Full Name
             </label>
             <input
@@ -338,7 +372,10 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
 
           {/* Email field */}
           <div>
-            <label htmlFor="checkout-email" className="block text-xs font-semibold text-[#94a3b8] mb-1.5">
+            <label
+              htmlFor="checkout-email"
+              className="block text-xs font-semibold text-[#94a3b8] mb-1.5"
+            >
               Email Address
             </label>
             <input
@@ -372,10 +409,14 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
           <button
             type="button"
             onClick={handleCheckout}
-            disabled={!agreed || checkoutLoading || !name.trim() || !email.trim()}
+            disabled={
+              !agreed || checkoutLoading || !name.trim() || !email.trim()
+            }
             className="w-full py-3 rounded-lg font-semibold text-sm transition-colors bg-[#3b82f6] text-white hover:bg-[#2563eb] disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 focus:ring-offset-[#0f1629]"
           >
-            {checkoutLoading ? 'Redirecting to Paystack…' : 'Proceed to Checkout'}
+            {checkoutLoading
+              ? 'Redirecting to Paystack…'
+              : 'Proceed to Checkout'}
           </button>
 
           <div className="flex items-center justify-center gap-2">
@@ -385,7 +426,9 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               alt="Secured by Paystack"
               className="h-4 opacity-60"
             />
-            <span className="text-[10px] text-[#94a3b8]/60">Secure checkout · ZAR &amp; USD accepted</span>
+            <span className="text-[10px] text-[#94a3b8]/60">
+              Secure checkout · ZAR &amp; USD accepted
+            </span>
           </div>
         </div>
       </div>

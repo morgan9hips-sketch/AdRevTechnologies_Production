@@ -2,7 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { PrelaunchModal, PrelaunchModalTier } from '@/components/prelaunch-modal'
+import {
+  PrelaunchModal,
+  PrelaunchModalTier,
+} from '@/components/prelaunch-modal'
 import {
   Shield,
   Zap,
@@ -21,7 +24,6 @@ import {
 } from 'lucide-react'
 import { RevenueCalculator } from '@/components/sections/revenue-calculator'
 import { EngagementMock } from '@/components/sections/engagement-mock'
-
 
 const pricingTiers = [
   {
@@ -67,7 +69,8 @@ const pricingTiers = [
     period: '/mo',
     badge: null,
     discountBadge: false,
-    description: 'Full campaign toolkit for platforms ready to scale engagement.',
+    description:
+      'Full campaign toolkit for platforms ready to scale engagement.',
     features: [
       'Everything in Starter',
       'Custom Campaigns (Summer Sale, Black Friday etc.)',
@@ -124,9 +127,24 @@ const pricingTiers = [
       { label: '3M+ MAU', price: 'Custom' },
     ],
     annualEnterpriseBands: [
-      { label: 'Up to 250k MAU', monthly: '$899/mo', annual: '$8,091/yr', saving: 'Save $2,697' },
-      { label: '250k – 1M MAU', monthly: '$1,499/mo', annual: '$13,491/yr', saving: 'Save $4,497' },
-      { label: '1M – 3M MAU', monthly: '$2,499/mo', annual: '$22,491/yr', saving: 'Save $7,497' },
+      {
+        label: 'Up to 250k MAU',
+        monthly: '$899/mo',
+        annual: '$8,091/yr',
+        saving: 'Save $2,697',
+      },
+      {
+        label: '250k – 1M MAU',
+        monthly: '$1,499/mo',
+        annual: '$13,491/yr',
+        saving: 'Save $4,497',
+      },
+      {
+        label: '1M – 3M MAU',
+        monthly: '$2,499/mo',
+        annual: '$22,491/yr',
+        saving: 'Save $7,497',
+      },
       { label: '3M+ MAU', monthly: 'Custom', annual: 'Custom', saving: '' },
     ],
     accessWindow: '60–90 days',
@@ -146,7 +164,8 @@ const pricingTiers = [
     period: '/mo',
     badge: '🔥 Founding Member',
     discountBadge: true,
-    description: 'Full Enterprise access from day one. Rate locked forever. Earn ad revenue while the platform completes its build.',
+    description:
+      'Full Enterprise access from day one. Rate locked forever. Earn ad revenue while the platform completes its build.',
     features: [
       'Full Enterprise feature access immediately',
       'Earn ad revenue from day one',
@@ -251,13 +270,18 @@ const industries = [
 ]
 
 export default function HomePage() {
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly')
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>(
+    'monthly',
+  )
   const [modalOpen, setModalOpen] = useState(false)
   type SelectedTier = PrelaunchModalTier
   const [selectedTier, setSelectedTier] = useState<SelectedTier | null>(null)
 
-  const openModal = (tier: typeof pricingTiers[0]) => {
-    setSelectedTier({ ...tier, billingPeriod })
+  const openModal = (tier: (typeof pricingTiers)[0]) => {
+    setSelectedTier({
+      ...tier,
+      billingPeriod: tier.ctaType === 'purchase' ? 'annual' : billingPeriod,
+    })
     setModalOpen(true)
   }
 
@@ -483,7 +507,6 @@ export default function HomePage() {
               complete the form below to secure your spot and we will be in
               touch within 24–48 hours.
             </p>
-
           </div>
           <div className="grid gap-8">
             <div>
@@ -814,7 +837,8 @@ export default function HomePage() {
               Simple, Transparent Pricing
             </h2>
             <p className="text-[#94a3b8] text-lg">
-              All tiers include full platform blending. One prelaunch spot available now — tiers open on launch.
+              All tiers include full platform blending. One prelaunch spot
+              available now — tiers open on launch.
             </p>
           </div>
           <div className="flex items-center justify-center gap-1 mb-10 bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-1 w-fit mx-auto">
@@ -837,170 +861,188 @@ export default function HomePage() {
               }`}
             >
               Annually
-              <span className={`text-xs font-bold px-1.5 py-0.5 rounded ${
-                billingPeriod === 'annual' ? 'bg-white/20 text-white' : 'bg-[#10b981]/20 text-[#10b981]'
-              }`}>
+              <span
+                className={`text-xs font-bold px-1.5 py-0.5 rounded ${
+                  billingPeriod === 'annual'
+                    ? 'bg-white/20 text-white'
+                    : 'bg-[#10b981]/20 text-[#10b981]'
+                }`}
+              >
                 3 months free
               </span>
             </button>
           </div>
           <p className="text-center text-xs text-[#94a3b8]/60 mt-3">
-            Prelaunch Early Access is billed annually only · All other tiers available monthly or annually on launch
+            Prelaunch Early Access is billed annually only · All other tiers
+            available monthly or annually on launch
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {pricingTiers.map((tier) => {
               return (
-              <div
-                key={tier.name}
-                className={`relative overflow-hidden bg-[#0f1629] rounded-2xl p-8 flex flex-col border ${
-                  tier.highlighted ? 'border-[#3b82f6]' : 'border-[#1e2d4a]'
-                }`}
-              >
-                {/* Gold discount ribbon */}
-                {tier.ctaType === 'purchase' && (
-                  <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
-                    <div className="absolute top-3 right-[-20px] w-24 bg-[#f59e0b] text-white text-[10px] font-bold text-center py-1 rotate-45 shadow-md">
-                      67% OFF
+                <div
+                  key={tier.name}
+                  className={`relative overflow-hidden bg-[#0f1629] rounded-2xl p-8 flex flex-col border ${
+                    tier.highlighted ? 'border-[#3b82f6]' : 'border-[#1e2d4a]'
+                  }`}
+                >
+                  {/* Gold discount ribbon */}
+                  {tier.ctaType === 'purchase' && (
+                    <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none">
+                      <div className="absolute top-3 right-[-20px] w-24 bg-[#f59e0b] text-white text-[10px] font-bold text-center py-1 rotate-45 shadow-md">
+                        67% OFF
+                      </div>
                     </div>
-                  </div>
-                )}
-                {tier.badge && (
-                  <span className="self-start mb-3 inline-block bg-[#3b82f6] text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    {tier.badge}
-                  </span>
-                )}
-                <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">
-                  {tier.name}
-                </h3>
-                {tier.foundingMember && (
-                  <div className="mb-2">
-                    <span className="inline-block bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] text-xs font-semibold px-2.5 py-1 rounded-md">
-                      🔥 Founding Member · 10 Spots Only
-                    </span>
-                  </div>
-                )}
-                <div className="mb-1">
-                  {tier.originalPrice && (
-                    <span className="text-sm text-[#94a3b8] line-through mr-2">
-                      {tier.originalPrice}
-                      {tier.period}
+                  )}
+                  {tier.badge && (
+                    <span className="self-start mb-3 inline-block bg-[#3b82f6] text-white text-xs font-semibold px-3 py-1 rounded-full">
+                      {tier.badge}
                     </span>
                   )}
-                  <span className="text-3xl font-bold text-[#f1f5f9]">
-                    {billingPeriod === 'annual' ? tier.annualPerMonth : tier.price}
-                  </span>
-                  <span className="text-[#94a3b8] text-sm">/mo</span>
-                  {billingPeriod === 'annual' && tier.annualTotal && (
-                    <p className="text-xs text-[#94a3b8] mt-1">
-                      Billed as {tier.annualTotal}/yr
-                    </p>
+                  <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">
+                    {tier.name}
+                  </h3>
+                  {tier.foundingMember && (
+                    <div className="mb-2">
+                      <span className="inline-block bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] text-xs font-semibold px-2.5 py-1 rounded-md">
+                        🔥 Founding Member · 10 Spots Only
+                      </span>
+                    </div>
+                  )}
+                  <div className="mb-1">
+                    {tier.originalPrice && (
+                      <span className="text-sm text-[#94a3b8] line-through mr-2">
+                        {tier.originalPrice}
+                        {tier.period}
+                      </span>
+                    )}
+                    <span className="text-3xl font-bold text-[#f1f5f9]">
+                      {billingPeriod === 'annual'
+                        ? tier.annualPerMonth
+                        : tier.price}
+                    </span>
+                    <span className="text-[#94a3b8] text-sm">/mo</span>
+                    {billingPeriod === 'annual' && tier.annualTotal && (
+                      <p className="text-xs text-[#94a3b8] mt-1">
+                        Billed as {tier.annualTotal}/yr
+                      </p>
+                    )}
+                  </div>
+                  {billingPeriod === 'annual' && tier.annualSaving && (
+                    <div className="mb-2">
+                      <span className="inline-block bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] text-xs font-semibold px-2.5 py-1 rounded-md">
+                        Save {tier.annualSaving}/yr — 3 months free
+                      </span>
+                    </div>
+                  )}
+                  {tier.discountBadge && (
+                    <div className="mb-4">
+                      <span className="inline-block bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] text-xs font-semibold px-2.5 py-1 rounded-md">
+                        Limited Time Offer — Early Access Pricing
+                      </span>
+                      <p className="text-[10px] text-[#94a3b8]/70 mt-1">
+                        Lock in this rate for life. Price increases when early
+                        access closes.
+                      </p>
+                    </div>
+                  )}
+                  <p className="text-[#94a3b8] text-sm mb-6">
+                    {tier.description}
+                  </p>
+                  <ul className="space-y-2 mb-6 flex-1">
+                    {tier.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-start gap-2 text-sm text-[#94a3b8]"
+                      >
+                        <span className="text-[#10b981] mt-0.5 flex-shrink-0">
+                          ✓
+                        </span>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {tier.enterpriseBands && billingPeriod === 'monthly' && (
+                    <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
+                      <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">
+                        Volume Pricing
+                      </p>
+                      <ul className="space-y-2">
+                        {tier.enterpriseBands.map((band) => (
+                          <li
+                            key={band.label}
+                            className="flex justify-between items-center text-xs"
+                          >
+                            <span className="text-[#94a3b8]">{band.label}</span>
+                            <span className="text-[#f1f5f9] font-semibold">
+                              {band.price}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {tier.annualEnterpriseBands && billingPeriod === 'annual' && (
+                    <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
+                      <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">
+                        Annual Volume Pricing
+                      </p>
+                      <ul className="space-y-2">
+                        {tier.annualEnterpriseBands.map((band) => (
+                          <li
+                            key={band.label}
+                            className="flex flex-col text-xs gap-0.5"
+                          >
+                            <div className="flex justify-between items-center">
+                              <span className="text-[#94a3b8]">
+                                {band.label}
+                              </span>
+                              <span className="text-[#f1f5f9] font-semibold">
+                                {band.annual}
+                              </span>
+                            </div>
+                            {band.saving && (
+                              <span className="text-[#10b981] text-right">
+                                {band.saving}
+                              </span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {tier.ctaType === 'purchase' ? (
+                    <>
+                      <p className="text-center text-[10px] text-[#475569] mb-3">
+                        Secured by Paystack · Secure checkout
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => openModal(tier)}
+                        className="block w-full text-center font-semibold py-3 rounded-lg transition-colors bg-[#3b82f6] hover:bg-[#2563eb] text-white"
+                      >
+                        Get Early Access — $499/mo
+                      </button>
+                      <p className="text-center text-[10px] text-[#94a3b8]/60 mt-2">
+                        Billed annually · $5,988/yr · Rate locked for life
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-lg px-4 py-3 mb-3 text-center">
+                        <p className="text-xs text-[#94a3b8] font-medium">
+                          {tier.launchNote}
+                        </p>
+                      </div>
+                      <a
+                        href="#waitlist"
+                        className="block w-full text-center font-semibold py-3 rounded-lg transition-colors border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10"
+                      >
+                        Join the Waitlist for this Tier
+                      </a>
+                    </>
                   )}
                 </div>
-                {billingPeriod === 'annual' && tier.annualSaving && (
-                  <div className="mb-2">
-                    <span className="inline-block bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] text-xs font-semibold px-2.5 py-1 rounded-md">
-                      Save {tier.annualSaving}/yr — 3 months free
-                    </span>
-                  </div>
-                )}
-                {tier.discountBadge && (
-                  <div className="mb-4">
-                    <span className="inline-block bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] text-xs font-semibold px-2.5 py-1 rounded-md">
-                      Limited Time Offer — Early Access Pricing
-                    </span>
-                    <p className="text-[10px] text-[#94a3b8]/70 mt-1">
-                      Lock in this rate for life. Price increases when early
-                      access closes.
-                    </p>
-                  </div>
-                )}
-                <p className="text-[#94a3b8] text-sm mb-6">
-                  {tier.description}
-                </p>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {tier.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-2 text-sm text-[#94a3b8]"
-                    >
-                      <span className="text-[#10b981] mt-0.5 flex-shrink-0">
-                        ✓
-                      </span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                {tier.enterpriseBands && billingPeriod === 'monthly' && (
-                  <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
-                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">
-                      Volume Pricing
-                    </p>
-                    <ul className="space-y-2">
-                      {tier.enterpriseBands.map((band) => (
-                        <li
-                          key={band.label}
-                          className="flex justify-between items-center text-xs"
-                        >
-                          <span className="text-[#94a3b8]">{band.label}</span>
-                          <span className="text-[#f1f5f9] font-semibold">
-                            {band.price}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {tier.annualEnterpriseBands && billingPeriod === 'annual' && (
-                  <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
-                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">
-                      Annual Volume Pricing
-                    </p>
-                    <ul className="space-y-2">
-                      {tier.annualEnterpriseBands.map((band) => (
-                        <li key={band.label} className="flex flex-col text-xs gap-0.5">
-                          <div className="flex justify-between items-center">
-                            <span className="text-[#94a3b8]">{band.label}</span>
-                            <span className="text-[#f1f5f9] font-semibold">{band.annual}</span>
-                          </div>
-                          {band.saving && (
-                            <span className="text-[#10b981] text-right">{band.saving}</span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {tier.ctaType === 'purchase' ? (
-                  <>
-                    <p className="text-center text-[10px] text-[#475569] mb-3">
-                      Secured by Paystack · Secure checkout
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => openModal(tier)}
-                      className="block w-full text-center font-semibold py-3 rounded-lg transition-colors bg-[#3b82f6] hover:bg-[#2563eb] text-white"
-                    >
-                      Get Early Access — $499/mo
-                    </button>
-                    <p className="text-center text-[10px] text-[#94a3b8]/60 mt-2">
-                      Billed annually · $5,988/yr · Rate locked for life
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-lg px-4 py-3 mb-3 text-center">
-                      <p className="text-xs text-[#94a3b8] font-medium">{tier.launchNote}</p>
-                    </div>
-                    <a
-                      href="#waitlist"
-                      className="block w-full text-center font-semibold py-3 rounded-lg transition-colors border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10"
-                    >
-                      Join the Waitlist for this Tier
-                    </a>
-                  </>
-                )}
-              </div>
-            )
+              )
             })}
           </div>
         </div>

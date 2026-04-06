@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/database'
-import { TEST_PAYMENT_THRESHOLD_KOBO, getAccessWindow } from '@/lib/paystack-constants'
+import {
+  TEST_PAYMENT_THRESHOLD_KOBO,
+  getAccessWindow,
+} from '@/lib/paystack-constants'
+import {
+  EARLY_ACCESS_ANNUAL_OFFER,
+  isLockedEarlyAccessTransaction,
+} from '@/lib/paystack'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@adrevtechnologies.com'
-
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null
+const FROM_EMAIL =
+  process.env.RESEND_FROM_EMAIL || 'noreply@adrevtechnologies.com'
 
 function getAccountManagerMessage(tier: string): string {
   switch (tier.toLowerCase()) {
@@ -33,9 +42,10 @@ async function sendConfirmationEmail(opts: {
 
   const { email, name, foundingMemberNumber, amount, currency, tier } = opts
   const firstName = name.split(' ')[0] || name
-  const amountFormatted = currency === 'ZAR'
-    ? `R${(amount / 100).toFixed(2)}`
-    : `$${(amount / 100).toFixed(2)} USD`
+  const amountFormatted =
+    currency === 'ZAR'
+      ? `R${(amount / 100).toFixed(2)}`
+      : `$${(amount / 100).toFixed(2)} USD`
 
   const accessWindow = getAccessWindow(tier)
   const accountManagerMsg = getAccountManagerMessage(tier ?? 'starter')
@@ -132,12 +142,18 @@ export async function GET(request: NextRequest) {
     const reference = searchParams.get('reference')
 
     if (!reference) {
-      return NextResponse.json({ error: 'Missing reference parameter' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Missing reference parameter' },
+        { status: 400 },
+      )
     }
 
     if (!PAYSTACK_SECRET_KEY) {
       console.error('Paystack: PAYSTACK_SECRET_KEY is not set')
-      return NextResponse.json({ error: 'Payment service unavailable' }, { status: 503 })
+      return NextResponse.json(
+        { error: 'Payment service unavailable' },
+        { status: 503 },
+      )
     }
 
     const paystackRes = await fetch(
@@ -146,16 +162,19 @@ export async function GET(request: NextRequest) {
         headers: {
           Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
         },
-      }
+      },
     )
 
     if (!paystackRes.ok) {
       const errData = await paystackRes.json().catch(() => ({}))
       console.error('Paystack verify error:', errData)
-      return NextResponse.json({ error: 'Failed to verify payment' }, { status: 502 })
+      return NextResponse.json(
+        { error: 'Failed to verify payment' },
+        { status: 502 },
+      )
     }
 
-    const paystackData = await paystackRes.json() as {
+    const paystackData = (await paystackRes.json()) as {
       status: boolean
       data: {
         status: string
@@ -168,22 +187,43 @@ export async function GET(request: NextRequest) {
     }
 
     if (!paystackData.status || paystackData.data.status !== 'success') {
-      return NextResponse.json({ error: 'Payment not successful' }, { status: 402 })
+      return NextResponse.json(
+        { error: 'Payment not successful' },
+        { status: 402 },
+      )
+    }
+
+    if (!isLockedEarlyAccessTransaction(paystackData.data)) {
+      return NextResponse.json(
+        {
+          error:
+            'Transaction does not match the locked Early Access annual offer',
+        },
+        { status: 409 },
+      )
     }
 
     const txn = paystackData.data
     const email = txn.customer.email
-    const name = (txn.metadata?.name as string) || ''
-    const amount = txn.amount
-    const currency = txn.currency
+    const name =
+      (txn.metadata?.customerName as string) ||
+      (txn.metadata?.name as string) ||
+      ''
+    const amount = EARLY_ACCESS_ANNUAL_OFFER.amountMinor
+    const currency = EARLY_ACCESS_ANNUAL_OFFER.currency
     const is_test = amount <= TEST_PAYMENT_THRESHOLD_KOBO
-    const tier = (txn.metadata?.tier as string) || null
-    const billingPeriod = (txn.metadata?.billingPeriod as string) || null
+    const tier =
+      (txn.metadata?.requestedTier as string) ||
+      EARLY_ACCESS_ANNUAL_OFFER.planName
+    const billingPeriod = EARLY_ACCESS_ANNUAL_OFFER.billingPeriod
     const accessWindow = getAccessWindow(tier)
 
     if (!supabaseAdmin) {
       console.error('Paystack verify: supabaseAdmin is null')
-      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
+      return NextResponse.json(
+        { error: 'Database unavailable' },
+        { status: 503 },
+      )
     }
 
     // Upsert founding member record (idempotent on email).
@@ -192,23 +232,28 @@ export async function GET(request: NextRequest) {
     const { error: upsertError } = await supabaseAdmin
       .from('founding_members')
       .upsert(
-        [{
-          name,
-          email,
-          paystack_reference: reference,
-          amount,
-          currency,
-          status: 'active',
-          is_test,
-          tier,
-          billing_period: billingPeriod,
-          access_window: accessWindow,
-        }],
-        { onConflict: 'email' }
+        [
+          {
+            name,
+            email,
+            paystack_reference: reference,
+            amount,
+            currency,
+            status: 'active',
+            is_test,
+            tier,
+            billing_period: billingPeriod,
+            access_window: accessWindow,
+          },
+        ],
+        { onConflict: 'email' },
       )
 
     if (upsertError) {
-      console.error('Paystack verify: founding_members upsert error', upsertError)
+      console.error(
+        'Paystack verify: founding_members upsert error',
+        upsertError,
+      )
     }
 
     // Update waitlist status if email matches (fire-and-forget)
@@ -218,7 +263,8 @@ export async function GET(request: NextRequest) {
       .eq('email', email)
       .eq('status', 'pending')
       .then(({ error }) => {
-        if (error) console.error('Paystack verify: waitlist update error', error)
+        if (error)
+          console.error('Paystack verify: waitlist update error', error)
       })
 
     // Retrieve founding member number assigned by DB
@@ -252,6 +298,9 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Paystack verify unexpected error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    )
   }
 }

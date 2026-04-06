@@ -39,7 +39,9 @@ async function sendConfirmationEmail(opts: {
   tier: string | null
 }) {
   if (!resend) {
-    console.warn('Paystack confirmation email skipped: RESEND_API_KEY is not configured')
+    console.warn(
+      'Paystack confirmation email skipped: RESEND_API_KEY is not configured',
+    )
     return
   }
 
@@ -136,6 +138,102 @@ async function sendConfirmationEmail(opts: {
     })
   } catch (err) {
     console.error('Paystack confirmation email failed:', err)
+  }
+}
+
+async function sendOnboardingWelcomeEmail(opts: {
+  email: string
+  name: string
+  foundingMemberNumber: number
+  tier: string | null
+  accessWindow: string
+}) {
+  if (!resend) {
+    console.warn('Paystack onboarding email skipped: RESEND_API_KEY is not configured')
+    return
+  }
+
+  const { email, name, foundingMemberNumber, tier, accessWindow } = opts
+  const firstName = name.split(' ')[0] || name
+  const tierLabel = tier || 'Founding Member'
+  const accountManagerMsg = getAccountManagerMessage(tierLabel)
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Onboarding Starts Now</title>
+</head>
+<body style="margin:0;padding:0;background-color:#080d1a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#080d1a;min-height:100vh;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;">
+          <tr>
+            <td style="padding-bottom:32px;">
+              <p style="margin:0;font-size:18px;font-weight:700;color:#f1f5f9;letter-spacing:-0.5px;">Ad Rev Technologies</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color:#0f1629;border:1px solid #1e2d4a;border-radius:16px;padding:40px 36px;">
+              <p style="margin:0 0 8px;font-size:12px;font-weight:700;color:#00d4ff;text-transform:uppercase;letter-spacing:1.5px;">Onboarding Welcome</p>
+              <h1 style="margin:0 0 16px;font-size:30px;font-weight:800;color:#f1f5f9;line-height:1.2;">Welcome aboard, ${firstName}.</h1>
+              <p style="margin:0 0 28px;font-size:16px;line-height:1.7;color:#cbd5e1;">
+                You are now officially a client of Ad Rev Technologies. Your ${tierLabel} access has been secured and your onboarding process starts now.
+              </p>
+
+              <div style="background-color:#f59e0b15;border:1px solid #f59e0b4d;border-radius:12px;padding:18px 22px;margin-bottom:28px;">
+                <p style="margin:0 0 6px;font-size:11px;font-weight:700;color:#f59e0b;text-transform:uppercase;letter-spacing:1px;">Client Record</p>
+                <p style="margin:0;font-size:24px;font-weight:800;color:#f8fafc;">Founding Member #${foundingMemberNumber}</p>
+              </div>
+
+              <div style="margin-bottom:28px;">
+                <p style="margin:0 0 12px;font-size:14px;font-weight:700;color:#f1f5f9;">What happens next</p>
+                <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:0 10px;">
+                  <tr>
+                    <td style="width:28px;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:999px;background:#1d4ed8;color:#fff;font-size:12px;font-weight:700;">1</span></td>
+                    <td style="font-size:14px;line-height:1.6;color:#cbd5e1;">Your account manager will review your purchase and contact you with onboarding updates.</td>
+                  </tr>
+                  <tr>
+                    <td style="width:28px;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:999px;background:#1d4ed8;color:#fff;font-size:12px;font-weight:700;">2</span></td>
+                    <td style="font-size:14px;line-height:1.6;color:#cbd5e1;">We will confirm your integration requirements, commercial setup, and onboarding schedule.</td>
+                  </tr>
+                  <tr>
+                    <td style="width:28px;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:999px;background:#1d4ed8;color:#fff;font-size:12px;font-weight:700;">3</span></td>
+                    <td style="font-size:14px;line-height:1.6;color:#cbd5e1;">Your environment and platform access will be provisioned within <strong style="color:#f1f5f9;">${accessWindow}</strong>.</td>
+                  </tr>
+                </table>
+              </div>
+
+              <div style="background-color:#00d4ff0d;border:1px solid #00d4ff33;border-radius:10px;padding:20px 24px;margin-bottom:28px;">
+                <p style="margin:0;font-size:14px;color:#f1f5f9;line-height:1.7;">${accountManagerMsg}</p>
+              </div>
+
+              <p style="margin:0 0 8px;font-size:14px;color:#94a3b8;line-height:1.6;">If you need anything immediately, reply to this email or contact <a href="mailto:admin@adrevtechnologies.com" style="color:#00d4ff;text-decoration:none;">admin@adrevtechnologies.com</a>.</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-top:24px;text-align:center;">
+              <p style="margin:0;font-size:11px;color:#475569;">© ${new Date().getFullYear()} Ad Rev Technologies · All rights reserved</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+
+  try {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: email,
+      subject: `Welcome to Ad Rev Technologies — onboarding begins now, ${firstName}`,
+      html,
+    })
+  } catch (err) {
+    console.error('Paystack onboarding email failed:', err)
   }
 }
 
@@ -287,6 +385,14 @@ export async function GET(request: NextRequest) {
       amount,
       currency,
       tier,
+    })
+
+    await sendOnboardingWelcomeEmail({
+      email,
+      name,
+      foundingMemberNumber: actualMemberNumber,
+      tier,
+      accessWindow,
     })
 
     return NextResponse.json({

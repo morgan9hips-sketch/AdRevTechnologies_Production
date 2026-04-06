@@ -77,3 +77,12 @@ export function verifyPaystackSignature(
 
   return timingSafeEqual(Buffer.from(expected), Buffer.from(signature))
 }
+
+export function getPaystackWebhookSecret() {
+  return (
+    process.env.PAYSTACK_WEBHOOK_SECRET ||
+    process.env.PAYSTACK_SECRET_KEY ||
+    process.env.PAYSTACK_SECRET ||
+    ''
+  )
+}

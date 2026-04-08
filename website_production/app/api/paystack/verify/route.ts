@@ -370,7 +370,8 @@ export async function GET(request: NextRequest) {
             paystack_reference: reference,
             amount,
             currency,
-            status: existingMember?.status === 'verified' ? 'verified' : 'active',
+            status:
+              existingMember?.status === 'verified' ? 'verified' : 'active',
             is_test,
             tier,
             billing_period: billingPeriod,

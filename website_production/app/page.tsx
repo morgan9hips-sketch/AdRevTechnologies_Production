@@ -202,35 +202,40 @@ const mechanics = [
   {
     icon: Video,
     title: 'Video Ad Engine',
-    accentColor: '#3b82f6',
+    borderClass: 'border-l-2 border-l-[#3b82f6]',
+    iconClass: 'text-[#3b82f6]',
     description:
       'Serve rewarded video ads inside your platform. Completion is tracked server-side. Reward event fires automatically on verified completion.',
   },
   {
     icon: ShoppingBag,
     title: 'Store Redirects',
-    accentColor: '#f59e0b',
+    borderClass: 'border-l-2 border-l-[#f59e0b]',
+    iconClass: 'text-[#f59e0b]',
     description:
       'Drive users from campaigns directly to your product or store page. Every click is tracked and tied to a campaign event.',
   },
   {
     icon: GitMerge,
     title: 'Referral Engine',
-    accentColor: '#8b5cf6',
+    borderClass: 'border-l-2 border-l-[#8b5cf6]',
+    iconClass: 'text-[#8b5cf6]',
     description:
       'Unique referral links per user. When a referred user converts, reward events fire to both parties via webhook instantly.',
   },
   {
     icon: MessageSquare,
     title: 'WhatsApp Distribution',
-    accentColor: '#f43f5e',
+    borderClass: 'border-l-2 border-l-[#f43f5e]',
+    iconClass: 'text-[#f43f5e]',
     description:
       'Distribute promotional video content through publisher WhatsApp Status networks. Enterprise tier. Amplifies campaign reach beyond your app.',
   },
   {
     icon: Mail,
     title: 'Mailing Campaigns',
-    accentColor: '#10b981',
+    borderClass: 'border-l-2 border-l-[#10b981]',
+    iconClass: 'text-[#10b981]',
     description:
       'Trigger reward notifications, re-engagement emails, and offer broadcasts through your own sender domain. Enterprise tier.',
   },
@@ -240,33 +245,66 @@ const trustSignals = [
   {
     icon: Shield,
     title: 'Enterprise Security',
-    accentColor: '#f59e0b',
+    iconWrapClass: 'bg-[#f59e0b]/10 border border-[#f59e0b]/20',
+    iconClass: 'text-[#f59e0b]',
     description:
       'HMAC webhook verification, JWT-scoped API keys, rate limiting per tier, and a complete immutable event ledger for every transaction.',
   },
   {
     icon: Zap,
     title: 'Zero User Lock-in',
-    accentColor: '#8b5cf6',
+    iconWrapClass: 'bg-[#8b5cf6]/10 border border-[#8b5cf6]/20',
+    iconClass: 'text-[#8b5cf6]',
     description:
       'You own your users, your loyalty data, and your platform. Our engine plugs in and out without touching your database or auth.',
   },
   {
     icon: Code,
     title: 'API-First Design',
-    accentColor: '#3b82f6',
+    iconWrapClass: 'bg-[#3b82f6]/10 border border-[#3b82f6]/20',
+    iconClass: 'text-[#3b82f6]',
     description:
       'RESTful endpoints, Swagger docs live at /docs, webhook delivery with retry logic, and SDK support. Integrate in days.',
   },
 ]
 
 const industries = [
-  { icon: ShoppingBag, label: 'Retail & eCommerce', accentColor: '#f59e0b' },
-  { icon: Gamepad2, label: 'Gaming Platforms', accentColor: '#8b5cf6' },
-  { icon: Wallet, label: 'Fintech & Wallets', accentColor: '#10b981' },
-  { icon: Trophy, label: 'Sports Betting', accentColor: '#f43f5e' },
-  { icon: Signal, label: 'Telecoms', accentColor: '#3b82f6' },
-  { icon: Gift, label: 'Loyalty Programs', accentColor: '#f59e0b' },
+  {
+    icon: ShoppingBag,
+    label: 'Retail & eCommerce',
+    borderClass: 'border-t-2 border-t-[#f59e0b]',
+    iconClass: 'text-[#f59e0b]',
+  },
+  {
+    icon: Gamepad2,
+    label: 'Gaming Platforms',
+    borderClass: 'border-t-2 border-t-[#8b5cf6]',
+    iconClass: 'text-[#8b5cf6]',
+  },
+  {
+    icon: Wallet,
+    label: 'Fintech & Wallets',
+    borderClass: 'border-t-2 border-t-[#10b981]',
+    iconClass: 'text-[#10b981]',
+  },
+  {
+    icon: Trophy,
+    label: 'Sports Betting',
+    borderClass: 'border-t-2 border-t-[#f43f5e]',
+    iconClass: 'text-[#f43f5e]',
+  },
+  {
+    icon: Signal,
+    label: 'Telecoms',
+    borderClass: 'border-t-2 border-t-[#3b82f6]',
+    iconClass: 'text-[#3b82f6]',
+  },
+  {
+    icon: Gift,
+    label: 'Loyalty Programs',
+    borderClass: 'border-t-2 border-t-[#f59e0b]',
+    iconClass: 'text-[#f59e0b]',
+  },
 ]
 
 export default function HomePage() {
@@ -432,13 +470,9 @@ export default function HomePage() {
               return (
                 <div
                   key={item.title}
-                  className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6"
-                  style={{ borderLeft: `2px solid ${item.accentColor}` }}
+                  className={`bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 ${item.borderClass}`}
                 >
-                  <Icon
-                    className="h-7 w-7 mb-4"
-                    style={{ color: item.accentColor }}
-                  />
+                  <Icon className={`h-7 w-7 mb-4 ${item.iconClass}`} />
                   <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">
                     {item.title}
                   </h3>
@@ -480,12 +514,22 @@ export default function HomePage() {
             ].map((block) => (
               <div
                 key={block.stat}
-                className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8"
-                style={{ borderTop: `2px solid ${block.accent}` }}
+                className={`bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8 ${
+                  block.accent === '#f59e0b'
+                    ? 'border-t-2 border-t-[#f59e0b]'
+                    : block.accent === '#8b5cf6'
+                      ? 'border-t-2 border-t-[#8b5cf6]'
+                      : 'border-t-2 border-t-[#f43f5e]'
+                }`}
               >
                 <div
-                  className="text-2xl font-bold mb-2"
-                  style={{ color: block.accent }}
+                  className={`text-2xl font-bold mb-2 ${
+                    block.accent === '#f59e0b'
+                      ? 'text-[#f59e0b]'
+                      : block.accent === '#8b5cf6'
+                        ? 'text-[#8b5cf6]'
+                        : 'text-[#f43f5e]'
+                  }`}
                 >
                   {block.stat}
                 </div>
@@ -1063,16 +1107,9 @@ export default function HomePage() {
                 <div key={signal.title} className="text-center">
                   <div className="flex justify-center mb-5">
                     <div
-                      className="w-14 h-14 rounded-xl flex items-center justify-center"
-                      style={{
-                        backgroundColor: `${signal.accentColor}1a`,
-                        border: `1px solid ${signal.accentColor}33`,
-                      }}
+                      className={`w-14 h-14 rounded-xl flex items-center justify-center ${signal.iconWrapClass}`}
                     >
-                      <Icon
-                        className="h-7 w-7"
-                        style={{ color: signal.accentColor }}
-                      />
+                      <Icon className={`h-7 w-7 ${signal.iconClass}`} />
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">
@@ -1101,13 +1138,9 @@ export default function HomePage() {
               return (
                 <div
                   key={industry.label}
-                  className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 flex flex-col items-center gap-3"
-                  style={{ borderTop: `2px solid ${industry.accentColor}` }}
+                  className={`bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 flex flex-col items-center gap-3 ${industry.borderClass}`}
                 >
-                  <Icon
-                    className="h-8 w-8"
-                    style={{ color: industry.accentColor }}
-                  />
+                  <Icon className={`h-8 w-8 ${industry.iconClass}`} />
                   <span className="text-[#f1f5f9] font-medium text-sm">
                     {industry.label}
                   </span>

@@ -163,7 +163,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               id="prelaunch-modal-title"
               className="text-xl font-bold text-[#f1f5f9]"
             >
-              Founding Member — Early Access
+              Launch Partner Access
             </h2>
             <p className="text-sm text-[#94a3b8] mt-1">
               {tier.name} Plan ·{' '}
@@ -205,8 +205,8 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               1. What You Are Purchasing
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              You are securing a Founding Member spot on the Ad Rev Technologies
-              platform{' '}
+              You are securing a launch partner position on the Ad Rev
+              Technologies platform{' '}
               {tier.billingPeriod === 'annual' ? (
                 <>
                   at a locked-in annual rate of{' '}
@@ -232,8 +232,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
                   .
                 </>
               )}{' '}
-              This is an early access subscription. Full platform access will be
-              provisioned within{' '}
+              Commercial access will be provisioned within{' '}
               <span className="text-[#f1f5f9] font-semibold">
                 {tier.accessWindow}
               </span>{' '}
@@ -244,12 +243,12 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
           {/* Section 2 */}
           <section>
             <h3 className="text-sm font-semibold text-[#f1f5f9] mb-2">
-              2. Founding Member Price Lock
+              2. Launch Partner Price Lock
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              Your prelaunch rate is locked for life. As long as your
-              subscription remains active, your monthly rate will never increase
-              — regardless of future pricing changes.
+              Your launch-partner rate is fixed for as long as your subscription
+              remains active. Future pricing changes will not alter your
+              contracted rate while the subscription remains in force.
             </p>
           </section>
 
@@ -277,7 +276,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               4. Spot Limit
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              Founding Member access on the {tier.name} plan is limited to{' '}
+              Launch Partner Access on the {tier.name} plan is limited to{' '}
               <span className="text-[#f1f5f9] font-semibold">
                 {tier.spotsTotal} tenants
               </span>
@@ -286,7 +285,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
                 {tier.spotsRemaining} spots remaining
               </span>
               . Once all spots are filled, this pricing tier will no longer be
-              available at the prelaunch rate.
+              available at the current commercial rate.
             </p>
           </section>
 
@@ -398,7 +397,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#1e2d4a] bg-[#080d1a] text-[#3b82f6] accent-[#3b82f6] cursor-pointer focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-0"
             />
             <span className="text-sm text-[#94a3b8] group-hover:text-[#f1f5f9] transition-colors select-none">
-              I have read and agree to the Founding Member Early Access Terms
+              I have read and agree to the Launch Partner Access Terms
             </span>
           </label>
 

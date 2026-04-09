@@ -24,10 +24,9 @@ export default function ContactPage() {
               commercial alignment.
             </h1>
             <p className="mt-6 text-lg leading-8 text-[#c4d5e9]">
-              The live founding-partner purchase CTA remains on its own
-              protected checkout path. Use this page for all other
-              conversations, including higher MAU bands, agency partnerships,
-              onboarding planning, and commercial alignment.
+              Direct purchase remains available for the initial commercial
+              bands. Use this page for larger deployments, agency partnerships,
+              onboarding planning, and broader commercial alignment.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -39,8 +38,8 @@ export default function ContactPage() {
               />
               <ContactCard
                 icon={<ShieldCheck className="h-5 w-5" />}
-                title="Commercial path"
-                body="Protected checkout stays separate from contact flow"
+                title="Commercial route"
+                body="Direct purchase for initial bands and managed engagement for larger deployments"
               />
               <ContactCard
                 icon={<MessageSquareText className="h-5 w-5" />}

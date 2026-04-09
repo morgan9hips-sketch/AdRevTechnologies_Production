@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Orbit } from 'lucide-react'
+import { RevenueCalculator } from '@/components/sections/revenue-calculator'
 import { heroContent } from '@/lib/site-content'
 
 export function HeroSection() {
@@ -38,6 +39,10 @@ export function HeroSection() {
             >
               Contact Us
             </Link>
+          </div>
+
+          <div className="mt-12 w-full max-w-5xl">
+            <RevenueCalculator />
           </div>
         </div>
       </div>

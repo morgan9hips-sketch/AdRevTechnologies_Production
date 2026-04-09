@@ -27,17 +27,16 @@ export default function PricingPage() {
               Infrastructure pricing for platforms and agencies with real users.
             </h1>
             <p className="mt-10 max-w-[980px] text-base leading-8 text-[#8ea7c2] sm:text-lg">
-              Pricing is aligned to scale, not feature gating. The
-              founding-partner offer preserves the protected self-serve checkout
-              path, while larger MAU bands move into a managed commercial
-              process.
+              Pricing is aligned to scale rather than feature gating. The
+              initial MAU bands support direct purchase, while larger
+              deployments move into a managed commercial process.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="#founding-partner-checkout"
                 className="inline-flex items-center justify-center rounded-full bg-[#00d4ff] px-6 py-3 text-sm font-semibold text-[#05131d] transition hover:bg-[#7cecff]"
               >
-                Get early access
+                Start purchase
               </Link>
               <Link
                 href="/partners"
@@ -146,16 +145,16 @@ export default function PricingPage() {
           <div className="flex items-center gap-3 text-[#ffb36e]">
             <Sparkles className="h-5 w-5" />
             <p className="text-sm font-semibold uppercase tracking-[0.24em]">
-              Early access
+              Commercial access
             </p>
           </div>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Founding Partner Access is limited to 10.
+            Launch Partner Access is limited to 10.
           </h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             <InfoCard
               title="Locked pricing for life"
-              body="Keep the discounted founding-partner rate active for as long as the subscription stays live."
+              body="Keep the contracted launch-partner rate active for as long as the subscription remains live."
             />
             <InfoCard
               title="Direct product access"
@@ -163,7 +162,7 @@ export default function PricingPage() {
             />
             <InfoCard
               title="Priority onboarding"
-              body="Keep the protected checkout for the first client and route the commercial handoff into a managed onboarding path."
+              body="Support direct purchase for the initial client bands and move larger deployments into a managed onboarding path."
             />
           </div>
         </div>

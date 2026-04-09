@@ -73,10 +73,10 @@ export function FoundingPartnerCheckout({
                   From {foundingPartnerOffer.annualPrice} / year
                 </h3>
                 <p className="mt-3 max-w-xl text-base leading-7 text-[#b9cae0] sm:text-lg">
-                  Scales with monthly active users. The live checkout below
-                  preserves the exact founding-partner annual flow already wired
-                  to Paystack, verification, Supabase, and onboarding email
-                  delivery.
+                  Pricing scales with monthly active users. Commercial purchase
+                  is available directly for the initial MAU bands, with payment,
+                  verification, and onboarding handled within one streamlined
+                  flow.
                 </p>
               </div>
             </div>
@@ -173,8 +173,8 @@ export function FoundingPartnerCheckout({
                 ))}
               </ul>
               <div className="mt-6 rounded-2xl border border-[#ff8a3d]/20 bg-[#ff8a3d]/8 p-4 text-sm text-[#ffddb4]">
-                {foundingPartnerOffer.spotsLabel}. The checkout CTA below keeps
-                the protected early-access flow intact for your first client.
+                {foundingPartnerOffer.spotsLabel}. Commercial purchase remains
+                available directly from this page for the initial client bands.
               </div>
               {!compact && (
                 <div className="mt-6 space-y-3">
@@ -183,7 +183,7 @@ export function FoundingPartnerCheckout({
                     onClick={() => openCheckoutForBand(mauPricingBands[0])}
                     className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#00d4ff] px-5 py-3 text-sm font-semibold text-[#04131f] transition hover:bg-[#7ee7ff]"
                   >
-                    Get Early Access
+                    Start Purchase
                     <ArrowRight className="h-4 w-4" />
                   </button>
                   <p className="text-center text-xs text-[#8aa7c7]">

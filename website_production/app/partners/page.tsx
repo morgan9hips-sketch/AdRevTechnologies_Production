@@ -28,10 +28,10 @@ const rolloutSteps = [
 ]
 
 const reservedPartnerSlots = [
-  'Reserved for Founding Partner Agency',
-  'Reserved for Founding Partner Agency',
-  'Reserved for Founding Partner Agency',
-  'Reserved for Founding Partner Agency',
+  'Strategic Agency Partner',
+  'Regional Commerce Operator',
+  'Gaming Platform Group',
+  'Loyalty and Rewards Network',
 ] as const
 
 const credibilityAnchors = [
@@ -42,14 +42,14 @@ const credibilityAnchors = [
 ] as const
 
 const partnerAdvantages = [
-  'Founding partner pricing remains locked while active.',
-  'Prototype dashboards already show how performance can be presented to clients.',
-  'The protected checkout and onboarding path stays separate from general lead capture.',
+  'Launch-partner pricing remains fixed while active.',
+  'Client dashboards already demonstrate a strong reporting and presentation standard.',
+  'Commercial onboarding supports both direct purchase and managed enterprise engagement.',
 ] as const
 
-const prototypeFeedback = [
-  '“The dashboard makes client ROI transparent.”',
-  '“Risk-free integration is a game-changer for agencies.”',
+const dashboardHighlights = [
+  'Executive visibility with revenue, completions, and delivery health in one view.',
+  'Campaign, marketing, and reporting tabs presented in a clear client-ready layout.',
 ] as const
 
 export default function PartnersPage() {
@@ -112,7 +112,7 @@ export default function PartnersPage() {
               />
               <PartnerStat
                 label="Working motion"
-                value="Founding partner checkout already live"
+                value="Commercial onboarding flow is live"
                 icon={<Handshake className="h-5 w-5" />}
               />
             </div>
@@ -142,14 +142,14 @@ export default function PartnersPage() {
         <div className="mx-auto max-w-7xl rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8 sm:p-10">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Future partner slots
+              Partner placement
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Reserved for founding partner agencies.
+              Illustrative partner visibility.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-              Placeholder partner slots are shown here intentionally to signal
-              the founding-partner cohort now being assembled.
+              These placements show how partner visibility can be presented on
+              the page while the initial portfolio is being finalised.
             </p>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -163,7 +163,7 @@ export default function PartnersPage() {
                     <BadgeCheck className="h-5 w-5" />
                   </div>
                   <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#8ea7c2]">
-                    Your logo here
+                    Representative placement
                   </p>
                   <p className="mt-2 text-sm leading-6 text-[#dce8f5]">
                     {slot}
@@ -271,14 +271,14 @@ export default function PartnersPage() {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
           <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Coming soon
+              Client success stories
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Founding partner case studies.
+              Case studies and rollout outcomes.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-              Case studies will be added once founding partner deployments move
-              from prototype reporting into live commercial rollout.
+              Case studies will be published once live client programmes
+              complete commercial rollout and reporting sign-off.
             </p>
             <ul className="mt-6 space-y-3">
               {partnerAdvantages.map((item) => (
@@ -295,17 +295,17 @@ export default function PartnersPage() {
 
           <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(8,17,31,0.96),rgba(7,19,34,0.9))] p-8">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Prototype feedback
+              Dashboard presentation
             </p>
             <div className="mt-6 space-y-4">
-              {prototypeFeedback.map((quote) => (
+              {dashboardHighlights.map((quote) => (
                 <blockquote
                   key={quote}
                   className="rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.03] p-6 text-sm leading-7 text-[#dce8f5]"
                 >
                   <p>{quote}</p>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#8ea7c2]">
-                    Prototype feedback
+                    Client-facing dashboard standard
                   </p>
                 </blockquote>
               ))}

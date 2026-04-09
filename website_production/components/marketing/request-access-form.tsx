@@ -248,7 +248,7 @@ export function RequestAccessForm({
                   Select pricing band
                 </option>
                 <option value="founding_partner_0_500k">
-                  Founding Partner Early Access · 0 to 500K MAU
+                  Launch Partner Access · 0 to 500K MAU
                 </option>
                 <option value="growth_500k_1_5m">500K to 1.5M MAU</option>
                 <option value="scale_1_5m_3m">1.5M to 3M MAU</option>

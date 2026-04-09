@@ -40,9 +40,9 @@ export const homeValuePoints = [
 export const heroContent = {
   headline: "The infrastructure that makes tomorrow's growth happen today.",
   subheadline:
-    'Most companies continue to invest in driving traffic, yet the real constraint is not traffic itself. It is the absence of the infrastructure and operating engine required to convert that demand into measurable revenue. Ad Rev Technologies was built to solve that problem with a plug-and-play foundation for monetisation, engagement, and growth.',
+    'Many companies continue to invest in traffic acquisition, yet the real constraint is rarely traffic itself. The true gap is the infrastructure required to convert demand into measurable commercial performance. Ad Rev Technologies addresses that gap with a unified foundation for monetisation, engagement, and growth.',
   supportingText:
-    'Ad Rev Technologies is a unified engagement and monetisation layer that connects advertising, referrals, campaigns, messaging, and analytics through a single API. No rebuild. No exposure to your customer data. No operational complexity.',
+    'Ad Rev Technologies is a unified engagement and monetisation layer that connects advertising, referrals, campaigns, messaging, and analytics through a single API. No rebuild of your core platform. No exposure to customer data. No unnecessary operational complexity.',
 } as const
 
 export const howItWorksSteps = [
@@ -117,7 +117,7 @@ export const audienceCards = [
 
 export const foundingPartnerOffer = {
   name: 'Ad Rev Infrastructure',
-  label: 'Founding Partner Early Access',
+  label: 'Launch Partner Access',
   headline: 'One Infrastructure. Every Revenue Channel.',
   subheadline:
     'Stop stitching tools together. Start monetising the users you already have.',
@@ -127,7 +127,7 @@ export const foundingPartnerOffer = {
   annualPriceMinor: 598800,
   annualSavings: '$4,800',
   accessWindow: '30–45 days',
-  spotsLabel: 'Limited to 10 founding partners',
+  spotsLabel: 'Limited to 10 launch partners',
   spotsRemaining: 10,
   features: [
     'Rewarded engagement workflows with server-side verification',
@@ -146,30 +146,30 @@ export const mauPricingBands = [
     label: '0 to 500K MAU',
     price: '$5,988 / year',
     annualPriceMinor: 598800,
-    actionLabel: 'Get Early Access',
+    actionLabel: 'Start Purchase',
     actionType: 'checkout',
     description:
-      'Live self-serve checkout for the founding-partner annual offer.',
+      'Direct commercial purchase for launch-stage operators in the initial MAU band.',
   },
   {
     id: 'growth_500k_1_5m',
     label: '500K to 1.5M MAU',
     price: '$6,988 / year',
     annualPriceMinor: 698800,
-    actionLabel: 'Get Early Access',
+    actionLabel: 'Start Purchase',
     actionType: 'checkout',
     description:
-      'Live self-serve checkout for the founding-partner annual offer.',
+      'Direct commercial purchase for growth-stage operators in the mid-market band.',
   },
   {
     id: 'scale_1_5m_3m',
     label: '1.5M to 3M MAU',
     price: '$7,988 / year',
     annualPriceMinor: 798800,
-    actionLabel: 'Get Early Access',
+    actionLabel: 'Start Purchase',
     actionType: 'checkout',
     description:
-      'Live self-serve checkout for the founding-partner annual offer.',
+      'Direct commercial purchase for scaled operators requiring broader rollout support.',
   },
   {
     id: 'custom_3m_plus',
@@ -186,7 +186,7 @@ export const pricingPrinciples = [
   'Base infrastructure access included',
   'Pricing scales in MAU bands',
   'No feature gating from day one',
-  'Founding partner rate locked for life while active',
+  'Launch partner pricing remains fixed while active',
 ] as const
 
 export const docsHighlights = [

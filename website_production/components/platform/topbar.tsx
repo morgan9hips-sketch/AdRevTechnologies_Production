@@ -26,7 +26,7 @@ export function Topbar() {
       {/* Page title */}
       <h1 className="text-base font-semibold text-white">{title}</h1>
 
-      {/* Prototype banner */}
+      {/* Environment banner */}
       <div
         className="hidden sm:flex items-center px-4 py-1 rounded-lg text-xs font-semibold border"
         style={{
@@ -35,7 +35,7 @@ export function Topbar() {
           color: '#f59e0b',
         }}
       >
-        Prototype Mode · Live data not yet connected
+        Presentation Environment · Commercial data view
       </div>
 
       {/* User info */}

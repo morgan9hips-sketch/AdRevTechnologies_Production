@@ -11,6 +11,7 @@ import {
   contactEmail,
   foundingPartnerOffer,
   mauPricingBands,
+  pricingCommercialTerms,
 } from '@/lib/site-content'
 
 interface FoundingPartnerCheckoutProps {
@@ -41,7 +42,7 @@ export function FoundingPartnerCheckout({
       price: formatMonthlyEquivalent(annualAmount),
       accessWindow: foundingPartnerOffer.accessWindow,
       spotsRemaining: foundingPartnerOffer.spotsRemaining,
-      spotsTotal: 10,
+      spotsTotal: foundingPartnerOffer.spotsTotal,
       billingPeriod: 'annual',
       annualTotal,
       annualPerMonth: formatMonthlyEquivalent(annualAmount),
@@ -73,31 +74,38 @@ export function FoundingPartnerCheckout({
                   From {foundingPartnerOffer.annualPrice} / year
                 </h3>
                 <p className="mt-3 max-w-xl text-base leading-7 text-[#b9cae0] sm:text-lg">
-                  Pricing scales with monthly active users. Commercial purchase
-                  is available directly for the initial MAU bands, with payment,
-                  verification, and onboarding handled within one streamlined
-                  flow.
+                  This page presents the current early-access commercial window,
+                  including the introductory $5,988 rate for the first three
+                  client activations while the broader MAU pricing structure
+                  remains visible for scaling reference.
                 </p>
               </div>
             </div>
 
-            <div className="min-w-[220px] rounded-3xl border border-[#ff8a3d]/25 bg-[#ff8a3d]/8 p-5 text-left">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#ffb36e]">
-                Live offer
+            <div className="min-w-[260px] rounded-3xl border border-[#c9d8e2]/70 bg-[linear-gradient(145deg,rgba(237,242,246,0.98),rgba(222,231,236,0.96)_58%,rgba(209,229,228,0.94))] p-5 text-left text-[#10324f] shadow-[0_18px_48px_rgba(170,190,204,0.18)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2d5970]">
+                {pricingCommercialTerms.availabilityLabel}
               </p>
               <div className="mt-3 flex items-end gap-2">
-                <span className="text-4xl font-semibold text-white">
+                <span className="text-4xl font-semibold text-[#0d2f4a]">
                   {foundingPartnerOffer.discountedMonthlyPrice}
                 </span>
-                <span className="pb-1 text-sm text-[#c5d3e6]">
+                <span className="pb-1 text-sm text-[#48657c]">
                   /mo equivalent
                 </span>
               </div>
-              <p className="mt-2 text-sm text-[#dfe9f5]">
+              <p className="mt-2 text-sm text-[#27455b]">
                 Standard value {foundingPartnerOffer.standardMonthlyPrice}
               </p>
-              <p className="mt-2 text-sm text-[#8aa7c7]">
+              <p className="mt-2 text-sm text-[#48657c]">
                 Billed annually at {foundingPartnerOffer.annualPrice}
+              </p>
+              <p className="mt-3 text-sm font-semibold text-[#0d2f4a]">
+                {pricingCommercialTerms.availabilityHeadline}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[#35526a]">
+                {pricingCommercialTerms.revenueShareValue} of revenue generated
+                through the engine is retained by Ad Rev.
               </p>
             </div>
           </div>
@@ -121,8 +129,13 @@ export function FoundingPartnerCheckout({
                 {mauPricingBands.map((band) => (
                   <div
                     key={band.label}
-                    className="grid gap-3 rounded-2xl border border-[#ff8a3d]/15 bg-white/[0.03] px-4 py-4 md:grid-cols-[1fr_auto_auto] md:items-center"
+                    className="relative grid gap-3 overflow-hidden rounded-2xl border border-[#ff8a3d]/15 bg-white/[0.03] px-4 py-4 md:grid-cols-[1fr_auto_auto] md:items-center"
                   >
+                    {'ribbonLabel' in band && band.ribbonLabel ? (
+                      <div className="absolute right-4 top-0 translate-y-[-50%] rounded-full border border-[#f8d58b]/55 bg-[linear-gradient(135deg,#f5cf7a,#d4871d)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#3b2202] shadow-[0_10px_24px_rgba(244,170,44,0.32)]">
+                        {band.ribbonLabel}
+                      </div>
+                    ) : null}
                     <div>
                       <p className="text-sm font-semibold text-white">
                         {band.label}
@@ -131,14 +144,21 @@ export function FoundingPartnerCheckout({
                         {band.description}
                       </p>
                     </div>
-                    <p className="text-sm font-semibold text-[#dfe9f5] md:text-right">
-                      {band.price}
-                    </p>
+                    <div className="md:text-right">
+                      {'originalPrice' in band && band.originalPrice ? (
+                        <p className="text-xs font-medium text-[#c89661] line-through decoration-[#c89661]/80 decoration-2">
+                          {band.originalPrice}
+                        </p>
+                      ) : null}
+                      <p className="text-sm font-semibold text-[#dfe9f5]">
+                        {band.price}
+                      </p>
+                    </div>
                     {band.actionType === 'checkout' ? (
                       <button
                         type="button"
                         onClick={() => openCheckoutForBand(band)}
-                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#00d4ff] px-4 py-2 text-sm font-semibold text-[#03111c] transition hover:bg-[#69ebff]"
+                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#f7b24a,#f07c1f)] px-4 py-2 text-sm font-semibold text-[#2d1500] shadow-[0_12px_28px_rgba(240,124,31,0.28)] transition hover:brightness-105"
                       >
                         {band.actionLabel}
                         <ArrowRight className="h-4 w-4" />
@@ -172,23 +192,23 @@ export function FoundingPartnerCheckout({
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 rounded-2xl border border-[#ff8a3d]/20 bg-[#ff8a3d]/8 p-4 text-sm text-[#ffddb4]">
-                {foundingPartnerOffer.spotsLabel}. Commercial purchase remains
-                available directly from this page for the initial client bands.
+              <div className="mt-6 rounded-2xl border border-[#c9d8e2]/70 bg-[linear-gradient(145deg,rgba(237,242,246,0.98),rgba(222,231,236,0.96)_58%,rgba(209,229,228,0.94))] p-4 text-sm text-[#35526a] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                {foundingPartnerOffer.spotsLabel}
               </div>
               {!compact && (
                 <div className="mt-6 space-y-3">
                   <button
                     type="button"
                     onClick={() => openCheckoutForBand(mauPricingBands[0])}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#00d4ff] px-5 py-3 text-sm font-semibold text-[#04131f] transition hover:bg-[#7ee7ff]"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#f7b24a,#f07c1f)] px-5 py-3 text-sm font-semibold text-[#2d1500] shadow-[0_16px_36px_rgba(240,124,31,0.28)] transition hover:brightness-105"
                   >
-                    Start Purchase
+                    Secure Early Access
                     <ArrowRight className="h-4 w-4" />
                   </button>
                   <p className="text-center text-xs text-[#8aa7c7]">
-                    Secure checkout via Paystack. Success flow verifies payment,
-                    updates Supabase, and triggers confirmation emails.
+                    Secure checkout via Paystack for the introductory
+                    early-access rate. The confirmation flow verifies payment,
+                    updates Supabase, and triggers follow-up notifications.
                   </p>
                 </div>
               )}

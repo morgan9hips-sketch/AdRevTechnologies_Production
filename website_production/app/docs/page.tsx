@@ -149,7 +149,7 @@ export default function DocsPage() {
               Core endpoints
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Practical endpoints, not placeholder documentation.
+              Production endpoints for platform, reward, and attribution flows.
             </h2>
           </div>
           <div className="space-y-4">

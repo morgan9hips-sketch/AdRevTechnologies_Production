@@ -1,14 +1,9 @@
 import Link from 'next/link'
-import { Github, Twitter, Linkedin, Mail } from 'lucide-react'
+import { Twitter, Linkedin, Mail } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { contactEmail, footerLinkGroups } from '@/lib/site-content'
 
 const socialLinks = [
-  {
-    name: 'GitHub',
-    href: 'https://github.com/morgan9hips-sketch',
-    icon: Github,
-  },
   { name: 'Twitter', href: 'https://twitter.com/adrevtech', icon: Twitter },
   {
     name: 'LinkedIn',

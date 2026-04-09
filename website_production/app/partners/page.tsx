@@ -5,14 +5,13 @@ import {
   BriefcaseBusiness,
   Building2,
   Mail,
-  MessageSquareText,
   Handshake,
   Layers3,
-  MessagesSquare,
   Webhook,
 } from 'lucide-react'
+import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa6'
 import { partnerPrograms } from '@/lib/site-content'
-import { PlatformV1Preview } from '@/components/marketing/platform-v1-preview'
+import { PlatformPreview } from '@/components/marketing/platform-v1-preview'
 
 const partnerReasons = [
   'Deploy a revenue layer across multiple client accounts without rebuilding each time.',
@@ -27,22 +26,23 @@ const rolloutSteps = [
   'Protected launch path with onboarding and performance tracking',
 ]
 
-const reservedPartnerSlots = [
-  'Strategic Agency Partner',
-  'Regional Commerce Operator',
-  'Gaming Platform Group',
-  'Loyalty and Rewards Network',
+const capabilityCoverage = [
+  'Agency rollout programmes across multiple client portfolios',
+  'Regional commerce operators coordinating loyalty and ad inventory',
+  'Gaming and entertainment platforms scaling rewarded engagement',
+  'Membership, wallet, and retention ecosystems requiring attribution',
 ] as const
 
 const credibilityAnchors = [
-  { label: 'WhatsApp', icon: MessageSquareText },
+  { label: 'WhatsApp', icon: FaWhatsapp },
+  { label: 'Facebook', icon: FaFacebookF },
+  { label: 'Instagram', icon: FaInstagram },
   { label: 'Email', icon: Mail },
-  { label: 'Social Media', icon: MessagesSquare },
   { label: 'API / Webhooks', icon: Webhook },
 ] as const
 
 const partnerAdvantages = [
-  'Launch-partner pricing remains fixed while active.',
+  'Early-access commercial terms remain fixed while active.',
   'Client dashboards already demonstrate a strong reporting and presentation standard.',
   'Commercial onboarding supports both direct purchase and managed enterprise engagement.',
 ] as const
@@ -112,7 +112,7 @@ export default function PartnersPage() {
               />
               <PartnerStat
                 label="Working motion"
-                value="Commercial onboarding flow is live"
+                value="Commercial activation planning is active"
                 icon={<Handshake className="h-5 w-5" />}
               />
             </div>
@@ -142,18 +142,19 @@ export default function PartnersPage() {
         <div className="mx-auto max-w-7xl rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8 sm:p-10">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Partner placement
+              Coverage profile
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Illustrative partner visibility.
+              Commercial use cases the network is built to support.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-              These placements show how partner visibility can be presented on
-              the page while the initial portfolio is being finalised.
+              Instead of implying a finalised public roster, this section shows
+              the operator profiles and deployment models the partner motion is
+              designed to serve first.
             </p>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {reservedPartnerSlots.map((slot, index) => (
+            {capabilityCoverage.map((slot, index) => (
               <div
                 key={`${slot}-${index}`}
                 className="flex min-h-[132px] items-center justify-center rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.03] p-6 text-center"
@@ -163,7 +164,7 @@ export default function PartnersPage() {
                     <BadgeCheck className="h-5 w-5" />
                   </div>
                   <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#8ea7c2]">
-                    Representative placement
+                    Coverage area
                   </p>
                   <p className="mt-2 text-sm leading-6 text-[#dce8f5]">
                     {slot}
@@ -175,7 +176,7 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      <PlatformV1Preview />
+      <PlatformPreview />
 
       <section className="px-6 py-20">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
@@ -278,7 +279,9 @@ export default function PartnersPage() {
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
               Case studies will be published once live client programmes
-              complete commercial rollout and reporting sign-off.
+              complete reporting sign-off. Until then, the focus remains on
+              demonstrating operating standards, rollout discipline, and
+              commercial fit.
             </p>
             <ul className="mt-6 space-y-3">
               {partnerAdvantages.map((item) => (
@@ -305,7 +308,7 @@ export default function PartnersPage() {
                 >
                   <p>{quote}</p>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#8ea7c2]">
-                    Client-facing dashboard standard
+                    Enterprise dashboard standard
                   </p>
                 </blockquote>
               ))}

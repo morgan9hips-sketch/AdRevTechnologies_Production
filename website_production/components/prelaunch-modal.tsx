@@ -163,7 +163,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               id="prelaunch-modal-title"
               className="text-xl font-bold text-[#f1f5f9]"
             >
-              Launch Partner Access
+              Early Access Commercial Terms
             </h2>
             <p className="text-sm text-[#94a3b8] mt-1">
               {tier.name} Plan ·{' '}
@@ -205,8 +205,8 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               1. What You Are Purchasing
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              You are securing a launch partner position on the Ad Rev
-              Technologies platform{' '}
+              You are securing an early-access commercial allocation on the Ad
+              Rev Technologies platform{' '}
               {tier.billingPeriod === 'annual' ? (
                 <>
                   at a locked-in annual rate of{' '}
@@ -243,10 +243,10 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
           {/* Section 2 */}
           <section>
             <h3 className="text-sm font-semibold text-[#f1f5f9] mb-2">
-              2. Launch Partner Price Lock
+              2. Early Access Price Lock
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              Your launch-partner rate is fixed for as long as your subscription
+              Your early-access rate is fixed for as long as your subscription
               remains active. Future pricing changes will not alter your
               contracted rate while the subscription remains in force.
             </p>
@@ -273,10 +273,10 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
           {/* Section 4 */}
           <section>
             <h3 className="text-sm font-semibold text-[#f1f5f9] mb-2">
-              4. Spot Limit
+              4. Early Access Availability
             </h3>
             <p className="text-sm text-[#94a3b8] leading-relaxed">
-              Launch Partner Access on the {tier.name} plan is limited to{' '}
+              The {tier.name} offer is currently limited to{' '}
               <span className="text-[#f1f5f9] font-semibold">
                 {tier.spotsTotal} tenants
               </span>
@@ -284,8 +284,9 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               <span className="text-[#f1f5f9] font-semibold">
                 {tier.spotsRemaining} spots remaining
               </span>
-              . Once all spots are filled, this pricing tier will no longer be
-              available at the current commercial rate.
+              . Once the introductory allocation is fully assigned, this offer
+              window will close and future buyers will move to the prevailing
+              commercial structure.
             </p>
           </section>
 
@@ -397,7 +398,7 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
               className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#1e2d4a] bg-[#080d1a] text-[#3b82f6] accent-[#3b82f6] cursor-pointer focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-0"
             />
             <span className="text-sm text-[#94a3b8] group-hover:text-[#f1f5f9] transition-colors select-none">
-              I have read and agree to the Launch Partner Access Terms
+              I have read and agree to the Early Access Commercial Terms
             </span>
           </label>
 

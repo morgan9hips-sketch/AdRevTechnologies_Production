@@ -4,6 +4,7 @@ import { FoundingPartnerCheckout } from '@/components/marketing/founding-partner
 import {
   audienceCards,
   foundingPartnerOffer,
+  pricingCommercialTerms,
   pricingPrinciples,
 } from '@/lib/site-content'
 
@@ -31,12 +32,17 @@ export default function PricingPage() {
               initial MAU bands support direct purchase, while larger
               deployments move into a managed commercial process.
             </p>
+            <p className="mt-5 max-w-[980px] text-base leading-8 text-[#d9e8f7] sm:text-lg">
+              {pricingCommercialTerms.revenueShareValue} of revenue generated
+              through the engine is retained by Ad Rev as part of the commercial
+              structure.
+            </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="#founding-partner-checkout"
-                className="inline-flex items-center justify-center rounded-full bg-[#00d4ff] px-6 py-3 text-sm font-semibold text-[#05131d] transition hover:bg-[#7cecff]"
+                className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,#f7b24a,#f07c1f)] px-6 py-3 text-sm font-semibold text-[#2d1500] shadow-[0_16px_36px_rgba(240,124,31,0.28)] transition hover:brightness-105"
               >
-                Start purchase
+                Secure early access
               </Link>
               <Link
                 href="/partners"
@@ -141,28 +147,31 @@ export default function PricingPage() {
       </section>
 
       <section className="px-6 py-20">
-        <div className="mx-auto max-w-6xl rounded-[32px] border border-[#ff8a3d]/20 bg-[#ff8a3d]/8 p-8 sm:p-10">
-          <div className="flex items-center gap-3 text-[#ffb36e]">
+        <div className="mx-auto max-w-6xl rounded-[32px] border border-[#c9d8e2]/70 bg-[linear-gradient(145deg,rgba(237,242,246,0.98),rgba(222,231,236,0.96)_58%,rgba(209,229,228,0.94))] p-8 text-[#10324f] shadow-[0_22px_80px_rgba(170,190,204,0.24)] sm:p-10">
+          <div className="flex items-center gap-3 text-[#2d5970]">
             <Sparkles className="h-5 w-5" />
             <p className="text-sm font-semibold uppercase tracking-[0.24em]">
-              Commercial access
+              {pricingCommercialTerms.availabilityLabel}
             </p>
           </div>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Launch Partner Access is limited to 10.
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#0d2f4a] sm:text-4xl">
+            {pricingCommercialTerms.availabilityHeadline}
           </h2>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-[#264760]">
+            {pricingCommercialTerms.availabilityBody}
+          </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             <InfoCard
               title="Locked pricing for life"
-              body="Keep the contracted launch-partner rate active for as long as the subscription remains live."
+              body="Keep the contracted early-access rate active for as long as the subscription remains live."
             />
             <InfoCard
-              title="Direct product access"
-              body="Influence the roadmap while the infrastructure is being shaped around live operators and agencies."
+              title="Engine revenue share"
+              body={pricingCommercialTerms.revenueShareBody}
             />
             <InfoCard
-              title="Priority onboarding"
-              body="Support direct purchase for the initial client bands and move larger deployments into a managed onboarding path."
+              title="Guided activation"
+              body="Secure one of the first three guided activation slots with direct implementation support, onboarding, and launch review."
             />
           </div>
         </div>
@@ -173,12 +182,12 @@ export default function PricingPage() {
 
 function InfoCard({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.04] p-6 text-center">
-      <div className="mb-4 inline-flex items-center justify-center rounded-full border border-[#ff8a3d]/20 bg-white/5 p-2 text-[#ffb36e]">
+    <div className="rounded-[24px] border border-[#bfd0da]/80 bg-white/55 p-6 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+      <div className="mb-4 inline-flex items-center justify-center rounded-full border border-[#bfd0da]/80 bg-white/70 p-2 text-[#1d4f67]">
         <Building2 className="h-4 w-4" />
       </div>
-      <h3 className="text-lg font-semibold text-white">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-[#f3dfc3]">{body}</p>
+      <h3 className="text-lg font-semibold text-[#0d2f4a]">{title}</h3>
+      <p className="mt-3 text-sm leading-7 text-[#35526a]">{body}</p>
     </div>
   )
 }

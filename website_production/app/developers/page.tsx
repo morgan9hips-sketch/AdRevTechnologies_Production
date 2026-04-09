@@ -1,24 +1,33 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Code, Webhook, FileText, Key, Gauge, BarChart3 } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Integration Guidance | Ad Rev Technologies',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 const integrationSteps = [
   {
     number: '1',
-    title: 'Register your platform',
+    title: 'Align the integration scope',
     description:
-      'Apply via /partners, receive API credentials, and access your tenant dashboard.',
+      'Use the commercial and technical review process to confirm your use case, launch path, and access requirements.',
   },
   {
     number: '2',
-    title: 'Generate your API key',
+    title: 'Receive controlled credentials',
     description:
-      'Scoped keys per tenant from your dashboard. Rate-limited by tier. Rotate at any time.',
+      'Credentials, webhook configuration, and environment guidance are issued through the managed activation workflow.',
   },
   {
     number: '3',
-    title: 'Make your first call',
+    title: 'Validate the launch path',
     description:
-      'POST /engagement/start and receive your first reward event back via webhook.',
+      'Run the first event and webhook checks with implementation support before moving into live rollout.',
   },
 ]
 
@@ -39,7 +48,7 @@ const featureCards = [
     icon: FileText,
     title: 'Swagger Docs',
     description:
-      'Interactive API documentation at /docs. Test endpoints directly in the browser with your API key.',
+      'Implementation guidance and API references are aligned to production onboarding rather than exposed as an unsupported self-serve console.',
   },
   {
     icon: Key,
@@ -90,42 +99,46 @@ X-AdRev-Signature: sha256=...
 
 export default function DevelopersPage() {
   return (
-    <div className="bg-[#080d1a] text-[#f1f5f9] min-h-screen">
+    <div className="bg-[linear-gradient(180deg,#02060f_0%,#081321_38%,#07111f_100%)] text-white min-h-screen">
       {/* Hero */}
       <section className="py-24 px-6">
         <div className="mx-auto max-w-3xl text-center">
-          <Code className="mx-auto h-14 w-14 text-[#3b82f6] mb-6" />
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#f1f5f9] mb-6">
-            Developer Integration Portal
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[22px] border border-[#00d4ff]/20 bg-[#00d4ff]/10 text-[#7ee7ff]">
+            <Code className="h-8 w-8" />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
+            Integration Guidance for Technical Teams
           </h1>
-          <p className="text-lg text-[#94a3b8]">
-            Integrate the Ad Rev engagement engine into your platform. RESTful
-            API, webhook delivery, Swagger docs, and tier-based access.
+          <p className="text-lg text-[#c4d5e9]">
+            Review the production integration model, webhook delivery pattern,
+            and access controls used during managed activation.
           </p>
         </div>
       </section>
 
       {/* Integration Steps */}
-      <section className="bg-[#0f1629] py-24 px-6">
+      <section className="px-6 py-12">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
-              Get Integrated in Three Steps
+            <h2 className="text-3xl font-semibold text-white mb-4">
+              Three-Step Activation Path
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {integrationSteps.map((step) => (
               <div
                 key={step.number}
-                className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-8"
+                className="rounded-[28px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8"
               >
-                <div className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold text-lg mb-5">
+                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-full bg-[#00d4ff]/12 text-lg font-bold text-[#7ee7ff]">
                   {step.number}
                 </div>
-                <h3 className="text-lg font-semibold text-[#f1f5f9] mb-3">
+                <h3 className="text-lg font-semibold text-white mb-3">
                   {step.title}
                 </h3>
-                <p className="text-[#94a3b8] text-sm">{step.description}</p>
+                <p className="text-[#c7d8ea] text-sm leading-7">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
@@ -136,27 +149,28 @@ export default function DevelopersPage() {
       <section className="py-24 px-6">
         <div className="mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
+            <h2 className="text-3xl font-semibold text-white mb-4">
               See It in Action
             </h2>
-            <p className="text-[#94a3b8]">
-              A real API call and the webhook response it triggers.
+            <p className="text-[#a9bfd7]">
+              Representative request and webhook shapes used during
+              implementation review.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <div className="text-xs text-[#94a3b8] mb-2 font-medium uppercase tracking-wider">
+              <div className="text-xs text-[#8ea7c2] mb-2 font-medium uppercase tracking-wider">
                 API Request
               </div>
-              <pre className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 text-sm text-[#94a3b8] overflow-x-auto whitespace-pre-wrap">
+              <pre className="rounded-[24px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-6 text-sm text-[#c7d8ea] overflow-x-auto whitespace-pre-wrap">
                 <code>{requestExample}</code>
               </pre>
             </div>
             <div>
-              <div className="text-xs text-[#94a3b8] mb-2 font-medium uppercase tracking-wider">
+              <div className="text-xs text-[#8ea7c2] mb-2 font-medium uppercase tracking-wider">
                 Webhook Response
               </div>
-              <pre className="bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-6 text-sm text-[#94a3b8] overflow-x-auto whitespace-pre-wrap">
+              <pre className="rounded-[24px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-6 text-sm text-[#c7d8ea] overflow-x-auto whitespace-pre-wrap">
                 <code>{webhookExample}</code>
               </pre>
             </div>
@@ -165,11 +179,11 @@ export default function DevelopersPage() {
       </section>
 
       {/* Feature Cards */}
-      <section className="bg-[#0f1629] py-24 px-6">
+      <section className="px-6 py-12">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
-              Built for Developers
+            <h2 className="text-3xl font-semibold text-white mb-4">
+              Implementation Controls
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -178,13 +192,15 @@ export default function DevelopersPage() {
               return (
                 <div
                   key={card.title}
-                  className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-6"
+                  className="rounded-[28px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-6"
                 >
-                  <Icon className="h-7 w-7 text-[#3b82f6] mb-4" />
-                  <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">
+                  <Icon className="h-7 w-7 text-[#7ee7ff] mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">
                     {card.title}
                   </h3>
-                  <p className="text-[#94a3b8] text-sm">{card.description}</p>
+                  <p className="text-[#c7d8ea] text-sm leading-7">
+                    {card.description}
+                  </p>
                 </div>
               )
             })}
@@ -195,25 +211,25 @@ export default function DevelopersPage() {
       {/* CTA */}
       <section className="py-24 px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
-            Ready to Integrate?
+          <h2 className="text-3xl font-semibold text-white mb-4">
+            Ready to Review the Integration?
           </h2>
-          <p className="text-[#94a3b8] mb-10">
-            Access the full API documentation or register your platform to
-            receive credentials.
+          <p className="text-[#a9bfd7] mb-10">
+            Use the documentation and contact path to align commercial scope,
+            credentials, and rollout planning.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/docs"
-              className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+              className="inline-block rounded-full bg-[#00d4ff] px-8 py-3 font-semibold text-[#04121c] transition hover:bg-[#7cecff]"
             >
-              View Full API Documentation
+              Review integration docs
             </Link>
             <Link
               href="/contact"
-              className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
+              className="inline-block rounded-full border border-[#00d4ff]/25 px-8 py-3 font-semibold text-[#7ee7ff] transition hover:bg-[#00d4ff]/10"
             >
-              Register Your Platform
+              Discuss integration
             </Link>
           </div>
         </div>

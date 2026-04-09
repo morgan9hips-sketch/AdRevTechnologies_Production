@@ -7,18 +7,16 @@ import {
   CheckCircle2,
   CheckSquare,
   DollarSign,
-  Facebook,
   FolderKanban,
   Home,
-  Instagram,
   LayoutDashboard,
   Mail,
-  MessageCircle,
   Palette,
   Rocket,
   TrendingUp,
   Workflow,
 } from 'lucide-react'
+import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa6'
 import { EngagementMock } from '@/components/sections/engagement-mock'
 import {
   CompletionsChart,
@@ -40,26 +38,26 @@ const dashboardNav = [
   { label: 'Home', icon: Home },
   { label: 'Analytics', icon: TrendingUp },
   { label: 'Campaigns', icon: CheckSquare },
-  { label: 'Marketing', icon: MessageCircle },
+  { label: 'Marketing', icon: Workflow },
   { label: 'Reports', icon: BarChart3 },
 ] as const
 
 const channelShowcase = [
   {
     label: 'WhatsApp',
-    icon: MessageCircle,
+    icon: FaWhatsapp,
     color: 'text-[#25D366]',
     ring: 'border-[#25D366]/30 bg-[#25D366]/12',
   },
   {
     label: 'Facebook',
-    icon: Facebook,
+    icon: FaFacebookF,
     color: 'text-[#1877F2]',
     ring: 'border-[#1877F2]/30 bg-[#1877F2]/12',
   },
   {
     label: 'Instagram',
-    icon: Instagram,
+    icon: FaInstagram,
     color: 'text-[#E1306C]',
     ring: 'border-[#E1306C]/30 bg-[#E1306C]/12',
   },
@@ -154,7 +152,7 @@ const onboardingChecklist = [
 const brandBlendPoints = [
   'The client brand remains visible throughout the user journey, including reward prompts and post-completion states.',
   'Messaging channels appear as part of the operator environment instead of looking like external add-ons.',
-  'The commercial engine is embedded cleanly enough that partners can understand the value with their eyes before reading the explanation.',
+  'The commercial engine is embedded cleanly enough that partners can understand the value with a glance.',
 ] as const
 
 function campaignStatusClass(status: string) {
@@ -172,7 +170,7 @@ function campaignStatusClass(status: string) {
 function channelCardClass(channel: string) {
   if (channel === 'whatsapp') {
     return {
-      icon: MessageCircle,
+      icon: FaWhatsapp,
       iconClass: 'text-[#25D366]',
       surfaceClass: 'bg-[#25D366]/10',
       label: 'WhatsApp',
@@ -189,32 +187,31 @@ function channelCardClass(channel: string) {
   }
 
   return {
-    icon: Instagram,
+    icon: FaInstagram,
     iconClass: 'text-[#E1306C]',
     surfaceClass: 'bg-[#E1306C]/10',
-    label: 'Social',
+    label: 'Instagram / Facebook',
   }
 }
 
-export function PlatformV1Preview() {
+export function PlatformPreview() {
   const [activeTab, setActiveTab] = useState<
     'dashboard' | 'onboarding' | 'branding'
   >('dashboard')
 
   return (
     <section className="px-6 py-20">
-      <div className="mx-auto max-w-[1500px]">
+      <div className="mx-auto max-w-[1640px]">
         <div className="max-w-4xl">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-            Client experience prototype
+            Client interface preview
           </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Show the whole interface, not compressed fragments.
+            Review the full interface, not cropped fragments.
           </h2>
           <p className="mt-4 text-base leading-7 text-[#a9bfd7] sm:text-lg">
-            This prototype lets partners assess the full interface visually: the
-            operating dashboard, the onboarding workspace, and the brand-blended
-            user layer.
+            This interface view lets partners assess the operating dashboard,
+            activation workspace, and brand-blended user layer in one place.
           </p>
         </div>
 
@@ -258,31 +255,68 @@ export function PlatformV1Preview() {
           })}
         </div>
 
-        <div className="mt-10 rounded-[36px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(6,12,22,0.98),rgba(8,20,37,0.96))] p-4 sm:p-6 xl:p-8">
-          {activeTab === 'dashboard' && <DashboardPrototype />}
-          {activeTab === 'onboarding' && <OnboardingPrototype />}
-          {activeTab === 'branding' && <BrandBlendPrototype />}
+        <div className="mt-10 rounded-[36px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(6,12,22,0.98),rgba(8,20,37,0.96))] p-4 sm:p-6 lg:p-8">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-[#ff8a3d]/20 bg-[#ff8a3d]/8 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#ffcf9c]">
+              Full interface view
+            </p>
+            <p className="text-sm text-[#f3dfc3]">
+              Each tab shows the full client-facing surface using example data
+              for presentation only.
+            </p>
+          </div>
+          {activeTab === 'dashboard' && <DashboardExperience />}
+          {activeTab === 'onboarding' && <OnboardingWorkspace />}
+          {activeTab === 'branding' && <BrandBlendExperience />}
         </div>
 
-        <div className="mt-10 rounded-[28px] border border-[#ff8a3d]/20 bg-[#0b1322]/80 p-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#7ee7ff]">
-            Presentation note
-          </p>
-          <p className="mt-2 max-w-5xl text-sm leading-7 text-[#a9bfd7]">
-            Partners should be able to understand the interface with a glance:
-            visible channel icons, clear dashboard structure, commercial
-            campaign details, and a complete client-facing prototype rather than
-            isolated cards.
-          </p>
+        <div className="mt-10 rounded-[36px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(8,17,31,0.96),rgba(7,19,34,0.9))] p-6 sm:p-8">
+          <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr] xl:items-start">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#7ee7ff]">
+                Embedded brand experience
+              </p>
+              <h3 className="mt-3 text-3xl font-semibold text-white">
+                The branded user journey remains visible throughout partner
+                review.
+              </h3>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#a9bfd7]">
+                Reward prompts, social and messaging touchpoints, and completion
+                flows are presented as part of the client environment rather
+                than as detached utilities.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {channelShowcase.map((channel) => {
+                  const Icon = channel.icon
+
+                  return (
+                    <div
+                      key={`persistent-${channel.label}`}
+                      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 ${channel.ring}`}
+                    >
+                      <Icon className={`h-4 w-4 ${channel.color}`} />
+                      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
+                        {channel.label}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-[24px] border border-[#1e2d4a] bg-[#0f1629] p-4 sm:p-6">
+              <EngagementMock />
+            </div>
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-function DashboardPrototype() {
+function DashboardExperience() {
   return (
-    <div className="grid gap-6 xl:grid-cols-[260px_1fr]">
+    <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[260px_minmax(0,1fr)]">
       <div className="rounded-[30px] border border-[#1e2d4a] bg-[#09121f] p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#7ee7ff]">
           Client workspace
@@ -337,7 +371,7 @@ function DashboardPrototype() {
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         <div className="rounded-[30px] border border-[#1e2d4a] bg-[#09121f] p-6">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -376,13 +410,13 @@ function DashboardPrototype() {
             })}
           </div>
 
-          <div className="mt-6 grid gap-5 xl:grid-cols-2">
+          <div className="mt-6 grid gap-5 lg:grid-cols-2">
             <RevenueChart />
             <CompletionsChart />
           </div>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[30px] border border-[#1e2d4a] bg-[#09121f] p-6">
             <SectionHeader
               title="Campaign control"
@@ -521,13 +555,13 @@ function DashboardPrototype() {
   )
 }
 
-function OnboardingPrototype() {
+function OnboardingWorkspace() {
   return (
-    <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+    <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="rounded-[30px] border border-[#1e2d4a] bg-[#09121f] p-6 sm:p-7">
         <SectionHeader
           title="Client onboarding workspace"
-          subtitle="A full onboarding dashboard prototype with visible progress and launch ownership."
+          subtitle="A full onboarding workspace with visible progress and launch ownership."
         />
 
         <div className="mt-6 flex items-center gap-3 overflow-x-auto pb-1">
@@ -644,13 +678,13 @@ function OnboardingPrototype() {
   )
 }
 
-function BrandBlendPrototype() {
+function BrandBlendExperience() {
   return (
-    <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:items-start">
+    <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
       <div className="rounded-[30px] border border-[#1e2d4a] bg-[#09121f] p-6 sm:p-7">
         <SectionHeader
           title="Brand-blended user experience"
-          subtitle="The embedded reward flow is displayed as a full visual prototype, not an abstract explanation."
+          subtitle="The embedded reward flow is displayed as a full visual environment, not an abstract explanation."
         />
 
         <div className="mt-6 flex flex-wrap gap-3">
@@ -679,8 +713,8 @@ function BrandBlendPrototype() {
       <div className="space-y-6">
         <div className="rounded-[30px] border border-[#1e2d4a] bg-[#09121f] p-6 sm:p-7">
           <SectionHeader
-            title="Why partners need to see this"
-            subtitle="The value should be obvious visually before the explanatory copy is read."
+            title="Embedded commercial value"
+            subtitle="The value should be obvious visually before the supporting copy is read."
           />
           <div className="mt-5 space-y-4">
             {brandBlendPoints.map((point) => (
@@ -697,7 +731,7 @@ function BrandBlendPrototype() {
         <div className="rounded-[30px] border border-[#1e2d4a] bg-[#09121f] p-6 sm:p-7">
           <SectionHeader
             title="Channel presence"
-            subtitle="Messaging and social delivery should be visible as part of the product surface."
+            subtitle="Messaging and social delivery remain visible as part of the product surface."
           />
           <div className="mt-5 grid grid-cols-2 gap-4">
             {channelShowcase.map((channel) => {

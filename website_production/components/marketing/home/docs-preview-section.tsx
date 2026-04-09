@@ -16,10 +16,9 @@ export function DocsPreviewSection() {
             Developer-facing from the first conversation.
           </h2>
           <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-            Docs should be one of your most visited pages, not an afterthought.
-            The redesigned docs and developer portal will use the same brand
-            system while keeping the integration story practical and
-            production-ready.
+            Documentation should answer integration questions early, reduce
+            technical uncertainty, and support a production conversation from
+            the first review.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -29,10 +28,10 @@ export function DocsPreviewSection() {
               Read the docs
             </Link>
             <Link
-              href="/developers"
+              href="/contact"
               className="inline-flex items-center justify-center rounded-full border border-[#00d4ff]/25 px-6 py-3 text-sm font-semibold text-[#7ee7ff] transition hover:bg-[#00d4ff]/10"
             >
-              Open developer portal
+              Discuss integration
             </Link>
           </div>
         </div>

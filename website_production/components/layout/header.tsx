@@ -107,20 +107,12 @@ export function Header() {
               </button>
             </div>
           ) : (
-            <>
-              <Link
-                href="/admin/login"
-                className="px-3 py-2 text-sm font-semibold text-[#9bb4cd] transition-colors hover:text-white"
-              >
-                Admin login
-              </Link>
-              <Link
-                href="/contact"
-                className="rounded-full bg-[#00d4ff] px-5 py-2.5 text-sm font-semibold text-[#04121c] transition hover:bg-[#7cecff]"
-              >
-                Contact us
-              </Link>
-            </>
+            <Link
+              href="/contact"
+              className="rounded-full bg-[#00d4ff] px-5 py-2.5 text-sm font-semibold text-[#04121c] transition hover:bg-[#7cecff]"
+            >
+              Contact us
+            </Link>
           )}
         </div>
       </nav>
@@ -158,22 +150,13 @@ export function Header() {
                   </button>
                 </>
               ) : (
-                <>
-                  <Link
-                    href="/admin/login"
-                    className="block px-3 py-2 text-base font-medium text-[#9bb4cd] transition-colors hover:text-white"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Admin login
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="block rounded-xl bg-[#00d4ff] px-3 py-2 text-center font-semibold text-[#04121c] transition hover:bg-[#7cecff]"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Contact us
-                  </Link>
-                </>
+                <Link
+                  href="/contact"
+                  className="block rounded-xl bg-[#00d4ff] px-3 py-2 text-center font-semibold text-[#04121c] transition hover:bg-[#7cecff]"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact us
+                </Link>
               )}
             </div>
           </div>

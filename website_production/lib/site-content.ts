@@ -6,7 +6,6 @@ export const siteNavigation = [
   { label: 'Partners', href: '/partners' },
   { label: 'Docs', href: '/docs' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Developers', href: '/developers' },
 ] as const
 
 export const footerLinkGroups = {
@@ -18,7 +17,6 @@ export const footerLinkGroups = {
   ],
   resources: [
     { label: 'Docs', href: '/docs' },
-    { label: 'Developers', href: '/developers' },
     { label: 'Contact', href: '/contact' },
     { label: 'Email Support', href: `mailto:${contactEmail}` },
   ],
@@ -117,7 +115,7 @@ export const audienceCards = [
 
 export const foundingPartnerOffer = {
   name: 'Ad Rev Infrastructure',
-  label: 'Launch Partner Access',
+  label: 'Priority Early Access Offer',
   headline: 'One Infrastructure. Every Revenue Channel.',
   subheadline:
     'Stop stitching tools together. Start monetising the users you already have.',
@@ -127,8 +125,10 @@ export const foundingPartnerOffer = {
   annualPriceMinor: 598800,
   annualSavings: '$4,800',
   accessWindow: '30–45 days',
-  spotsLabel: 'Limited to 10 launch partners',
-  spotsRemaining: 10,
+  spotsLabel:
+    'Commercial access at $5,988 per year is reserved for the first three early-access client activations, with no MAU ceiling applied during the current offer window.',
+  spotsRemaining: 3,
+  spotsTotal: 3,
   features: [
     'Rewarded engagement workflows with server-side verification',
     'Referral systems with real-time conversion tracking',
@@ -140,13 +140,27 @@ export const foundingPartnerOffer = {
   ],
 } as const
 
+export const pricingCommercialTerms = {
+  revenueShareLabel: 'Revenue share through the engine',
+  revenueShareValue: '10%',
+  revenueShareBody:
+    'Ad Rev retains 10% of revenue generated through the engine while your contracted infrastructure rate remains fixed for as long as the subscription stays active.',
+  availabilityLabel: 'Commercial access',
+  availabilityHeadline:
+    'Reserved for the first three early-access activations.',
+  availabilityBody:
+    'Secure one of the 3 guided activations on the introductory $5,988 annual rate before this early-access window closes.',
+} as const
+
 export const mauPricingBands = [
   {
     id: 'founding_partner_0_500k',
     label: '0 to 500K MAU',
     price: '$5,988 / year',
+    originalPrice: '$10,988 / year',
     annualPriceMinor: 598800,
-    actionLabel: 'Start Purchase',
+    actionLabel: 'Secure Early Access',
+    ribbonLabel: 'Special Offer',
     actionType: 'checkout',
     description:
       'Direct commercial purchase for launch-stage operators in the initial MAU band.',
@@ -155,8 +169,10 @@ export const mauPricingBands = [
     id: 'growth_500k_1_5m',
     label: '500K to 1.5M MAU',
     price: '$6,988 / year',
+    originalPrice: '$11,988 / year',
     annualPriceMinor: 698800,
-    actionLabel: 'Start Purchase',
+    actionLabel: 'Secure Early Access',
+    ribbonLabel: 'Special Offer',
     actionType: 'checkout',
     description:
       'Direct commercial purchase for growth-stage operators in the mid-market band.',
@@ -165,8 +181,10 @@ export const mauPricingBands = [
     id: 'scale_1_5m_3m',
     label: '1.5M to 3M MAU',
     price: '$7,988 / year',
+    originalPrice: '$12,988 / year',
     annualPriceMinor: 798800,
-    actionLabel: 'Start Purchase',
+    actionLabel: 'Secure Early Access',
+    ribbonLabel: 'Special Offer',
     actionType: 'checkout',
     description:
       'Direct commercial purchase for scaled operators requiring broader rollout support.',
@@ -186,14 +204,14 @@ export const pricingPrinciples = [
   'Base infrastructure access included',
   'Pricing scales in MAU bands',
   'No feature gating from day one',
-  'Launch partner pricing remains fixed while active',
+  'Priority commercial terms remain fixed while active',
 ] as const
 
 export const docsHighlights = [
   'Single API integration with predictable RESTful flows',
   'Signed webhooks for reward events and campaign attribution',
   'Quickstart examples for authentication, event ingestion, and callbacks',
-  'Docs and developer portal aligned to production onboarding',
+  'Implementation guidance aligned to production onboarding and rollout',
 ] as const
 
 export const partnerPrograms = [

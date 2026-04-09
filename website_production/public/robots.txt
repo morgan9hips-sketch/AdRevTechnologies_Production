@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /developers/
+Disallow: /onboarding/
+Disallow: /platform/
+
+Sitemap: https://www.adrevtechnologies.com/sitemap.xml

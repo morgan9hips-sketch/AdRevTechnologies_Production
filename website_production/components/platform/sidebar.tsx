@@ -41,7 +41,10 @@ export function Sidebar() {
       }}
     >
       {/* Logo */}
-      <div className="px-5 pt-6 pb-5 border-b" style={{ borderColor: '#1e2d4a' }}>
+      <div
+        className="px-5 pt-6 pb-5 border-b"
+        style={{ borderColor: '#1e2d4a' }}
+      >
         <div className="flex items-center gap-2 mb-1">
           <span
             className="text-xs font-bold leading-none"
@@ -50,14 +53,16 @@ export function Sidebar() {
             ■
           </span>
           <div>
-            <span className="font-bold text-white text-sm leading-none">Ad Rev</span>{' '}
+            <span className="font-bold text-white text-sm leading-none">
+              Ad Rev
+            </span>{' '}
             <span className="text-xs" style={{ color: '#94a3b8' }}>
               Technologies
             </span>
           </div>
         </div>
         <p className="text-xs mt-2" style={{ color: '#94a3b8' }}>
-          Demo Tenant · BookieAI
+          Client Workspace · Atlas Commerce
         </p>
       </div>
 
@@ -75,7 +80,8 @@ export function Sidebar() {
         </div>
         {navItems.map((item) => {
           const Icon = item.icon
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+          const isActive =
+            pathname === item.href || pathname.startsWith(item.href + '/')
           return (
             <Link
               key={item.href}
@@ -116,9 +122,12 @@ export function Sidebar() {
       {/* Bottom status */}
       <div className="px-5 py-4 border-t" style={{ borderColor: '#1e2d4a' }}>
         <p className="text-xs mb-1" style={{ color: '#94a3b8' }}>
-          Engine v1 · Prototype
+          Commercial environment
         </p>
-        <p className="text-xs flex items-center gap-1" style={{ color: '#10b981' }}>
+        <p
+          className="text-xs flex items-center gap-1"
+          style={{ color: '#10b981' }}
+        >
           <span>●</span>
           <span>All systems operational</span>
         </p>

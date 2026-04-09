@@ -2,7 +2,7 @@ import { createHmac, timingSafeEqual } from 'crypto'
 
 export const EARLY_ACCESS_ANNUAL_OFFER = Object.freeze({
   planSlug: 'prelaunch-early-access',
-  planName: 'Prelaunch Early Access',
+  planName: 'Priority Early Access Offer',
   amountUsd: 5988,
   amountMinor: 598800,
   currency: 'USD' as const,
@@ -12,7 +12,7 @@ export const EARLY_ACCESS_ANNUAL_OFFER = Object.freeze({
 export const EARLY_ACCESS_ANNUAL_OFFERS = Object.freeze({
   founding_partner_0_500k: {
     planSlug: 'founding-partner-0-500k',
-    planName: 'Founding Partner Early Access',
+    planName: 'Priority Early Access Offer',
     amountUsd: 5988,
     amountMinor: 598800,
     currency: 'USD' as const,
@@ -20,7 +20,7 @@ export const EARLY_ACCESS_ANNUAL_OFFERS = Object.freeze({
   },
   growth_500k_1_5m: {
     planSlug: 'growth-500k-1-5m',
-    planName: 'Founding Partner Early Access',
+    planName: 'Priority Early Access Offer',
     amountUsd: 6988,
     amountMinor: 698800,
     currency: 'USD' as const,
@@ -28,7 +28,7 @@ export const EARLY_ACCESS_ANNUAL_OFFERS = Object.freeze({
   },
   scale_1_5m_3m: {
     planSlug: 'scale-1-5m-3m',
-    planName: 'Founding Partner Early Access',
+    planName: 'Priority Early Access Offer',
     amountUsd: 7988,
     amountMinor: 798800,
     currency: 'USD' as const,

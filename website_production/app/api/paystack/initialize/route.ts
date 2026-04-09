@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
   buildEarlyAccessMetadata,
-  EARLY_ACCESS_ANNUAL_CHARGE,
-  EARLY_ACCESS_ANNUAL_OFFER,
+  resolveEarlyAccessAnnualOffer,
 } from '@/lib/paystack'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
@@ -20,6 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, name, requestedTier } = body
+    const offer = resolveEarlyAccessAnnualOffer(requestedTier)
 
     if (!email || !name) {
       return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     }
 
     console.log(
-      `Paystack initialize: tier=${requestedTier ?? EARLY_ACCESS_ANNUAL_OFFER.planName} amount=${EARLY_ACCESS_ANNUAL_OFFER.amountMinor} currency=${EARLY_ACCESS_ANNUAL_OFFER.currency} email=${email}`,
+      `Paystack initialize: tier=${requestedTier ?? 'founding_partner_0_500k'} amount=${offer.amountMinor} currency=${offer.currency} email=${email}`,
     )
 
     const paystackRes = await fetch(
@@ -50,8 +50,8 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           email,
-          amount: EARLY_ACCESS_ANNUAL_CHARGE.amountMinor,
-          currency: EARLY_ACCESS_ANNUAL_CHARGE.currency,
+          amount: offer.amountMinor,
+          currency: offer.currency,
           callback_url: CALLBACK_URL,
           metadata: {
             ...buildEarlyAccessMetadata({ email, name, requestedTier }),

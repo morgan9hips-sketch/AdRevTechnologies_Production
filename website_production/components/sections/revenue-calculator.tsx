@@ -17,7 +17,7 @@ export function RevenueCalculator() {
   const [impressionsPerUser, setImpressionsPerUser] = useState(2)
   const [ecpm, setEcpm] = useState(4.0)
 
-  const monthlyRevenue = (mau * impressionsPerUser * 30 / 1000) * ecpm
+  const monthlyRevenue = ((mau * impressionsPerUser * 30) / 1000) * ecpm
   const annualRevenue = monthlyRevenue * 12
 
   return (
@@ -38,7 +38,9 @@ export function RevenueCalculator() {
                 step={1000}
                 value={mau}
                 onChange={(e) => setMau(Number(e.target.value) || 0)}
-                onBlur={(e) => setMau(Math.min(2000000, Math.max(0, Number(e.target.value))))}
+                onBlur={(e) =>
+                  setMau(Math.min(2000000, Math.max(0, Number(e.target.value))))
+                }
                 className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
               />
             </div>
@@ -74,8 +76,14 @@ export function RevenueCalculator() {
                 max={10}
                 step={1}
                 value={impressionsPerUser}
-                onChange={(e) => setImpressionsPerUser(Number(e.target.value) || 1)}
-                onBlur={(e) => setImpressionsPerUser(Math.min(10, Math.max(1, Number(e.target.value))))}
+                onChange={(e) =>
+                  setImpressionsPerUser(Number(e.target.value) || 1)
+                }
+                onBlur={(e) =>
+                  setImpressionsPerUser(
+                    Math.min(10, Math.max(1, Number(e.target.value))),
+                  )
+                }
                 className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
               />
             </div>
@@ -112,7 +120,9 @@ export function RevenueCalculator() {
                 step={0.5}
                 value={ecpm}
                 onChange={(e) => setEcpm(Number(e.target.value) || 1)}
-                onBlur={(e) => setEcpm(Math.min(30, Math.max(1, Number(e.target.value))))}
+                onBlur={(e) =>
+                  setEcpm(Math.min(30, Math.max(1, Number(e.target.value))))
+                }
                 className="w-24 bg-[#080d1a] border border-[#1e2d4a] text-[#22d3ee] font-bold text-sm rounded-md px-2 py-1 text-center focus:border-[#8b5cf6] focus:outline-none"
               />
             </div>
@@ -146,9 +156,7 @@ export function RevenueCalculator() {
             </div>
           </div>
           <div className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-5 text-center">
-            <div className="text-xs text-[#94a3b8] mb-1">
-              Annual Ad Revenue
-            </div>
+            <div className="text-xs text-[#94a3b8] mb-1">Annual Ad Revenue</div>
             <div className="text-2xl font-bold text-[#10b981]">
               {formatUSD(annualRevenue)}
             </div>
@@ -157,7 +165,7 @@ export function RevenueCalculator() {
 
         <div className="text-center">
           <Link
-            href="/#waitlist"
+            href="/contact"
             className="inline-block bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             Talk to Us About Your Numbers →

@@ -7,9 +7,11 @@ import {
   getAccessWindow,
 } from '@/lib/paystack-constants'
 import {
-  EARLY_ACCESS_ANNUAL_OFFER,
+  getLockedEarlyAccessTransactionOffer,
   isLockedEarlyAccessTransaction,
 } from '@/lib/paystack'
+
+export const dynamic = 'force-dynamic'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || ''
 const resend = process.env.RESEND_API_KEY
@@ -321,18 +323,28 @@ export async function GET(request: NextRequest) {
     }
 
     const txn = paystackData.data
+    const offer = getLockedEarlyAccessTransactionOffer(txn)
+
+    if (!offer) {
+      return NextResponse.json(
+        {
+          error:
+            'Transaction does not match the locked Early Access annual offer',
+        },
+        { status: 409 },
+      )
+    }
+
     const email = txn.customer.email
     const name =
       (txn.metadata?.customerName as string) ||
       (txn.metadata?.name as string) ||
       ''
-    const amount = EARLY_ACCESS_ANNUAL_OFFER.amountMinor
-    const currency = EARLY_ACCESS_ANNUAL_OFFER.currency
+    const amount = offer.amountMinor
+    const currency = offer.currency
     const is_test = amount <= TEST_PAYMENT_THRESHOLD_KOBO
-    const tier =
-      (txn.metadata?.requestedTier as string) ||
-      EARLY_ACCESS_ANNUAL_OFFER.planName
-    const billingPeriod = EARLY_ACCESS_ANNUAL_OFFER.billingPeriod
+    const tier = (txn.metadata?.requestedTier as string) || offer.planName
+    const billingPeriod = offer.billingPeriod
     const accessWindow = getAccessWindow(tier)
 
     if (!supabaseAdmin) {

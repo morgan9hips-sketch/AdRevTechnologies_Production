@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Manrope, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
@@ -6,10 +7,20 @@ import { Providers } from '@/lib/providers'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
+const displayFont = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-display',
+})
+
+const bodyFont = Manrope({
+  subsets: ['latin'],
+  variable: '--font-body',
+})
+
 export const metadata: Metadata = {
-  title: 'Ad Rev Technologies — Engagement & Rewards Infrastructure',
+  title: 'Ad Rev Technologies — Infrastructure for Monetisation and Engagement',
   description:
-    'White-label engagement and rewards infrastructure API. Plug rewarded video ads, referrals, and promotional campaigns into any platform without building the engine yourself.',
+    'Ad Rev Technologies unifies ads, referrals, campaigns, messaging, and analytics through one infrastructure layer for platforms and agencies.',
   keywords: [
     'engagement infrastructure',
     'rewards API',
@@ -21,9 +32,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Ad Rev Technologies' }],
   openGraph: {
-    title: 'Ad Rev Technologies — Engagement & Rewards Infrastructure',
+    title:
+      'Ad Rev Technologies — Infrastructure for Monetisation and Engagement',
     description:
-      'White-label B2B engagement and rewards infrastructure. Plug rewarded video ads, referrals, and campaigns into any platform.',
+      'Ad Rev Technologies unifies ads, referrals, campaigns, messaging, and analytics through one infrastructure layer for platforms and agencies.',
     url: 'https://adrevtechnologies.com',
     siteName: 'Ad Rev Technologies',
     type: 'website',
@@ -35,7 +47,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">
+      <body
+        className={`${displayFont.variable} ${bodyFont.variable} font-sans antialiased`}
+      >
         <Providers>
           <Header />
           <main className="min-h-screen pt-24">{children}</main>

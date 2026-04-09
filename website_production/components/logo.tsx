@@ -14,14 +14,14 @@ export function Logo({
   className = '',
 }: LogoProps) {
   const sizeClasses = {
-    small: 'h-20',
-    medium: 'h-32',
-    large: 'h-40',
-    xlarge: 'h-52',
+    small: 'h-8',
+    medium: 'h-10',
+    large: 'h-14',
+    xlarge: 'h-20',
   }
 
   return (
-    <div className={`flex items-center ${className}`}>  
+    <div className={`flex items-center ${className}`}>
       {showWordmark ? (
         <img
           src="/brand/logo-transparent.png"

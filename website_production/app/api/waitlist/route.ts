@@ -2,34 +2,81 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/database'
+import { contactEmail } from '@/lib/site-content'
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
-const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || 'contact@adrevtechnologies.com'
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@adrevtechnologies.com'
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null
+const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || contactEmail
+const FROM_EMAIL =
+  process.env.RESEND_FROM_EMAIL || 'noreply@adrevtechnologies.com'
 
 const waitlistSchema = z.object({
   name: z.string().min(1, 'Name is required').max(200, 'Name is too long'),
-  email: z.string().email('Invalid email address').max(500, 'Email is too long'),
-  company_name: z.string().min(1, 'Company name is required').max(300, 'Company name is too long'),
+  email: z
+    .string()
+    .email('Invalid email address')
+    .max(500, 'Email is too long'),
+  company_name: z
+    .string()
+    .min(1, 'Company name is required')
+    .max(300, 'Company name is too long'),
   role: z.string().min(1, 'Role is required').max(200, 'Role is too long'),
   website: z
     .string()
     .max(500)
     .refine(
       (val) => val === '' || /^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(val),
-      { message: 'Please enter a valid URL (e.g. https://yourcompany.com)' }
+      { message: 'Please enter a valid URL (e.g. https://yourcompany.com)' },
     )
     .optional()
     .default(''),
-  platform_type: z.enum(['ecommerce', 'gaming', 'fintech', 'sports_betting', 'telecoms', 'loyalty', 'other'], {
-    error: 'Please select a platform type',
-  }),
-  monthly_active_users: z.enum(['under_10k', '10k_50k', '50k_250k', '250k_1m', 'over_1m'], {
-    error: 'Please select your monthly active users range',
-  }),
-  interested_tier: z.enum(['starter', 'business', 'enterprise'], {
-    error: 'Please select a tier',
-  }),
+  platform_type: z.enum(
+    [
+      'platform_operator',
+      'digital_agency',
+      'ecommerce',
+      'gaming',
+      'fintech',
+      'sports_betting',
+      'telecoms',
+      'loyalty',
+      'other',
+    ],
+    {
+      error: 'Please select a platform type',
+    },
+  ),
+  monthly_active_users: z.enum(
+    [
+      'under_10k',
+      '10k_50k',
+      '50k_250k',
+      '250k_1m',
+      'over_1m',
+      '0_500k',
+      '500k_1_5m',
+      '1_5m_3m',
+      '3m_plus',
+    ],
+    {
+      error: 'Please select your monthly active users range',
+    },
+  ),
+  interested_tier: z.enum(
+    [
+      'starter',
+      'business',
+      'enterprise',
+      'founding_partner_0_500k',
+      'growth_500k_1_5m',
+      'scale_1_5m_3m',
+      'custom_3m_plus',
+    ],
+    {
+      error: 'Please select a tier',
+    },
+  ),
   message: z
     .string()
     .max(1000, 'Message must be under 1000 characters')
@@ -48,9 +95,9 @@ async function sendAdminNotification(data: WaitlistData) {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
-      subject: `New Waitlist Signup — ${data.company_name} (${data.interested_tier})`,
+      subject: `New Contact Enquiry — ${data.company_name} (${data.interested_tier})`,
       html: `
-        <h2>New Waitlist Signup</h2>
+        <h2>New Contact Enquiry</h2>
         <table cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-family:sans-serif;font-size:14px">
           <tr><td><strong>Name</strong></td><td>${data.name}</td></tr>
           <tr><td><strong>Email</strong></td><td>${data.email}</td></tr>
@@ -76,12 +123,12 @@ async function sendUserConfirmation(name: string, email: string) {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: "You're on the Ad Rev Technologies waitlist",
+      subject: 'Your Ad Rev Technologies enquiry has been received',
       html: `
         <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1e293b">
-          <h2 style="color:#3b82f6">You're on the list, ${name}! 🎉</h2>
-          <p>Thanks for joining the Ad Rev Technologies waitlist. We've received your details and a member of our team will be in touch within <strong>24–48 hours</strong> to get you set up.</p>
-          <p>In the meantime, feel free to explore our docs or reach out at <a href="mailto:contact@adrevtechnologies.com">contact@adrevtechnologies.com</a>.</p>
+          <h2 style="color:#3b82f6">Thanks, ${name}. We’ve received your enquiry.</h2>
+          <p>Your message has been routed to the Ad Rev Technologies team. A member of our team will be in touch within <strong>24–48 hours</strong> to discuss access, pricing, or onboarding.</p>
+          <p>In the meantime, feel free to explore our docs or reach out at <a href="mailto:${contactEmail}">${contactEmail}</a>.</p>
           <p style="margin-top:32px;color:#64748b;font-size:13px">— The Ad Rev Technologies Team</p>
         </div>
       `,
@@ -112,10 +159,12 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     if (!supabaseAdmin) {
-      console.error('Waitlist API: supabaseAdmin is null — NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars are not set')
+      console.error(
+        'Waitlist API: supabaseAdmin is null — NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars are not set',
+      )
       return NextResponse.json(
         { error: 'Service temporarily unavailable. Please try again later.' },
-        { status: 503 }
+        { status: 503 },
       )
     }
 
@@ -123,7 +172,10 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json()
     } catch {
-      return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Invalid request body.' },
+        { status: 400 },
+      )
     }
 
     const validatedData = waitlistSchema.parse(body)
@@ -136,43 +188,44 @@ export async function POST(request: NextRequest) {
       .maybeSingle()
 
     if (selectError) {
-      console.error('Waitlist duplicate check error:', JSON.stringify(selectError))
+      console.error(
+        'Waitlist duplicate check error:',
+        JSON.stringify(selectError),
+      )
       return NextResponse.json(
         { error: `Database error: ${selectError.message}` },
-        { status: 500 }
+        { status: 500 },
       )
     }
 
     if (existing) {
       return NextResponse.json(
-        { error: 'You are already on the waitlist.' },
-        { status: 400 }
+        { error: 'We already have an enquiry for this email address.' },
+        { status: 400 },
       )
     }
 
-    const { error: insertError } = await supabaseAdmin
-      .from('waitlist')
-      .insert([
-        {
-          name: validatedData.name,
-          email: validatedData.email,
-          company_name: validatedData.company_name,
-          role: validatedData.role,
-          website: validatedData.website || null,
-          platform_type: validatedData.platform_type,
-          monthly_active_users: validatedData.monthly_active_users,
-          interested_tier: validatedData.interested_tier,
-          message: validatedData.message || null,
-          how_did_you_hear: validatedData.how_did_you_hear ?? null,
-          status: 'pending',
-        },
-      ])
+    const { error: insertError } = await supabaseAdmin.from('waitlist').insert([
+      {
+        name: validatedData.name,
+        email: validatedData.email,
+        company_name: validatedData.company_name,
+        role: validatedData.role,
+        website: validatedData.website || null,
+        platform_type: validatedData.platform_type,
+        monthly_active_users: validatedData.monthly_active_users,
+        interested_tier: validatedData.interested_tier,
+        message: validatedData.message || null,
+        how_did_you_hear: validatedData.how_did_you_hear ?? null,
+        status: 'pending',
+      },
+    ])
 
     if (insertError) {
       console.error('Waitlist insert error:', JSON.stringify(insertError))
       return NextResponse.json(
-        { error: `Failed to join the waitlist: ${insertError.message}` },
-        { status: 500 }
+        { error: `Failed to submit your enquiry: ${insertError.message}` },
+        { status: 500 },
       )
     }
 
@@ -183,14 +236,20 @@ export async function POST(request: NextRequest) {
     ]).catch(() => {})
 
     return NextResponse.json(
-      { success: true, message: 'Successfully joined the waitlist.' },
-      { status: 201 }
+      { success: true, message: 'Enquiry submitted successfully.' },
+      { status: 201 },
     )
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues[0].message }, { status: 400 })
+      return NextResponse.json(
+        { error: error.issues[0].message },
+        { status: 400 },
+      )
     }
     console.error('Waitlist unexpected error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    )
   }
 }

@@ -5,15 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Menu, X, User, LogOut } from 'lucide-react'
 import { Logo } from '@/components/logo'
-
-const navigation = [
-  { name: 'How It Works', href: '/#how-it-works' },
-  { name: 'Pricing', href: '/#pricing' },
-  { name: 'Docs', href: '/docs' },
-  { name: 'Developers', href: '/developers' },
-  { name: 'Platform', href: '/platform/analytics' },
-  { name: 'Partners', href: '/partners' },
-]
+import { siteNavigation } from '@/lib/site-content'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -51,14 +43,20 @@ export function Header() {
     localStorage.removeItem('refresh_token')
     setIsAuthenticated(false)
     setUserInfo(null)
-    window.location.href = '/' 
+    window.location.href = '/'
   }
 
-  const isActive = (href: string) => pathname === href
+  const isActive = (href: string) => {
+    if (href.includes('#')) {
+      return pathname === '/'
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`)
+  }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#080d1a]/90 backdrop-blur-md border-b border-[#1e2d4a]">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#030914]/78 backdrop-blur-xl">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <Logo size="medium" showWordmark={true} />
@@ -67,7 +65,7 @@ export function Header() {
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-[#94a3b8]"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-[#9bb4cd]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <span className="sr-only">Toggle menu</span>
@@ -78,34 +76,31 @@ export function Header() {
             )}
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-8">
-          {navigation.map((item) => (
+        <div className="hidden lg:flex lg:gap-x-7">
+          {siteNavigation.map((item) => (
             <Link
-              key={item.name}
+              key={item.label}
               href={item.href}
               className={`text-sm font-semibold leading-6 transition-colors ${
                 isActive(item.href)
-                  ? 'text-[#3b82f6]'
-                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
+                  ? 'text-[#7ee7ff]'
+                  : 'text-[#9bb4cd] hover:text-white'
               }`}
             >
-              {item.name}
-              {item.name === 'Platform' && (
-                <span className="ml-1 inline-flex items-center rounded-full bg-[#16a34a] px-1.5 py-0.5 text-[10px] font-semibold text-white leading-none">NEW</span>
-              )}
+              {item.label}
             </Link>
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
           {isAuthenticated ? (
             <div className="flex items-center gap-x-4">
-              <div className="flex items-center text-sm text-[#94a3b8]">
+              <div className="flex items-center text-sm text-[#9bb4cd]">
                 <User className="h-4 w-4 mr-1" />
                 <span>{userInfo?.name || 'User'}</span>
               </div>
               <button
                 onClick={handleLogout}
-                className="flex items-center text-sm text-[#94a3b8] hover:text-[#f1f5f9] transition-colors"
+                className="flex items-center text-sm text-[#9bb4cd] hover:text-white transition-colors"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -114,16 +109,16 @@ export function Header() {
           ) : (
             <>
               <Link
-                href="/login"
-                className="text-sm font-semibold text-[#94a3b8] hover:text-[#f1f5f9] transition-colors px-3 py-2"
+                href="/admin/login"
+                className="px-3 py-2 text-sm font-semibold text-[#9bb4cd] transition-colors hover:text-white"
               >
-                Log in
+                Admin login
               </Link>
               <Link
-                href="/#waitlist"
-                className="bg-[#3b82f6] hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                href="/contact"
+                className="rounded-full bg-[#00d4ff] px-5 py-2.5 text-sm font-semibold text-[#04121c] transition hover:bg-[#7cecff]"
               >
-                Join the Waitlist
+                Contact us
               </Link>
             </>
           )}
@@ -132,30 +127,27 @@ export function Header() {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0f1629] border-b border-[#1e2d4a]">
+        <div className="lg:hidden border-b border-white/10 bg-[#07111f]/95 backdrop-blur-xl">
           <div className="space-y-1 px-4 pb-3 pt-2">
-            {navigation.map((item) => (
+            {siteNavigation.map((item) => (
               <Link
-                key={item.name}
+                key={item.label}
                 href={item.href}
-                className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-[#94a3b8] hover:bg-[#1e2d4a] hover:text-[#f1f5f9] transition-colors"
+                className="flex items-center gap-2 rounded-xl px-3 py-2 text-base font-medium text-[#9bb4cd] transition-colors hover:bg-white/5 hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {item.name}
-                {item.name === 'Platform' && (
-                  <span className="ml-1 inline-flex items-center rounded-full bg-[#16a34a] px-1.5 py-0.5 text-[10px] font-semibold text-white leading-none">NEW</span>
-                )}
+                {item.label}
               </Link>
             ))}
             <div className="mt-4 space-y-2">
               {isAuthenticated ? (
                 <>
-                  <div className="px-3 py-2 text-sm text-[#94a3b8]">
+                  <div className="px-3 py-2 text-sm text-[#9bb4cd]">
                     <User className="h-4 w-4 mr-1 inline" />
                     {userInfo?.name || 'User'}
                   </div>
                   <button
-                    className="w-full flex items-center justify-start px-3 py-2 text-sm text-[#94a3b8] hover:text-[#f1f5f9] transition-colors"
+                    className="w-full flex items-center justify-start px-3 py-2 text-sm text-[#9bb4cd] transition-colors hover:text-white"
                     onClick={() => {
                       handleLogout()
                       setMobileMenuOpen(false)
@@ -168,18 +160,18 @@ export function Header() {
               ) : (
                 <>
                   <Link
-                    href="/login"
-                    className="block px-3 py-2 text-base font-medium text-[#94a3b8] hover:text-[#f1f5f9] transition-colors"
+                    href="/admin/login"
+                    className="block px-3 py-2 text-base font-medium text-[#9bb4cd] transition-colors hover:text-white"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Log in
+                    Admin login
                   </Link>
                   <Link
-                    href="/#waitlist"
-                    className="block bg-[#3b82f6] hover:bg-[#2563eb] text-white text-center font-semibold px-3 py-2 rounded-lg transition-colors"
+                    href="/contact"
+                    className="block rounded-xl bg-[#00d4ff] px-3 py-2 text-center font-semibold text-[#04121c] transition hover:bg-[#7cecff]"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Join the Waitlist
+                    Contact us
                   </Link>
                 </>
               )}

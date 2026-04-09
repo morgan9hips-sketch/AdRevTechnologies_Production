@@ -1,24 +1,7 @@
 import Link from 'next/link'
 import { Github, Twitter, Linkedin, Mail } from 'lucide-react'
 import { Logo } from '@/components/logo'
-
-const footerLinks = {
-  company: [
-    { name: 'How It Works', href: '/#how-it-works' },
-    { name: 'Pricing', href: '/#pricing' },
-    { name: 'Contact', href: 'mailto:contact@adrevtechnologies.com' },
-  ],
-  resources: [
-    { name: 'API Documentation', href: '/docs' },
-    { name: 'Developer Portal', href: '/developers' },
-    { name: 'Partner Portal', href: '/partners' },
-  ],
-  legal: [
-    { name: 'Terms of Service', href: '/terms' },
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Cookie Policy', href: '/cookies' },
-  ],
-}
+import { contactEmail, footerLinkGroups } from '@/lib/site-content'
 
 const socialLinks = [
   {
@@ -32,14 +15,14 @@ const socialLinks = [
     href: 'https://linkedin.com/company/adrevtech',
     icon: Linkedin,
   },
-  { name: 'Email', href: 'mailto:contact@adrevtechnologies.com', icon: Mail },
+  { name: 'Email', href: `mailto:${contactEmail}`, icon: Mail },
 ]
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="border-t border-white/10 bg-[#030914] text-white">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <Logo size="medium" showWordmark={true} />
           <a
             href="https://paystack.com"
@@ -55,79 +38,38 @@ export function Footer() {
             />
           </a>
         </div>
-        <div>
-          <p className="mt-4 text-sm text-gray-400 max-w-md">
-            White-label engagement and rewards infrastructure API. Plug rewarded video ads,
-            referrals, and campaigns into any platform.
-          </p>
+        <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr_0.85fr_0.85fr]">
+          <div>
+            <p className="max-w-md text-sm leading-7 text-[#9bb4cd]">
+              Ad Rev Technologies is the infrastructure layer for engagement,
+              monetisation, and attribution across platforms and agency-managed
+              client accounts.
+            </p>
+            <p className="mt-5 text-sm font-medium text-[#d8e5f2]">
+              Most platforms do not need more users. They need better
+              infrastructure.
+            </p>
+          </div>
+
+          <FooterColumn title="Company" links={footerLinkGroups.company} />
+          <FooterColumn title="Resources" links={footerLinkGroups.resources} />
+          <FooterColumn title="Legal" links={footerLinkGroups.legal} />
         </div>
 
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-              Company
-            </h3>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.company.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-              Resources
-            </h3>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.resources.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-              Legal
-            </h3>
-            <ul className="mt-4 space-y-3">
-              {footerLinks.legal.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-12 border-t border-gray-800 pt-8">
-          <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
+        <div className="mt-12 border-t border-white/10 pt-8">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex space-x-6">
               {socialLinks.map((item) => {
                 const Icon = item.icon
+                const isMail = item.href.startsWith('mailto:')
+
                 return (
                   <a
                     key={item.name}
                     href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-white transition-colors"
+                    target={isMail ? undefined : '_blank'}
+                    rel={isMail ? undefined : 'noopener noreferrer'}
+                    className="text-[#7f97b3] transition-colors hover:text-white"
                   >
                     <span className="sr-only">{item.name}</span>
                     <Icon className="h-6 w-6" />
@@ -136,16 +78,59 @@ export function Footer() {
               })}
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-400">
-                &copy; {new Date().getFullYear()} Ad Rev Technologies. All rights reserved.
+              <p className="text-sm text-[#9bb4cd]">
+                &copy; {new Date().getFullYear()} Ad Rev Technologies. All
+                rights reserved.
               </p>
-              <p className="text-xs text-gray-600 mt-1">
-                Powered by Ad Rev Technologies · Engine v1
+              <p className="mt-1 text-xs text-[#6a8199]">
+                Brand-blended infrastructure for monetisation, rewards, and
+                campaign orchestration.
               </p>
             </div>
           </div>
         </div>
       </div>
     </footer>
+  )
+}
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string
+  links: ReadonlyArray<{ label: string; href: string }>
+}) {
+  return (
+    <div>
+      <h3 className="text-sm font-semibold uppercase tracking-wider text-[#7ee7ff]">
+        {title}
+      </h3>
+      <ul className="mt-4 space-y-3">
+        {links.map((item) => {
+          const isMail = item.href.startsWith('mailto:')
+
+          return (
+            <li key={item.label}>
+              {isMail ? (
+                <a
+                  href={item.href}
+                  className="text-[#9bb4cd] transition-colors hover:text-white"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="text-[#9bb4cd] transition-colors hover:text-white"
+                >
+                  {item.label}
+                </Link>
+              )}
+            </li>
+          )
+        })}
+      </ul>
+    </div>
   )
 }

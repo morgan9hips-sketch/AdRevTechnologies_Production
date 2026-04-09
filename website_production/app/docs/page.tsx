@@ -1,360 +1,179 @@
-'use client';
+import Link from 'next/link'
+import { BookOpen, Code2, Lock, TerminalSquare, Webhook } from 'lucide-react'
+import { docsHighlights } from '@/lib/site-content'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Code, Lock, Zap, Shield, Book, Terminal } from 'lucide-react';
-import Link from 'next/link';
+const docsExplorerUrl =
+  process.env.NEXT_PUBLIC_API_DOCS_URL ||
+  'https://api.adrevtechnologies.com/docs'
 
 const endpoints = [
   {
     method: 'POST',
-    path: '/auth/signup',
-    description: 'Create a new user account',
-    auth: false,
+    path: '/v1/auth/login',
+    description: 'Authenticate and receive a JWT token.',
   },
   {
     method: 'POST',
-    path: '/auth/login',
-    description: 'Authenticate and receive JWT token',
-    auth: false,
-  },
-  {
-    method: 'GET',
-    path: '/ads',
-    description: 'List all available ads',
-    auth: true,
+    path: '/v1/engagement/start',
+    description: 'Create an engagement session for a user and campaign.',
   },
   {
     method: 'POST',
-    path: '/api/ads/:id/watch',
-    description: 'Start watching an ad (returns uniqueWatchKey)',
-    auth: true,
+    path: '/v1/rewards/confirm',
+    description: 'Confirm the qualifying event and trigger the reward path.',
   },
   {
     method: 'POST',
-    path: '/api/ads/:id/confirm',
-    description: 'Confirm ad watch with uniqueWatchKey',
-    auth: true,
+    path: '/v1/webhooks/receive',
+    description: 'Receive signed callbacks for rewards and attribution events.',
   },
-  {
-    method: 'GET',
-    path: '/api/users/:id/wallet',
-    description: 'Get wallet balance and transaction history',
-    auth: true,
-  },
-];
+]
 
-const features = [
-  {
-    icon: Lock,
-    title: 'JWT Authentication',
-    description: 'Secure authentication using JSON Web Tokens with refresh token support',
-  },
-  {
-    icon: Zap,
-    title: 'Real-time Processing',
-    description: 'Lightning-fast API responses with sub-second latency',
-  },
-  {
-    icon: Shield,
-    title: 'Anti-fraud Protection',
-    description: 'Built-in fraud detection with device fingerprinting and velocity checks',
-  },
-  {
-    icon: Code,
-    title: 'RESTful Design',
-    description: 'Clean, predictable REST API following industry best practices',
-  },
-];
-
-const codeExamples = {
-  javascript: `// Initialize API client
-const API_URL = 'https://api.adrevtechnologies.com';
-const API_KEY = 'your-api-key-here';
-
-// Authenticate
-const response = await fetch(\`\${API_URL}/auth/login\`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: 'user@example.com',
-    password: 'password123',
-  }),
-});
-
-const { token } = await response.json();
-
-// Make authenticated request
-const ads = await fetch(\`\${API_URL}/ads\`, {
-  headers: {
-    'Authorization': \`Bearer \${token}\`,
-  },
-});
-
-const adsData = await ads.json();`,
-  python: `import requests
-
-API_URL = 'https://api.adrevtechnologies.com'
-API_KEY = 'your-api-key-here'
-
-# Authenticate
-response = requests.post(
-    f'{API_URL}/auth/login',
-    json={
-        'email': 'user@example.com',
-        'password': 'password123'
-    }
-)
-
-token = response.json()['token']
-
-# Make authenticated request
-ads = requests.get(
-    f'{API_URL}/ads',
-    headers={'Authorization': f'Bearer {token}'}
-)
-
-ads_data = ads.json()`,
-  curl: `# Authenticate
-curl -X POST https://api.adrevtechnologies.com/auth/login \\
+const codeExample = `curl -X POST https://api.adrevtechnologies.com/v1/engagement/start \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{"email":"user@example.com","password":"password123"}'
-
-# Make authenticated request
-curl https://api.adrevtechnologies.com/ads \\
-  -H "Authorization: Bearer YOUR_TOKEN_HERE"`,
-};
+  -d '{
+    "external_user_id": "usr_98234",
+    "campaign_id": "cmp_founding_partner",
+    "engagement_type": "rewarded_video"
+  }'`
 
 export default function DocsPage() {
   return (
-    <div className="flex flex-col">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-green-50 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <Book className="mx-auto h-16 w-16 text-blue-600" />
-            <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              API Documentation
+    <div className="bg-[linear-gradient(180deg,#02060f_0%,#081321_38%,#07111f_100%)] text-white">
+      <section className="px-6 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col items-center text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00d4ff]/20 bg-[#00d4ff]/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              <BookOpen className="h-3.5 w-3.5" />
+              Docs
+            </div>
+            <h1 className="mt-6 max-w-[1080px] text-5xl font-bold uppercase leading-[0.92] tracking-[-0.04em] text-white sm:text-6xl lg:text-[clamp(2.2rem,3.2vw,3rem)]">
+              API and onboarding documentation built for production teams.
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Complete documentation for integrating with the Cash for Ads API. Build powerful ad
-              monetization features with our enterprise-grade platform.
+            <p className="mt-10 max-w-[980px] text-base leading-8 text-[#8ea7c2] sm:text-lg">
+              Everything operators and developers need to understand the
+              integration path, the event model, and how Ad Rev fits into an
+              existing platform without data exposure.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/partners">
-                <Button size="lg">Get API Access</Button>
-              </Link>
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
-                href="http://localhost:4000/api-docs"
+                href={docsExplorerUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="inline-flex items-center justify-center rounded-full bg-[#00d4ff] px-6 py-3 text-sm font-semibold text-[#05131d] transition hover:bg-[#7cecff]"
               >
-                Interactive API Explorer <span aria-hidden="true">→</span>
+                Open interactive explorer
               </a>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center justify-center rounded-full border border-[#00d4ff]/25 px-6 py-3 text-sm font-semibold text-[#7ee7ff] transition hover:bg-[#00d4ff]/10"
+              >
+                View pricing
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full border border-white/12 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/5"
+              >
+                Contact us
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="bg-white py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Enterprise-Grade API
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Built for scale, security, and developer experience
-            </p>
-          </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:max-w-none lg:grid-cols-2">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <Card key={feature.title}>
-                  <CardHeader>
-                    <Icon className="h-10 w-10 text-blue-600" />
-                    <CardTitle className="mt-4">{feature.title}</CardTitle>
-                    <CardDescription>{feature.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              );
-            })}
-          </div>
+      <section className="px-6 py-8">
+        <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {docsHighlights.map((item, index) => {
+            const icons = [Code2, Webhook, Lock, TerminalSquare]
+            const Icon = icons[index]
+            return (
+              <div
+                key={item}
+                className="rounded-[28px] border border-[#ff8a3d]/20 bg-white/[0.03] p-6 text-center"
+              >
+                <div className="mx-auto inline-flex items-center justify-center rounded-2xl bg-[#1d4ed8]/18 p-3 text-[#91c5ff]">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <p className="mt-5 text-sm leading-7 text-[#dce7f4]">{item}</p>
+              </div>
+            )
+          })}
         </div>
       </section>
 
-      {/* API Endpoints */}
-      <section className="bg-gray-50 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">Core Endpoints</h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Key API endpoints for user management and ad monetization
+      <section className="px-6 py-20">
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(6,12,22,0.96),rgba(8,20,37,0.92))] p-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#7ee7ff]">
+              Integration path
             </p>
+            <ol className="mt-6 space-y-5 text-sm leading-7 text-[#dbe6f3]">
+              <li>
+                1. Request access and align the right MAU band for onboarding.
+              </li>
+              <li>
+                2. Receive credentials, webhook guidance, and integration
+                checkpoints.
+              </li>
+              <li>
+                3. Send engagement events and receive signed reward callbacks.
+              </li>
+              <li>
+                4. Track every action through attribution, analytics, and audit
+                trails.
+              </li>
+            </ol>
           </div>
-          <div className="mx-auto mt-16 max-w-4xl">
-            <div className="space-y-4">
-              {endpoints.map((endpoint, index) => (
-                <Card key={index}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <span
-                          className={`inline-flex rounded-md px-3 py-1 text-xs font-semibold ${
-                            endpoint.method === 'GET'
-                              ? 'bg-blue-100 text-blue-700'
-                              : 'bg-green-100 text-green-700'
-                          }`}
-                        >
-                          {endpoint.method}
-                        </span>
-                        <code className="text-sm font-mono text-gray-900">{endpoint.path}</code>
-                      </div>
-                      {endpoint.auth && (
-                        <Lock className="h-4 w-4 text-gray-400" aria-label="Requires authentication" />
-                      )}
-                    </div>
-                    <p className="mt-2 text-sm text-gray-600">{endpoint.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
+
+          <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[#07121f] p-8">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#7ee7ff]">
+                Quickstart
+              </p>
+              <span className="rounded-full border border-[#00d4ff]/20 bg-[#00d4ff]/8 px-3 py-1 text-xs font-semibold text-[#7ee7ff]">
+                cURL
+              </span>
             </div>
+            <pre className="mt-6 overflow-x-auto rounded-[24px] border border-[#ff8a3d]/15 bg-[#020711] p-6 text-sm leading-7 text-[#d6e4f3]">
+              <code>{codeExample}</code>
+            </pre>
           </div>
         </div>
       </section>
 
-      {/* Code Examples */}
-      <section className="bg-white py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <Terminal className="mx-auto h-12 w-12 text-blue-600" />
-            <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-              Quick Start Examples
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Get started in minutes with these code examples
+      <section className="px-6 pb-24 pt-6">
+        <div className="mx-auto max-w-6xl rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8 sm:p-10">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#7ee7ff]">
+              Core endpoints
             </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Practical endpoints, not placeholder documentation.
+            </h2>
           </div>
-
-          <div className="mx-auto mt-16 max-w-4xl space-y-8">
-            {Object.entries(codeExamples).map(([lang, code]) => (
-              <Card key={lang}>
-                <CardHeader>
-                  <CardTitle className="capitalize">{lang}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <pre className="overflow-x-auto rounded-md bg-gray-900 p-4 text-sm text-gray-100">
-                    <code>{code}</code>
-                  </pre>
-                </CardContent>
-              </Card>
+          <div className="space-y-4">
+            {endpoints.map((endpoint) => (
+              <div
+                key={endpoint.path}
+                className="grid gap-3 rounded-[24px] border border-[#ff8a3d]/15 bg-white/[0.03] px-5 py-5 md:grid-cols-[auto_1fr] md:items-center"
+              >
+                <div className="inline-flex w-fit rounded-full border border-[#00d4ff]/20 bg-[#00d4ff]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#7ee7ff]">
+                  {endpoint.method}
+                </div>
+                <div>
+                  <p className="font-mono text-sm text-white">
+                    {endpoint.path}
+                  </p>
+                  <p className="mt-1 text-sm text-[#aec4dc]">
+                    {endpoint.description}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Authentication Guide */}
-      <section className="bg-gray-50 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">Authentication</CardTitle>
-                <CardDescription>
-                  All API requests require authentication using JWT tokens
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-gray-900">1. Obtain Access Token</h3>
-                  <p className="mt-2 text-sm text-gray-600">
-                    Send a POST request to <code>/auth/login</code> with your credentials to receive
-                    a JWT token.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">2. Include in Requests</h3>
-                  <p className="mt-2 text-sm text-gray-600">
-                    Add the token to the Authorization header:
-                    <code className="ml-2">Authorization: Bearer YOUR_TOKEN</code>
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">3. Token Refresh</h3>
-                  <p className="mt-2 text-sm text-gray-600">
-                    Tokens expire after 24 hours. Use the refresh token endpoint to obtain a new
-                    access token without re-authenticating.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Rate Limiting */}
-      <section className="bg-white py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">Rate Limiting</CardTitle>
-                <CardDescription>
-                  API rate limits vary by partner tier
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-                    <div>
-                      <h3 className="font-semibold">Free Tier</h3>
-                      <p className="text-sm text-gray-600">1,000 requests/month</p>
-                    </div>
-                    <span className="text-2xl font-bold text-gray-900">1K</span>
-                  </div>
-                  <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-                    <div>
-                      <h3 className="font-semibold">Pro Tier</h3>
-                      <p className="text-sm text-gray-600">100,000 requests/month</p>
-                    </div>
-                    <span className="text-2xl font-bold text-gray-900">100K</span>
-                  </div>
-                  <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-                    <div>
-                      <h3 className="font-semibold">Enterprise Tier</h3>
-                      <p className="text-sm text-gray-600">Unlimited requests</p>
-                    </div>
-                    <span className="text-2xl font-bold text-gray-900">∞</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-blue-600 py-24">
-        <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight text-white">
-            Ready to start building?
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-blue-100">
-            Get API access today and start integrating Cash for Ads into your application.
-          </p>
-          <div className="mt-10">
-            <Link href="/partners">
-              <Button size="lg" variant="secondary">
-                Get API Access
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
-  );
+  )
 }

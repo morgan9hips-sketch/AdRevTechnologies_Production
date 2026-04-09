@@ -1,279 +1,315 @@
-'use client'
+import Link from 'next/link'
+import {
+  ArrowRight,
+  BadgeCheck,
+  BriefcaseBusiness,
+  Building2,
+  Mail,
+  MessageSquareText,
+  Handshake,
+  Layers3,
+  MessagesSquare,
+  Webhook,
+} from 'lucide-react'
+import { partnerPrograms } from '@/lib/site-content'
+import { PlatformV1Preview } from '@/components/marketing/platform-v1-preview'
 
-import { useState } from 'react'
-
-const tiers = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    price: '$149',
-    originalPrice: '$249',
-    period: '/mo',
-    badge: null,
-    discountBadge: true,
-    description: 'Core engagement infrastructure. API and SDK. Deploy in days.',
-    features: [
-      'Video Ad Engine (API + SDK)',
-      'Store Redirects — post-ad discount redirect',
-      'Referral Engine',
-      'Analytics Dashboard',
-      'API Access & Webhooks',
-      'Webhook Retry Logic',
-      'Audit Trail & Transaction Log',
-      'Frequency Capping (per user per day)',
-      'Platform Blending — your brand on every interaction',
-      '"Powered by Ad Rev" attribution',
-      '10% ad revenue share',
-      'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
-      'Unrewarded Monetisation — banner ads, interstitial ads',
-    ],
-    highlighted: false,
-    enterpriseBands: null,
-    annualEnterpriseBands: null,
-    accessWindow: '30–45 days',
-    spotsTotal: 20,
-    spotsRemaining: 16,
-    foundingMember: true,
-    annualTotal: '$1,341',
-    annualPerMonth: '$111.75',
-    annualSaving: '$447',
-  },
-  {
-    id: 'business',
-    name: 'Business',
-    price: '$349',
-    originalPrice: '$599',
-    period: '/mo',
-    badge: 'Most Popular',
-    discountBadge: true,
-    description: 'Full campaign toolkit for platforms ready to scale engagement.',
-    features: [
-      'Everything in Starter',
-      'Custom Campaigns (Summer Sale, Black Friday etc.)',
-      'Mailing Campaigns — re-engagement & offer broadcasts',
-      'WhatsApp Status Ads — promotional video via Status networks',
-      'Campaign Management Dashboard',
-      'Campaign Scheduling — start and end dates',
-      'Advanced Analytics & Reporting',
-      '"Powered by Ad Rev" attribution',
-      '8% ad revenue share',
-      'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
-      'Unrewarded Monetisation — banner ads, interstitial ads',
-    ],
-    highlighted: true,
-    enterpriseBands: null,
-    annualEnterpriseBands: null,
-    accessWindow: '45–60 days',
-    spotsTotal: 10,
-    spotsRemaining: 8,
-    foundingMember: true,
-    annualTotal: '$3,141',
-    annualPerMonth: '$261.75',
-    annualSaving: '$1,047',
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 'From $899',
-    originalPrice: 'From $1,499',
-    period: '/mo',
-    badge: null,
-    discountBadge: true,
-    description: 'Complete infrastructure. Zero attribution. Full control.',
-    features: [
-      'Everything in Business',
-      'WhatsApp Direct Message Campaigns',
-      'Full White-label — zero Ad Rev attribution removed entirely',
-      'Custom SDK Theming — match your design system exactly',
-      'Deep Custom Integration — your stack, your schema',
-      'Priority Webhook SLA',
-      'Dedicated Account Manager',
-      'Dedicated Support + SLA',
-      'Custom Revenue Share',
-      'Social Media Campaign — ad posting and promotional posting with post promotion redirect links',
-      'Rewarded Survey Campaigns — platform/store/promotional ratings and feedback surveys',
-      'Unrewarded Monetisation — banner ads, interstitial ads',
-    ],
-    highlighted: false,
-    enterpriseBands: [
-      { label: 'Up to 250k MAU', price: '$899/mo' },
-      { label: '250k – 1M MAU', price: '$1,499/mo' },
-      { label: '1M – 3M MAU', price: '$2,499/mo' },
-      { label: '3M+ MAU', price: 'Custom' },
-    ],
-    annualEnterpriseBands: [
-      { label: 'Up to 250k MAU', monthly: '$899/mo', annual: '$8,091/yr', saving: 'Save $2,697' },
-      { label: '250k – 1M MAU', monthly: '$1,499/mo', annual: '$13,491/yr', saving: 'Save $4,497' },
-      { label: '1M – 3M MAU', monthly: '$2,499/mo', annual: '$22,491/yr', saving: 'Save $7,497' },
-      { label: '3M+ MAU', monthly: 'Custom', annual: 'Custom', saving: '' },
-    ],
-    accessWindow: '60–90 days',
-    spotsTotal: 5,
-    spotsRemaining: 3,
-    foundingMember: true,
-    annualTotal: 'From $8,091',
-    annualPerMonth: 'From $674.25',
-    annualSaving: 'From $2,697',
-  },
+const partnerReasons = [
+  'Deploy a revenue layer across multiple client accounts without rebuilding each time.',
+  'Move from campaign services to monetisation infrastructure retainers.',
+  'Create measurable commercial upside for client engagement programs.',
+  'Shorten implementation timelines from months to days.',
 ]
 
-export default function PartnersPage() {
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly')
+const rolloutSteps = [
+  'Commercial fit review and pricing-band alignment',
+  'Integration mapping for platform events, campaigns, and rewards',
+  'Protected launch path with onboarding and performance tracking',
+]
 
+const reservedPartnerSlots = [
+  'Reserved for Founding Partner Agency',
+  'Reserved for Founding Partner Agency',
+  'Reserved for Founding Partner Agency',
+  'Reserved for Founding Partner Agency',
+] as const
+
+const credibilityAnchors = [
+  { label: 'WhatsApp', icon: MessageSquareText },
+  { label: 'Email', icon: Mail },
+  { label: 'Social Media', icon: MessagesSquare },
+  { label: 'API / Webhooks', icon: Webhook },
+] as const
+
+const partnerAdvantages = [
+  'Founding partner pricing remains locked while active.',
+  'Prototype dashboards already show how performance can be presented to clients.',
+  'The protected checkout and onboarding path stays separate from general lead capture.',
+] as const
+
+const prototypeFeedback = [
+  '“The dashboard makes client ROI transparent.”',
+  '“Risk-free integration is a game-changer for agencies.”',
+] as const
+
+export default function PartnersPage() {
   return (
-    <div className="bg-[#080d1a] text-[#f1f5f9] min-h-screen">
-      {/* Hero */}
-      <section className="py-24 px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#f1f5f9] mb-6">
-            Integrate the Engagement Engine
-          </h1>
-          <p className="text-lg text-[#94a3b8]">
-            Choose the tier that fits your platform. All tiers include full platform blending —
-            your brand on every user interaction.
-          </p>
+    <div className="bg-[linear-gradient(180deg,#02060f_0%,#081321_38%,#07111f_100%)] text-white">
+      <section className="px-6 py-20 sm:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              Partners
+            </p>
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Deploy once. Scale the infrastructure across platforms and
+              clients.
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-[#c4d5e9]">
+              Ad Rev Technologies gives platform operators and digital agencies
+              a single engagement and monetisation layer instead of a fragmented
+              stack of stitched tools.
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#00d4ff] px-6 py-3 text-sm font-semibold text-[#06131d] transition hover:bg-[#7cecff]"
+              >
+                Contact us
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/docs"
+                className="inline-flex items-center justify-center rounded-full border border-[#00d4ff]/25 px-6 py-3 text-sm font-semibold text-[#7ee7ff] transition hover:bg-[#00d4ff]/10"
+              >
+                Review docs
+              </Link>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center justify-center rounded-full border border-white/12 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/5"
+              >
+                View pricing
+              </Link>
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8 shadow-[0_22px_90px_rgba(0,212,255,0.12)]">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <PartnerStat
+                label="Fastest growth path"
+                value="Agencies deploying across multiple clients"
+                icon={<BriefcaseBusiness className="h-5 w-5" />}
+              />
+              <PartnerStat
+                label="Platform outcome"
+                value="Revenue and retention from existing users"
+                icon={<Building2 className="h-5 w-5" />}
+              />
+              <PartnerStat
+                label="Commercial shape"
+                value="Infrastructure pricing aligned to MAU"
+                icon={<Layers3 className="h-5 w-5" />}
+              />
+              <PartnerStat
+                label="Working motion"
+                value="Founding partner checkout already live"
+                icon={<Handshake className="h-5 w-5" />}
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Pricing Tiers */}
-      <section className="py-16 px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex items-center justify-center gap-1 mb-10 bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-1 w-fit mx-auto">
-            <button
-              onClick={() => setBillingPeriod('monthly')}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                billingPeriod === 'monthly'
-                  ? 'bg-[#3b82f6] text-white'
-                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
-              }`}
+      <section className="px-6 py-8">
+        <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-3">
+          {partnerPrograms.map((program) => (
+            <div
+              key={program.title}
+              className="rounded-[30px] border border-[#ff8a3d]/20 bg-white/[0.035] p-7"
             >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBillingPeriod('annual')}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${
-                billingPeriod === 'annual'
-                  ? 'bg-[#3b82f6] text-white'
-                  : 'text-[#94a3b8] hover:text-[#f1f5f9]'
-              }`}
-            >
-              Annually
-              <span className={`text-xs font-bold px-1.5 py-0.5 rounded ${
-                billingPeriod === 'annual' ? 'bg-white/20 text-white' : 'bg-[#10b981]/20 text-[#10b981]'
-              }`}>
-                3 months free
-              </span>
-            </button>
+              <h2 className="text-xl font-semibold text-white">
+                {program.title}
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-[#afc4dd]">
+                {program.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-6 py-12">
+        <div className="mx-auto max-w-7xl rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8 sm:p-10">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              Future partner slots
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Reserved for founding partner agencies.
+            </h2>
+            <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
+              Placeholder partner slots are shown here intentionally to signal
+              the founding-partner cohort now being assembled.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {tiers.map((tier) => (
+          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {reservedPartnerSlots.map((slot, index) => (
               <div
-                key={tier.id}
-                className={`bg-[#0f1629] rounded-2xl p-8 flex flex-col border transition-all ${
-                  tier.highlighted
-                    ? 'border-[#3b82f6]'
-                    : 'border-[#1e2d4a] hover:border-[#3b82f6]/50'
-                }`}
+                key={`${slot}-${index}`}
+                className="flex min-h-[132px] items-center justify-center rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.03] p-6 text-center"
               >
-                {tier.badge && (
-                  <span className="self-start mb-3 inline-block bg-[#3b82f6] text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    {tier.badge}
-                  </span>
-                )}
-                <h3 className="text-xl font-bold text-[#f1f5f9] mb-1">{tier.name}</h3>
-                {tier.foundingMember && (
-                  <div className="mb-2">
-                    <span className="inline-block bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] text-xs font-semibold px-2.5 py-1 rounded-md">
-                      Founding Member · Early Access
-                    </span>
-                    <p className="text-xs text-[#f59e0b] font-semibold mt-1.5">
-                      🔥 {tier.spotsRemaining} of {tier.spotsTotal} Founding Member spots remaining
-                    </p>
+                <div>
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#ff8a3d]/25 bg-[#ff8a3d]/10 text-[#ffb36e]">
+                    <BadgeCheck className="h-5 w-5" />
                   </div>
-                )}
-                <div className="mb-1">
-                  {tier.originalPrice && (
-                    <span className="text-sm text-[#94a3b8] line-through mr-2">{tier.originalPrice}{tier.period}</span>
-                  )}
-                  <span className="text-3xl font-bold text-[#f1f5f9]">
-                    {billingPeriod === 'annual' ? tier.annualPerMonth : tier.price}
-                  </span>
-                  <span className="text-[#94a3b8] text-sm">/mo</span>
-                  {billingPeriod === 'annual' && tier.annualTotal && (
-                    <p className="text-xs text-[#94a3b8] mt-1">
-                      Billed as {tier.annualTotal}/yr
-                    </p>
-                  )}
+                  <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#8ea7c2]">
+                    Your logo here
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-[#dce8f5]">
+                    {slot}
+                  </p>
                 </div>
-                {billingPeriod === 'annual' && tier.annualSaving && (
-                  <div className="mb-2">
-                    <span className="inline-block bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] text-xs font-semibold px-2.5 py-1 rounded-md">
-                      Save {tier.annualSaving}/yr — 3 months free
-                    </span>
-                  </div>
-                )}
-                {tier.discountBadge && (
-                  <div className="mb-4">
-                    <span className="inline-block bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] text-xs font-semibold px-2.5 py-1 rounded-md">
-                      Limited Time Offer — Early Access Pricing
-                    </span>
-                    <p className="text-[10px] text-[#94a3b8]/70 mt-1">
-                      Lock in this rate for life. Price increases when early access closes.
-                    </p>
-                  </div>
-                )}
-                <p className="text-[#94a3b8] text-sm mb-6">{tier.description}</p>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-[#94a3b8]">
-                      <span className="text-[#10b981] mt-0.5 flex-shrink-0">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                {tier.enterpriseBands && billingPeriod === 'monthly' && (
-                  <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
-                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">Volume Pricing</p>
-                    <ul className="space-y-2">
-                      {tier.enterpriseBands.map((band) => (
-                        <li key={band.label} className="flex justify-between items-center text-xs">
-                          <span className="text-[#94a3b8]">{band.label}</span>
-                          <span className="text-[#f1f5f9] font-semibold">{band.price}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {tier.annualEnterpriseBands && billingPeriod === 'annual' && (
-                  <div className="mb-6 bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-4">
-                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">Annual Volume Pricing</p>
-                    <ul className="space-y-2">
-                      {tier.annualEnterpriseBands.map((band) => (
-                        <li key={band.label} className="flex flex-col text-xs gap-0.5">
-                          <div className="flex justify-between items-center">
-                            <span className="text-[#94a3b8]">{band.label}</span>
-                            <span className="text-[#f1f5f9] font-semibold">{band.annual}</span>
-                          </div>
-                          {band.saving && (
-                            <span className="text-[#10b981] text-right">{band.saving}</span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                <a
-                  href="/#waitlist"
-                  className={`block w-full py-2.5 rounded-lg text-center font-semibold text-sm transition-colors ${
-                    tier.highlighted
-                      ? 'bg-[#3b82f6] text-white hover:bg-[#2563eb]'
-                      : 'border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10'
-                  }`}
-                >
-                  Join the Waitlist
-                </a>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <PlatformV1Preview />
+
+      <section className="px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              Why agencies move fastest
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              One deal can become five implementations.
+            </h2>
+            <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
+              Agencies are the fastest route to early revenue because the same
+              operating layer can be deployed across multiple client accounts
+              with the same commercial story.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {partnerReasons.map((reason) => (
+              <div
+                key={reason}
+                className="rounded-[28px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(6,12,22,0.95),rgba(8,20,37,0.9))] p-6 text-sm leading-7 text-[#dce8f5]"
+              >
+                {reason}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-7xl rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(8,17,31,0.96),rgba(7,19,34,0.9))] p-8 sm:p-10">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              Partner rollout
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Commercial alignment first. Integration confidence next.
+            </h2>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {rolloutSteps.map((step, index) => (
+              <div
+                key={step}
+                className="rounded-[24px] border border-[#ff8a3d]/15 bg-white/[0.03] p-6"
+              >
+                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#ffb36e]">
+                  0{index + 1}
+                </p>
+                <p className="mt-4 text-sm leading-7 text-[#d9e4f2]">{step}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              Credibility anchors
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Compatibility signals matter before logos arrive.
+            </h2>
+            <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
+              The current product direction already reflects the operating
+              channels agencies need to assess: messaging, social distribution,
+              and API-led delivery.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {credibilityAnchors.map((item) => {
+              const Icon = item.icon
+              return (
+                <div
+                  key={item.label}
+                  className="rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.03] p-6 text-center"
+                >
+                  <div className="flex justify-center text-[#7ee7ff]">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <p className="mt-4 text-sm font-semibold uppercase tracking-[0.22em] text-[#dce8f5]">
+                    {item.label}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
+          <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              Coming soon
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Founding partner case studies.
+            </h2>
+            <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
+              Case studies will be added once founding partner deployments move
+              from prototype reporting into live commercial rollout.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {partnerAdvantages.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm leading-7 text-[#dce8f5]"
+                >
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#ff8a3d]" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(8,17,31,0.96),rgba(7,19,34,0.9))] p-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
+              Prototype feedback
+            </p>
+            <div className="mt-6 space-y-4">
+              {prototypeFeedback.map((quote) => (
+                <blockquote
+                  key={quote}
+                  className="rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.03] p-6 text-sm leading-7 text-[#dce8f5]"
+                >
+                  <p>{quote}</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#8ea7c2]">
+                    Prototype feedback
+                  </p>
+                </blockquote>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -281,3 +317,22 @@ export default function PartnersPage() {
   )
 }
 
+function PartnerStat({
+  label,
+  value,
+  icon,
+}: {
+  label: string
+  value: string
+  icon: React.ReactNode
+}) {
+  return (
+    <div className="rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.03] p-5 text-center">
+      <div className="flex justify-center text-[#7ee7ff]">{icon}</div>
+      <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#8ea7c2]">
+        {label}
+      </p>
+      <p className="mt-2 text-lg font-medium text-white">{value}</p>
+    </div>
+  )
+}

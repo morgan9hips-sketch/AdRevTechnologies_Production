@@ -99,8 +99,8 @@ export default function DevelopersPage() {
             Developer Integration Portal
           </h1>
           <p className="text-lg text-[#94a3b8]">
-            Integrate the Ad Rev engagement engine into your platform. RESTful API, webhook
-            delivery, Swagger docs, and tier-based access.
+            Integrate the Ad Rev engagement engine into your platform. RESTful
+            API, webhook delivery, Swagger docs, and tier-based access.
           </p>
         </div>
       </section>
@@ -109,7 +109,9 @@ export default function DevelopersPage() {
       <section className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">Get Integrated in Three Steps</h2>
+            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
+              Get Integrated in Three Steps
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {integrationSteps.map((step) => (
@@ -120,7 +122,9 @@ export default function DevelopersPage() {
                 <div className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold text-lg mb-5">
                   {step.number}
                 </div>
-                <h3 className="text-lg font-semibold text-[#f1f5f9] mb-3">{step.title}</h3>
+                <h3 className="text-lg font-semibold text-[#f1f5f9] mb-3">
+                  {step.title}
+                </h3>
                 <p className="text-[#94a3b8] text-sm">{step.description}</p>
               </div>
             ))}
@@ -132,8 +136,12 @@ export default function DevelopersPage() {
       <section className="py-24 px-6">
         <div className="mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">See It in Action</h2>
-            <p className="text-[#94a3b8]">A real API call and the webhook response it triggers.</p>
+            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
+              See It in Action
+            </h2>
+            <p className="text-[#94a3b8]">
+              A real API call and the webhook response it triggers.
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -160,7 +168,9 @@ export default function DevelopersPage() {
       <section className="bg-[#0f1629] py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">Built for Developers</h2>
+            <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
+              Built for Developers
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featureCards.map((card) => {
@@ -171,7 +181,9 @@ export default function DevelopersPage() {
                   className="bg-[#080d1a] border border-[#1e2d4a] rounded-xl p-6"
                 >
                   <Icon className="h-7 w-7 text-[#3b82f6] mb-4" />
-                  <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">{card.title}</h3>
+                  <h3 className="text-lg font-semibold text-[#f1f5f9] mb-2">
+                    {card.title}
+                  </h3>
                   <p className="text-[#94a3b8] text-sm">{card.description}</p>
                 </div>
               )
@@ -183,9 +195,12 @@ export default function DevelopersPage() {
       {/* CTA */}
       <section className="py-24 px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">Ready to Integrate?</h2>
+          <h2 className="text-3xl font-bold text-[#f1f5f9] mb-4">
+            Ready to Integrate?
+          </h2>
           <p className="text-[#94a3b8] mb-10">
-            Access the full API documentation or register your platform to receive credentials.
+            Access the full API documentation or register your platform to
+            receive credentials.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -195,7 +210,7 @@ export default function DevelopersPage() {
               View Full API Documentation
             </Link>
             <Link
-              href="/#waitlist"
+              href="/contact"
               className="inline-block border border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6]/10 font-semibold px-8 py-3 rounded-lg transition-colors"
             >
               Register Your Platform

@@ -5,7 +5,7 @@ import {
   getAccessWindow,
 } from '@/lib/paystack-constants'
 import {
-  EARLY_ACCESS_ANNUAL_OFFER,
+  getLockedEarlyAccessTransactionOffer,
   getPaystackWebhookSecret,
   isLockedEarlyAccessTransaction,
   verifyPaystackSignature,
@@ -52,19 +52,26 @@ export async function POST(request: NextRequest) {
     }
 
     const txn = event.data
+    const offer = getLockedEarlyAccessTransactionOffer(txn)
+
+    if (!offer) {
+      console.warn(
+        'Paystack webhook: ignored transaction without a valid locked Early Access offer',
+      )
+      return new NextResponse('OK', { status: 200 })
+    }
+
     const email = txn.customer.email
     const name =
       (txn.metadata?.customerName as string) ||
       (txn.metadata?.name as string) ||
       ''
-    const amount = EARLY_ACCESS_ANNUAL_OFFER.amountMinor
-    const currency = EARLY_ACCESS_ANNUAL_OFFER.currency
+    const amount = offer.amountMinor
+    const currency = offer.currency
     const reference = txn.reference
     const is_test = amount <= TEST_PAYMENT_THRESHOLD_KOBO
-    const tier =
-      (txn.metadata?.requestedTier as string) ||
-      EARLY_ACCESS_ANNUAL_OFFER.planName
-    const billingPeriod = EARLY_ACCESS_ANNUAL_OFFER.billingPeriod
+    const tier = (txn.metadata?.requestedTier as string) || offer.planName
+    const billingPeriod = offer.billingPeriod
     const accessWindow = getAccessWindow(tier)
 
     if (!supabaseAdmin) {

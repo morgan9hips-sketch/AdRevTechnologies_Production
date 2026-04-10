@@ -8,8 +8,8 @@ export function FinalCtaSection() {
           Next Step
         </p>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          Launch the infrastructure before your competitors stitch the stack
-          together.
+          Launch the infrastructure with one consistent commercial and technical
+          path.
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#c3d4e9]">
           Secure launch-partner access for the initial commercial bands, route

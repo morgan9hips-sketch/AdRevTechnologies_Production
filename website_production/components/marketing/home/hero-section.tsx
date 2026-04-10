@@ -41,44 +41,50 @@ export function HeroSection() {
             </Link>
           </div>
 
-          <div className="relative mt-12 w-full max-w-5xl">
-            <RevenueCalculator />
-
-            <aside className="mx-auto mt-5 w-full max-w-[320px] rounded-[28px] border border-[#c9d8e2]/70 bg-[linear-gradient(180deg,rgba(244,249,252,0.98),rgba(223,236,242,0.94))] p-4 text-center shadow-[0_24px_70px_rgba(2,6,15,0.22)] backdrop-blur lg:absolute lg:right-[-18px] lg:top-8 lg:mt-0">
-              <div className="rounded-[22px] border border-white/75 bg-white/72 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
-                <div className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#0d4568]">
-                  Fact
-                </div>
-
-                <div className="mt-4 space-y-3 text-left">
-                  <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
-                    Rewarded video ads deliver{' '}
-                    <span className="font-semibold text-[#0d4568]">
-                      $8-$20+ eCPMs
-                    </span>
-                    , among the highest in digital.
-                  </p>
-                  <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
-                    Global digital advertising exceeds{' '}
-                    <span className="font-semibold text-[#0d4568]">$700B+</span>{' '}
-                    annually.
-                  </p>
-                  <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
-                    Most platforms have high engagement but low monetisation
-                    efficiency.
-                  </p>
-                </div>
+          <div className="mt-12 w-full max-w-6xl">
+            <div className="flex flex-col items-center gap-5 lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start lg:gap-6">
+              <div className="w-full">
+                <RevenueCalculator />
               </div>
 
-              <div className="mt-4 rounded-[22px] border border-[#0d4568]/14 bg-[linear-gradient(180deg,rgba(8,25,39,0.94),rgba(10,34,52,0.9))] px-4 py-4 text-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-                <div className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8feaff]">
-                  Result
+              <aside className="w-full max-w-[280px] rounded-[28px] border border-[#c9d8e2]/70 bg-[linear-gradient(180deg,rgba(244,249,252,0.98),rgba(223,236,242,0.94))] p-4 text-center shadow-[0_24px_70px_rgba(2,6,15,0.22)] backdrop-blur lg:justify-self-end">
+                <div className="rounded-[22px] border border-white/75 bg-white/72 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+                  <div className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#0d4568]">
+                    Fact
+                  </div>
+
+                  <div className="mt-4 space-y-3 text-left">
+                    <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
+                      Rewarded video ads deliver{' '}
+                      <span className="font-semibold text-[#0d4568]">
+                        $8-$20+ eCPMs
+                      </span>
+                      , among the highest in digital.
+                    </p>
+                    <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
+                      Global digital advertising exceeds{' '}
+                      <span className="font-semibold text-[#0d4568]">
+                        $700B+
+                      </span>{' '}
+                      annually.
+                    </p>
+                    <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
+                      Most platforms have high engagement but low monetisation
+                      efficiency.
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-3 text-lg font-semibold leading-8 text-[#f6fbff]">
-                  Billions in user activity remain under-monetised.
-                </p>
-              </div>
-            </aside>
+
+                <div className="mt-4 rounded-[22px] border border-[#0d4568]/14 bg-[linear-gradient(180deg,rgba(8,25,39,0.94),rgba(10,34,52,0.9))] px-4 py-4 text-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+                  <div className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8feaff]">
+                    Result
+                  </div>
+                  <p className="mt-3 text-lg font-semibold leading-8 text-[#f6fbff]">
+                    Billions in user activity remain under-monetised.
+                  </p>
+                </div>
+              </aside>
+            </div>
           </div>
         </div>
       </div>

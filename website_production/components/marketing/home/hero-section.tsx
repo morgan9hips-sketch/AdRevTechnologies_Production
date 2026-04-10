@@ -41,50 +41,40 @@ export function HeroSection() {
             </Link>
           </div>
 
-          <div className="mt-12 grid w-full max-w-6xl gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] lg:items-stretch">
-            <div className="min-w-0">
-              <RevenueCalculator />
-            </div>
+          <div className="relative mt-12 w-full max-w-5xl">
+            <RevenueCalculator />
 
-            <aside className="flex h-full flex-col justify-between rounded-[30px] border border-[#c9d8e2]/70 bg-[linear-gradient(180deg,rgba(244,249,252,0.96),rgba(223,236,242,0.92))] p-6 text-left shadow-[0_30px_90px_rgba(2,6,15,0.28)] backdrop-blur xl:p-7">
-              <div>
-                <div className="inline-flex rounded-full border border-[#0d4568]/12 bg-[#0d4568]/7 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#0d4568]">
+            <aside className="mx-auto mt-5 w-full max-w-[320px] rounded-[28px] border border-[#c9d8e2]/70 bg-[linear-gradient(180deg,rgba(244,249,252,0.98),rgba(223,236,242,0.94))] p-4 text-center shadow-[0_24px_70px_rgba(2,6,15,0.22)] backdrop-blur lg:absolute lg:right-[-18px] lg:top-8 lg:mt-0">
+              <div className="rounded-[22px] border border-white/75 bg-white/72 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+                <div className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#0d4568]">
                   Fact
                 </div>
 
-                <div className="mt-5 space-y-4">
-                  <div className="rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
-                    <p className="text-sm font-medium leading-6 text-[#13324b]">
-                      Rewarded video ads deliver{' '}
-                      <span className="font-semibold text-[#0d4568]">
-                        $8-$20+ eCPMs
-                      </span>
-                      , among the highest in digital.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
-                    <p className="text-sm font-medium leading-6 text-[#13324b]">
-                      Global digital advertising exceeds{' '}
-                      <span className="font-semibold text-[#0d4568]">
-                        $700B+
-                      </span>{' '}
-                      annually.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
-                    <p className="text-sm font-medium leading-6 text-[#13324b]">
-                      Most platforms have high engagement but low monetisation
-                      efficiency.
-                    </p>
-                  </div>
+                <div className="mt-4 space-y-3 text-left">
+                  <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
+                    Rewarded video ads deliver{' '}
+                    <span className="font-semibold text-[#0d4568]">
+                      $8-$20+ eCPMs
+                    </span>
+                    , among the highest in digital.
+                  </p>
+                  <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
+                    Global digital advertising exceeds{' '}
+                    <span className="font-semibold text-[#0d4568]">$700B+</span>{' '}
+                    annually.
+                  </p>
+                  <p className="rounded-xl border border-[#dce7ee] bg-white/76 px-3 py-2 text-sm font-medium leading-6 text-[#13324b]">
+                    Most platforms have high engagement but low monetisation
+                    efficiency.
+                  </p>
                 </div>
               </div>
 
-              <div className="mt-6 rounded-[26px] border border-[#0d4568]/14 bg-[linear-gradient(180deg,rgba(8,25,39,0.92),rgba(10,34,52,0.88))] px-5 py-5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+              <div className="mt-4 rounded-[22px] border border-[#0d4568]/14 bg-[linear-gradient(180deg,rgba(8,25,39,0.94),rgba(10,34,52,0.9))] px-4 py-4 text-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8feaff]">
                   Result
                 </div>
-                <p className="mt-3 text-xl font-semibold leading-8 text-[#f6fbff]">
+                <p className="mt-3 text-lg font-semibold leading-8 text-[#f6fbff]">
                   Billions in user activity remain under-monetised.
                 </p>
               </div>

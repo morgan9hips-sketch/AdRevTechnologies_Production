@@ -82,28 +82,28 @@ export function FoundingPartnerCheckout({
               </div>
             </div>
 
-            <div className="min-w-[260px] rounded-3xl border border-[#c9d8e2]/70 bg-[linear-gradient(145deg,rgba(237,242,246,0.98),rgba(222,231,236,0.96)_58%,rgba(209,229,228,0.94))] p-5 text-left text-[#10324f] shadow-[0_18px_48px_rgba(170,190,204,0.18)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2d5970]">
+            <div className="min-w-[260px] rounded-3xl border border-[#ffb36e]/45 bg-[linear-gradient(145deg,rgba(255,214,163,0.98),rgba(255,184,92,0.94)_58%,rgba(240,124,31,0.9))] p-5 text-left text-[#4a2400] shadow-[0_18px_48px_rgba(240,124,31,0.24)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8a3a00]">
                 {pricingCommercialTerms.availabilityLabel}
               </p>
               <div className="mt-3 flex items-end gap-2">
-                <span className="text-4xl font-semibold text-[#0d2f4a]">
+                <span className="text-4xl font-semibold text-[#4a2400]">
                   {foundingPartnerOffer.discountedMonthlyPrice}
                 </span>
-                <span className="pb-1 text-sm text-[#48657c]">
+                <span className="pb-1 text-sm text-[#8a4b13]">
                   /mo equivalent
                 </span>
               </div>
-              <p className="mt-2 text-sm text-[#27455b]">
+              <p className="mt-2 text-sm text-[#6e3609]">
                 Standard value {foundingPartnerOffer.standardMonthlyPrice}
               </p>
-              <p className="mt-2 text-sm text-[#48657c]">
+              <p className="mt-2 text-sm text-[#8a4b13]">
                 Billed annually at {foundingPartnerOffer.annualPrice}
               </p>
-              <p className="mt-3 text-sm font-semibold text-[#0d2f4a]">
+              <p className="mt-3 text-sm font-semibold text-[#4a2400]">
                 {pricingCommercialTerms.availabilityHeadline}
               </p>
-              <p className="mt-2 text-sm leading-6 text-[#35526a]">
+              <p className="mt-2 text-sm leading-6 text-[#6e3609]">
                 {pricingCommercialTerms.revenueShareValue} of revenue generated
                 through the engine is retained by Ad Rev.
               </p>
@@ -129,10 +129,10 @@ export function FoundingPartnerCheckout({
                 {mauPricingBands.map((band) => (
                   <div
                     key={band.label}
-                    className="relative grid gap-3 overflow-hidden rounded-2xl border border-[#ff8a3d]/15 bg-white/[0.03] px-4 py-4 md:grid-cols-[1fr_auto_auto] md:items-center"
+                    className="relative grid gap-3 rounded-2xl border border-[#ff8a3d]/15 bg-white/[0.03] px-4 pb-4 pt-5 md:grid-cols-[1fr_auto_auto] md:items-center"
                   >
                     {'ribbonLabel' in band && band.ribbonLabel ? (
-                      <div className="absolute right-4 top-0 translate-y-[-50%] rounded-full border border-[#f8d58b]/55 bg-[linear-gradient(135deg,#f5cf7a,#d4871d)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#3b2202] shadow-[0_10px_24px_rgba(244,170,44,0.32)]">
+                      <div className="absolute right-4 top-3 rounded-full border border-[#f8d58b]/55 bg-[linear-gradient(135deg,#f5cf7a,#d4871d)] px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#3b2202] shadow-[0_10px_24px_rgba(244,170,44,0.32)] whitespace-nowrap">
                         {band.ribbonLabel}
                       </div>
                     ) : null}
@@ -158,7 +158,7 @@ export function FoundingPartnerCheckout({
                       <button
                         type="button"
                         onClick={() => openCheckoutForBand(band)}
-                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#f7b24a,#f07c1f)] px-4 py-2 text-sm font-semibold text-[#2d1500] shadow-[0_12px_28px_rgba(240,124,31,0.28)] transition hover:brightness-105"
+                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#00d4ff] px-4 py-2 text-sm font-semibold text-[#05131d] shadow-[0_12px_28px_rgba(0,212,255,0.24)] transition hover:bg-[#7ee7ff]"
                       >
                         {band.actionLabel}
                         <ArrowRight className="h-4 w-4" />
@@ -192,7 +192,7 @@ export function FoundingPartnerCheckout({
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 rounded-2xl border border-[#c9d8e2]/70 bg-[linear-gradient(145deg,rgba(237,242,246,0.98),rgba(222,231,236,0.96)_58%,rgba(209,229,228,0.94))] p-4 text-sm text-[#35526a] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+              <div className="mt-6 rounded-2xl border border-[#ffb36e]/45 bg-[linear-gradient(145deg,rgba(255,214,163,0.98),rgba(255,184,92,0.94)_58%,rgba(240,124,31,0.88))] p-4 text-sm text-[#6e3609] shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
                 {foundingPartnerOffer.spotsLabel}
               </div>
               {!compact && (

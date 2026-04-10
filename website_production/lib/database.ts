@@ -58,9 +58,37 @@ export interface Waitlist {
   company_name: string | null;
   role: string | null;
   website: string | null;
-  platform_type: 'ecommerce' | 'gaming' | 'fintech' | 'sports_betting' | 'telecoms' | 'loyalty' | 'other' | null;
-  monthly_active_users: 'under_10k' | '10k_50k' | '50k_250k' | '250k_1m' | 'over_1m' | null;
-  interested_tier: 'starter' | 'business' | 'enterprise' | null;
+  platform_type:
+    | 'platform_operator'
+    | 'digital_agency'
+    | 'ecommerce'
+    | 'gaming'
+    | 'fintech'
+    | 'sports_betting'
+    | 'telecoms'
+    | 'loyalty'
+    | 'other'
+    | null;
+  monthly_active_users:
+    | 'under_10k'
+    | '10k_50k'
+    | '50k_250k'
+    | '250k_1m'
+    | 'over_1m'
+    | '0_500k'
+    | '500k_1_5m'
+    | '1_5m_3m'
+    | '3m_plus'
+    | null;
+  interested_tier:
+    | 'starter'
+    | 'business'
+    | 'enterprise'
+    | 'founding_partner_0_500k'
+    | 'growth_500k_1_5m'
+    | 'scale_1_5m_3m'
+    | 'custom_3m_plus'
+    | null;
   message: string | null;
   how_did_you_hear: 'search' | 'social_media' | 'referral' | 'conference' | 'other' | null;
   status: 'pending' | 'contacted' | 'converted';

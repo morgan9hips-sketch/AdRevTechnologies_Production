@@ -4,12 +4,12 @@ import {
   BadgeCheck,
   BriefcaseBusiness,
   Building2,
-  Mail,
   Handshake,
   Layers3,
-  Webhook,
 } from 'lucide-react'
+import { HiOutlineEnvelope } from 'react-icons/hi2'
 import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa6'
+import { TbWebhook } from 'react-icons/tb'
 import { partnerPrograms } from '@/lib/site-content'
 import { PlatformPreview } from '@/components/marketing/platform-v1-preview'
 
@@ -34,11 +34,36 @@ const capabilityCoverage = [
 ] as const
 
 const credibilityAnchors = [
-  { label: 'WhatsApp', icon: FaWhatsapp },
-  { label: 'Facebook', icon: FaFacebookF },
-  { label: 'Instagram', icon: FaInstagram },
-  { label: 'Email', icon: Mail },
-  { label: 'API / Webhooks', icon: Webhook },
+  {
+    label: 'WhatsApp',
+    icon: FaWhatsapp,
+    iconClassName: 'text-[#25D366]',
+    surfaceClassName: 'bg-[#25D366]/10 border-[#25D366]/20',
+  },
+  {
+    label: 'Facebook',
+    icon: FaFacebookF,
+    iconClassName: 'text-[#1877F2]',
+    surfaceClassName: 'bg-[#1877F2]/10 border-[#1877F2]/20',
+  },
+  {
+    label: 'Instagram',
+    icon: FaInstagram,
+    iconClassName: 'text-[#E1306C]',
+    surfaceClassName: 'bg-[#E1306C]/10 border-[#E1306C]/20',
+  },
+  {
+    label: 'Email',
+    icon: HiOutlineEnvelope,
+    iconClassName: 'text-[#60A5FA]',
+    surfaceClassName: 'bg-[#60A5FA]/10 border-[#60A5FA]/20',
+  },
+  {
+    label: 'API / Webhooks',
+    icon: TbWebhook,
+    iconClassName: 'text-[#7EE7FF]',
+    surfaceClassName: 'bg-[#7EE7FF]/10 border-[#7EE7FF]/20',
+  },
 ] as const
 
 const partnerAdvantages = [
@@ -236,15 +261,16 @@ export default function PartnersPage() {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Credibility anchors
+              Channel credibility
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Compatibility signals matter before logos arrive.
+              Execution readiness is visible before the first commercial
+              rollout.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-              The current product direction already reflects the operating
-              channels agencies need to assess: messaging, social distribution,
-              and API-led delivery.
+              The operating environment already reflects the channels partners
+              expect to validate during commercial review: WhatsApp, Facebook,
+              Instagram, email, and API-led webhook delivery.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -255,8 +281,12 @@ export default function PartnersPage() {
                   key={item.label}
                   className="rounded-[24px] border border-[#ff8a3d]/20 bg-white/[0.03] p-6 text-center"
                 >
-                  <div className="flex justify-center text-[#7ee7ff]">
-                    <Icon className="h-5 w-5" />
+                  <div className="flex justify-center">
+                    <div
+                      className={`flex h-12 w-12 items-center justify-center rounded-2xl border ${item.surfaceClassName}`}
+                    >
+                      <Icon className={`h-5 w-5 ${item.iconClassName}`} />
+                    </div>
                   </div>
                   <p className="mt-4 text-sm font-semibold uppercase tracking-[0.22em] text-[#dce8f5]">
                     {item.label}

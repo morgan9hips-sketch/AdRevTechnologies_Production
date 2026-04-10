@@ -422,9 +422,9 @@ export function PrelaunchModal({ isOpen, onClose, tier }: PrelaunchModalProps) {
           <div className="flex items-center justify-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://website.assets.paystack.com/assets/img/logos/paystack-logo-embed.png"
+              src="/brand/logo-paystack.png"
               alt="Secured by Paystack"
-              className="h-4 opacity-60"
+              className="h-4 w-auto opacity-60"
             />
             <span className="text-[10px] text-[#94a3b8]/60">
               Secure checkout · ZAR &amp; USD accepted

@@ -27,9 +27,9 @@ export function Footer() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://website.assets.paystack.com/assets/img/logos/paystack-logo-embed.png"
+              src="/brand/logo-paystack.png"
               alt="Paystack"
-              className="h-8 opacity-70 hover:opacity-100 transition-opacity"
+              className="h-10 w-auto opacity-70 transition-opacity hover:opacity-100"
             />
           </a>
         </div>

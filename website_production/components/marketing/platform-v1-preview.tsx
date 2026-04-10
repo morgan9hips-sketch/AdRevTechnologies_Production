@@ -193,7 +193,9 @@ function PlatformShell({
           </nav>
 
           <div className="border-t border-[#1e2d4a] px-5 py-4">
-            <p className="mb-1 text-xs text-[#94a3b8]">Commercial environment</p>
+            <p className="mb-1 text-xs text-[#94a3b8]">
+              Commercial environment
+            </p>
             <p className="flex items-center gap-1 text-xs text-[#10b981]">
               <span>●</span>
               <span>All systems operational</span>
@@ -202,6 +204,31 @@ function PlatformShell({
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
+          <div className="border-b border-[#1e2d4a] bg-[#0a0f1e] px-3 py-3 xl:hidden">
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {platformNavItems.map((item) => {
+                const Icon = item.icon
+                const isActive = item.id === activeTab
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => onSelectTab(item.id)}
+                    className={`inline-flex flex-shrink-0 items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${
+                      isActive
+                        ? 'border-[#3b82f6] bg-[#3b82f6]/15 text-[#7cb4ff]'
+                        : 'border-[#1e2d4a] text-[#94a3b8] hover:border-[#2b426d] hover:text-[#dce8f5]'
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    {item.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
           <header className="flex h-[64px] flex-shrink-0 items-center justify-between border-b border-[#1e2d4a] bg-[#0a0f1e] px-4 sm:px-6">
             <h3 className="text-base font-semibold text-white">
               {pageTitles[activeTab]}
@@ -274,8 +301,12 @@ function AnalyticsPanel() {
 
       <div className="overflow-hidden rounded-xl border border-[#1e2d4a] bg-[#0f1629]">
         <div className="flex items-center justify-between border-b border-[#1e2d4a] px-5 py-4">
-          <h4 className="text-sm font-semibold text-white">Campaign Performance</h4>
-          <span className="text-xs font-medium text-[#3b82f6]">View All Campaigns →</span>
+          <h4 className="text-sm font-semibold text-white">
+            Campaign Performance
+          </h4>
+          <span className="text-xs font-medium text-[#3b82f6]">
+            View All Campaigns →
+          </span>
         </div>
 
         <div className="overflow-x-auto">
@@ -291,7 +322,10 @@ function AnalyticsPanel() {
                   'Revenue',
                   'Conv. Rate',
                 ].map((heading) => (
-                  <th key={heading} className="px-5 py-3 text-left text-xs font-medium text-[#94a3b8]">
+                  <th
+                    key={heading}
+                    className="px-5 py-3 text-left text-xs font-medium text-[#94a3b8]"
+                  >
                     {heading}
                   </th>
                 ))}
@@ -303,16 +337,26 @@ function AnalyticsPanel() {
                   key={campaign.id}
                   className="border-b border-[#1e2d4a] transition-colors hover:bg-[#1e2d4a]/30"
                 >
-                  <td className="px-5 py-3 font-medium text-white">{campaign.name}</td>
+                  <td className="px-5 py-3 font-medium text-white">
+                    {campaign.name}
+                  </td>
                   <td className="px-5 py-3 text-[#94a3b8]">{campaign.type}</td>
                   <td className="px-5 py-3">{statusBadge(campaign.status)}</td>
-                  <td className="px-5 py-3 text-white">{campaign.impressions.toLocaleString()}</td>
-                  <td className="px-5 py-3 text-white">{campaign.completions.toLocaleString()}</td>
                   <td className="px-5 py-3 text-white">
-                    {campaign.revenue > 0 ? `$${campaign.revenue.toLocaleString()}` : '—'}
+                    {campaign.impressions.toLocaleString()}
                   </td>
                   <td className="px-5 py-3 text-white">
-                    {campaign.conversionRate > 0 ? `${campaign.conversionRate}%` : '—'}
+                    {campaign.completions.toLocaleString()}
+                  </td>
+                  <td className="px-5 py-3 text-white">
+                    {campaign.revenue > 0
+                      ? `$${campaign.revenue.toLocaleString()}`
+                      : '—'}
+                  </td>
+                  <td className="px-5 py-3 text-white">
+                    {campaign.conversionRate > 0
+                      ? `${campaign.conversionRate}%`
+                      : '—'}
                   </td>
                 </tr>
               ))}
@@ -331,7 +375,11 @@ function CampaignsPanel() {
         <div>
           <h2 className="text-xl font-bold text-white">Campaigns</h2>
           <p className="mt-0.5 text-sm text-[#94a3b8]">
-            {campaigns.filter((campaign) => campaign.status === 'active').length} active · {campaigns.length} total
+            {
+              campaigns.filter((campaign) => campaign.status === 'active')
+                .length
+            }{' '}
+            active · {campaigns.length} total
           </p>
         </div>
         <button
@@ -364,11 +412,21 @@ function CampaignsPanel() {
                 )}
 
                 <div className="flex flex-wrap gap-6">
-                  <MetricPair label="Impressions" value={campaign.impressions.toLocaleString() || '—'} />
-                  <MetricPair label="Completions" value={campaign.completions.toLocaleString() || '—'} />
+                  <MetricPair
+                    label="Impressions"
+                    value={campaign.impressions.toLocaleString() || '—'}
+                  />
+                  <MetricPair
+                    label="Completions"
+                    value={campaign.completions.toLocaleString() || '—'}
+                  />
                   <MetricPair
                     label="Revenue"
-                    value={campaign.revenue > 0 ? `$${campaign.revenue.toLocaleString()}` : '—'}
+                    value={
+                      campaign.revenue > 0
+                        ? `$${campaign.revenue.toLocaleString()}`
+                        : '—'
+                    }
                   />
                   {campaign.conversionRate > 0 && (
                     <MetricPair
@@ -419,15 +477,23 @@ function MarketingPanel() {
         {channelCards.map((channel) => {
           const Icon = channel.icon
           return (
-            <div key={channel.key} className="rounded-xl border border-[#1e2d4a] bg-[#0f1629] p-5">
+            <div
+              key={channel.key}
+              className="rounded-xl border border-[#1e2d4a] bg-[#0f1629] p-5"
+            >
               <div className="mb-3 flex items-center gap-3">
-                <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${channel.surfaceClass}`}>
+                <div
+                  className={`flex h-9 w-9 items-center justify-center rounded-lg ${channel.surfaceClass}`}
+                >
                   <Icon className={`h-5 w-5 ${channel.colorClass}`} />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">{channel.label}</p>
+                  <p className="text-sm font-semibold text-white">
+                    {channel.label}
+                  </p>
                   <p className={`text-xs ${channel.colorClass}`}>
-                    {channel.active} active automation{channel.active !== 1 ? 's' : ''}
+                    {channel.active} active automation
+                    {channel.active !== 1 ? 's' : ''}
                   </p>
                 </div>
               </div>
@@ -448,8 +514,19 @@ function MarketingPanel() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[#1e2d4a]">
-                {['Name', 'Channel', 'Trigger', 'Status', 'Sent', 'Last Sent', 'Next'].map((heading) => (
-                  <th key={heading} className="px-5 py-3 text-left text-xs font-medium text-[#94a3b8]">
+                {[
+                  'Name',
+                  'Channel',
+                  'Trigger',
+                  'Status',
+                  'Sent',
+                  'Last Sent',
+                  'Next',
+                ].map((heading) => (
+                  <th
+                    key={heading}
+                    className="px-5 py-3 text-left text-xs font-medium text-[#94a3b8]"
+                  >
                     {heading}
                   </th>
                 ))}
@@ -461,13 +538,27 @@ function MarketingPanel() {
                   key={automation.id}
                   className="border-b border-[#1e2d4a] transition-colors hover:bg-[#1e2d4a]/30"
                 >
-                  <td className="px-5 py-3 font-medium text-white">{automation.name}</td>
-                  <td className="px-5 py-3 text-[#94a3b8]">{automation.channel}</td>
-                  <td className="px-5 py-3 text-[#94a3b8]">{automation.trigger}</td>
-                  <td className="px-5 py-3">{statusBadge(automation.status)}</td>
-                  <td className="px-5 py-3 text-white">{automation.sent.toLocaleString()}</td>
-                  <td className="px-5 py-3 text-[#94a3b8]">{automation.lastSent}</td>
-                  <td className="px-5 py-3 text-[#94a3b8]">{automation.nextScheduled}</td>
+                  <td className="px-5 py-3 font-medium text-white">
+                    {automation.name}
+                  </td>
+                  <td className="px-5 py-3 text-[#94a3b8]">
+                    {automation.channel}
+                  </td>
+                  <td className="px-5 py-3 text-[#94a3b8]">
+                    {automation.trigger}
+                  </td>
+                  <td className="px-5 py-3">
+                    {statusBadge(automation.status)}
+                  </td>
+                  <td className="px-5 py-3 text-white">
+                    {automation.sent.toLocaleString()}
+                  </td>
+                  <td className="px-5 py-3 text-[#94a3b8]">
+                    {automation.lastSent}
+                  </td>
+                  <td className="px-5 py-3 text-[#94a3b8]">
+                    {automation.nextScheduled}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -498,10 +589,30 @@ function ReportsPanel() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard title="Total Revenue" value="$18,420" accent="green" icon={<TrendingUp className="h-4 w-4" />} />
-        <StatCard title="Total Ad Completions" value="42,380" accent="green" icon={<CheckSquare className="h-4 w-4" />} />
-        <StatCard title="Webhook Success Rate" value="99.8%" accent="green" icon={<Activity className="h-4 w-4" />} />
-        <StatCard title="Avg Session Revenue" value="$0.43" accent="blue" icon={<DollarSign className="h-4 w-4" />} />
+        <StatCard
+          title="Total Revenue"
+          value="$18,420"
+          accent="green"
+          icon={<TrendingUp className="h-4 w-4" />}
+        />
+        <StatCard
+          title="Total Ad Completions"
+          value="42,380"
+          accent="green"
+          icon={<CheckSquare className="h-4 w-4" />}
+        />
+        <StatCard
+          title="Webhook Success Rate"
+          value="99.8%"
+          accent="green"
+          icon={<Activity className="h-4 w-4" />}
+        />
+        <StatCard
+          title="Avg Session Revenue"
+          value="$0.43"
+          accent="blue"
+          icon={<DollarSign className="h-4 w-4" />}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -510,14 +621,29 @@ function ReportsPanel() {
       </div>
 
       <div className="rounded-xl border border-[#1e2d4a] bg-[#0f1629] p-6">
-        <h3 className="mb-4 text-sm font-semibold text-white">Delivery Performance</h3>
+        <h3 className="mb-4 text-sm font-semibold text-white">
+          Delivery Performance
+        </h3>
         <div className="mb-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <MetricPair label="Webhooks Delivered" value="98,420" valueClassName="text-[#10b981]" />
-          <MetricPair label="Webhook Success Rate" value="99.8%" valueClassName="text-[#10b981]" />
-          <MetricPair label="Avg Delivery Time" value="142ms" valueClassName="text-[#3b82f6]" />
+          <MetricPair
+            label="Webhooks Delivered"
+            value="98,420"
+            valueClassName="text-[#10b981]"
+          />
+          <MetricPair
+            label="Webhook Success Rate"
+            value="99.8%"
+            valueClassName="text-[#10b981]"
+          />
+          <MetricPair
+            label="Avg Delivery Time"
+            value="142ms"
+            valueClassName="text-[#3b82f6]"
+          />
         </div>
         <p className="text-xs text-[#94a3b8]">
-          All events are immutably logged with a complete audit trail available across the reporting environment.
+          All events are immutably logged with a complete audit trail available
+          across the reporting environment.
         </p>
       </div>
     </div>
@@ -536,7 +662,8 @@ function PlatformPreviewPanel({
       <div>
         <h2 className="text-xl font-bold text-white">Platform Experience</h2>
         <p className="mt-1 text-sm text-[#94a3b8]">
-          Review how the commercial layer appears inside the host product and across the end-user completion flow.
+          Review how the commercial layer appears inside the host product and
+          across the end-user completion flow.
         </p>
       </div>
 
@@ -545,7 +672,9 @@ function PlatformPreviewPanel({
           type="button"
           onClick={() => onChangePreviewMode('host')}
           className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-            previewMode === 'host' ? 'bg-[#3b82f6] text-white' : 'text-[#94a3b8]'
+            previewMode === 'host'
+              ? 'bg-[#3b82f6] text-white'
+              : 'text-[#94a3b8]'
           }`}
         >
           Host App View
@@ -554,7 +683,9 @@ function PlatformPreviewPanel({
           type="button"
           onClick={() => onChangePreviewMode('user')}
           className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-            previewMode === 'user' ? 'bg-[#3b82f6] text-white' : 'text-[#94a3b8]'
+            previewMode === 'user'
+              ? 'bg-[#3b82f6] text-white'
+              : 'text-[#94a3b8]'
           }`}
         >
           End User Experience
@@ -585,18 +716,28 @@ function HostAppSurface() {
         <div className="space-y-3 px-4 py-3">
           <div className="rounded-xl border border-[#e2e8f0] bg-white px-4 py-3">
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#16a34a]">● LIVE</span>
+              <span className="text-xs font-semibold text-[#16a34a]">
+                ● LIVE
+              </span>
               <span className="text-xs text-[#64748b]">67'</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-[#0f172a]">Arsenal</span>
-              <span className="px-4 text-xl font-bold text-[#0f172a]">2 – 1</span>
-              <span className="text-sm font-semibold text-[#0f172a]">Chelsea</span>
+              <span className="text-sm font-semibold text-[#0f172a]">
+                Arsenal
+              </span>
+              <span className="px-4 text-xl font-bold text-[#0f172a]">
+                2 – 1
+              </span>
+              <span className="text-sm font-semibold text-[#0f172a]">
+                Chelsea
+              </span>
             </div>
           </div>
 
           <div>
-            <p className="mb-2 text-xs font-semibold text-[#0f172a]">Bet Slip</p>
+            <p className="mb-2 text-xs font-semibold text-[#0f172a]">
+              Bet Slip
+            </p>
             <div className="space-y-1.5">
               {[
                 { label: 'Arsenal Win', odds: '1.85' },
@@ -607,7 +748,9 @@ function HostAppSurface() {
                   className="flex items-center justify-between rounded-lg border border-[#e2e8f0] bg-white px-3 py-2 text-xs text-[#475569]"
                 >
                   <span>{bet.label}</span>
-                  <span className="font-semibold text-[#0f172a]">{bet.odds}</span>
+                  <span className="font-semibold text-[#0f172a]">
+                    {bet.odds}
+                  </span>
                 </div>
               ))}
             </div>
@@ -621,9 +764,14 @@ function HostAppSurface() {
               <p className="mb-0.5 text-xs font-semibold text-[#0f172a]">
                 Watch a 30s video — earn 50 bonus points
               </p>
-              <p className="text-xs text-[#64748b]">Powered by BookieAI Rewards</p>
+              <p className="text-xs text-[#64748b]">
+                Powered by BookieAI Rewards
+              </p>
             </div>
-            <button type="button" className="rounded-lg bg-[#16a34a] px-3 py-1.5 text-xs font-semibold text-white">
+            <button
+              type="button"
+              className="rounded-lg bg-[#16a34a] px-3 py-1.5 text-xs font-semibold text-white"
+            >
               Watch Now
             </button>
           </div>
@@ -631,9 +779,12 @@ function HostAppSurface() {
       </div>
 
       <div className="rounded-xl border border-[#1e2d4a] bg-[#0f1629] p-5 text-center">
-        <p className="mb-1 text-base font-semibold text-white">Brand continuity across the commercial journey.</p>
+        <p className="mb-1 text-base font-semibold text-white">
+          Brand continuity across the commercial journey.
+        </p>
         <p className="text-sm text-[#94a3b8]">
-          The monetisation layer stays consistent with the host environment while preserving visibility, trust, and conversion flow.
+          The monetisation layer stays consistent with the host environment
+          while preserving visibility, trust, and conversion flow.
         </p>
       </div>
     </div>
@@ -691,9 +842,13 @@ function UserExperienceSurface() {
       </div>
 
       <div className="rounded-xl border border-[#e2e8f0] bg-white p-5">
-        <p className="mb-1 text-sm font-semibold text-[#0f172a]">Technical assurance</p>
+        <p className="mb-1 text-sm font-semibold text-[#0f172a]">
+          Technical assurance
+        </p>
         <p className="text-sm text-[#64748b]">
-          Completion verification remains server-side, reward events are delivered through secure webhooks, and the user flow remains brand-consistent from start to settlement.
+          Completion verification remains server-side, reward events are
+          delivered through secure webhooks, and the user flow remains
+          brand-consistent from start to settlement.
         </p>
       </div>
     </div>
@@ -729,10 +884,13 @@ export function PlatformPreview() {
             Client Workspace
           </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Explore the commercial operating environment presented across the platform.
+            Explore the commercial operating environment presented across the
+            platform.
           </h2>
           <p className="mt-4 text-base leading-7 text-[#a9bfd7] sm:text-lg">
-            Partners can review analytics, campaign management, marketing operations, reporting, and the branded user experience inside one enterprise surface.
+            Partners can review analytics, campaign management, marketing
+            operations, reporting, and the branded user experience inside one
+            enterprise surface.
           </p>
         </div>
 
@@ -742,7 +900,8 @@ export function PlatformPreview() {
               Client Interface
             </p>
             <p className="text-sm text-[#f3dfc3]">
-              Illustrative presentation data is applied across the workspace for commercial review.
+              Illustrative presentation data is applied across the workspace for
+              commercial review.
             </p>
           </div>
 

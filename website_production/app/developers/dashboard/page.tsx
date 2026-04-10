@@ -52,6 +52,23 @@ interface UsageStats {
   averageResponseTime: number
 }
 
+function getQuotaWidthClass(percentage: number) {
+  const capped = Math.max(0, Math.min(percentage, 100))
+
+  if (capped === 0) return 'w-0'
+  if (capped <= 10) return 'w-[10%]'
+  if (capped <= 20) return 'w-[20%]'
+  if (capped <= 30) return 'w-[30%]'
+  if (capped <= 40) return 'w-[40%]'
+  if (capped <= 50) return 'w-[50%]'
+  if (capped <= 60) return 'w-[60%]'
+  if (capped <= 70) return 'w-[70%]'
+  if (capped <= 80) return 'w-[80%]'
+  if (capped <= 90) return 'w-[90%]'
+
+  return 'w-full'
+}
+
 export default function DeveloperDashboard() {
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([])
   const [developerAccount, setDeveloperAccount] =
@@ -182,8 +199,7 @@ export default function DeveloperDashboard() {
                       : quotaPercentage > 75
                         ? 'bg-yellow-600'
                         : 'bg-green-600'
-                  }`}
-                  style={{ width: `${Math.min(quotaPercentage, 100)}%` }}
+                  } ${getQuotaWidthClass(quotaPercentage)}`}
                 />
               </div>
             </CardContent>

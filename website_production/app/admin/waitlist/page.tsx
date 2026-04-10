@@ -74,7 +74,11 @@ export default function AdminWaitlistPage() {
         setUpdateError(data?.error || 'Update failed.')
         return
       }
-      setEntries(prev => prev.map(e => e.id === id ? { ...e, status: status as WaitlistEntry['status'] } : e))
+      setEntries((prev) =>
+        prev.map((e) =>
+          e.id === id ? { ...e, status: status as WaitlistEntry['status'] } : e,
+        ),
+      )
     } catch {
       setUpdateError('Update failed.')
     } finally {
@@ -87,12 +91,15 @@ export default function AdminWaitlistPage() {
     router.push('/admin/login')
   }
 
-  const filtered = filterStatus === 'all' ? entries : entries.filter(e => e.status === filterStatus)
+  const filtered =
+    filterStatus === 'all'
+      ? entries
+      : entries.filter((e) => e.status === filterStatus)
   const counts = {
     all: entries.length,
-    pending: entries.filter(e => e.status === 'pending').length,
-    contacted: entries.filter(e => e.status === 'contacted').length,
-    converted: entries.filter(e => e.status === 'converted').length,
+    pending: entries.filter((e) => e.status === 'pending').length,
+    contacted: entries.filter((e) => e.status === 'contacted').length,
+    converted: entries.filter((e) => e.status === 'converted').length,
   }
 
   if (loading) {
@@ -109,8 +116,12 @@ export default function AdminWaitlistPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-[#f1f5f9]">Waitlist — Admin</h1>
-            <p className="text-sm text-[#94a3b8] mt-1">{entries.length} total signups</p>
+            <h1 className="text-2xl font-bold text-[#f1f5f9]">
+              Waitlist — Admin
+            </h1>
+            <p className="text-sm text-[#94a3b8] mt-1">
+              {entries.length} total signups
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -137,13 +148,18 @@ export default function AdminWaitlistPage() {
         {updateError && (
           <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6 flex items-center justify-between">
             <p className="text-red-400 text-sm">{updateError}</p>
-            <button onClick={() => setUpdateError('')} className="text-red-400 hover:text-red-300 ml-4 text-xs">Dismiss</button>
+            <button
+              onClick={() => setUpdateError('')}
+              className="text-red-400 hover:text-red-300 ml-4 text-xs"
+            >
+              Dismiss
+            </button>
           </div>
         )}
 
         {/* Status filter tabs */}
         <div className="flex gap-2 mb-6 flex-wrap">
-          {(['all', 'pending', 'contacted', 'converted'] as const).map(s => (
+          {(['all', 'pending', 'contacted', 'converted'] as const).map((s) => (
             <button
               key={s}
               onClick={() => setFilterStatus(s)}
@@ -169,12 +185,18 @@ export default function AdminWaitlistPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[#1e2d4a] text-[#94a3b8]">
-                    <th className="text-left px-4 py-3 font-medium">Name / Company</th>
+                    <th className="text-left px-4 py-3 font-medium">
+                      Name / Company
+                    </th>
                     <th className="text-left px-4 py-3 font-medium">Email</th>
                     <th className="text-left px-4 py-3 font-medium">Tier</th>
                     <th className="text-left px-4 py-3 font-medium">MAU</th>
-                    <th className="text-left px-4 py-3 font-medium">Platform</th>
-                    <th className="text-left px-4 py-3 font-medium">Signed Up</th>
+                    <th className="text-left px-4 py-3 font-medium">
+                      Platform
+                    </th>
+                    <th className="text-left px-4 py-3 font-medium">
+                      Signed Up
+                    </th>
                     <th className="text-left px-4 py-3 font-medium">Status</th>
                   </tr>
                 </thead>
@@ -187,12 +209,18 @@ export default function AdminWaitlistPage() {
                       }`}
                     >
                       <td className="px-4 py-3">
-                        <div className="font-medium text-[#f1f5f9]">{entry.name}</div>
+                        <div className="font-medium text-[#f1f5f9]">
+                          {entry.name}
+                        </div>
                         {entry.company_name && (
-                          <div className="text-[#94a3b8] text-xs mt-0.5">{entry.company_name}</div>
+                          <div className="text-[#94a3b8] text-xs mt-0.5">
+                            {entry.company_name}
+                          </div>
                         )}
                         {entry.role && (
-                          <div className="text-[#94a3b8] text-xs">{entry.role}</div>
+                          <div className="text-[#94a3b8] text-xs">
+                            {entry.role}
+                          </div>
                         )}
                       </td>
                       <td className="px-4 py-3">
@@ -216,7 +244,9 @@ export default function AdminWaitlistPage() {
                         )}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="capitalize text-[#f1f5f9]">{entry.interested_tier || '—'}</span>
+                        <span className="capitalize text-[#f1f5f9]">
+                          {entry.interested_tier || '—'}
+                        </span>
                       </td>
                       <td className="px-4 py-3 text-[#94a3b8]">
                         {entry.monthly_active_users?.replace(/_/g, ' ') || '—'}
@@ -225,21 +255,32 @@ export default function AdminWaitlistPage() {
                         {entry.platform_type?.replace(/_/g, ' ') || '—'}
                       </td>
                       <td className="px-4 py-3 text-[#94a3b8] whitespace-nowrap">
-                        {new Date(entry.created_at).toLocaleDateString('en-GB', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
+                        {new Date(entry.created_at).toLocaleDateString(
+                          'en-GB',
+                          {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          },
+                        )}
                       </td>
                       <td className="px-4 py-3">
                         <select
+                          title="Update waitlist status"
+                          aria-label="Update waitlist status"
                           value={entry.status}
                           disabled={updating === entry.id}
-                          onChange={(e) => updateStatus(entry.id, e.target.value)}
+                          onChange={(e) =>
+                            updateStatus(entry.id, e.target.value)
+                          }
                           className={`text-xs font-medium px-2 py-1 rounded-md cursor-pointer outline-none ${STATUS_COLORS[entry.status]} bg-transparent disabled:opacity-50`}
                         >
-                          {STATUS_OPTIONS.map(s => (
-                            <option key={s} value={s} className="bg-[#0f1629] text-[#f1f5f9]">
+                          {STATUS_OPTIONS.map((s) => (
+                            <option
+                              key={s}
+                              value={s}
+                              className="bg-[#0f1629] text-[#f1f5f9]"
+                            >
                               {s.charAt(0).toUpperCase() + s.slice(1)}
                             </option>
                           ))}
@@ -254,16 +295,24 @@ export default function AdminWaitlistPage() {
         )}
 
         {/* Message column — show on expansion or tooltip */}
-        {filtered.some(e => e.message) && (
+        {filtered.some((e) => e.message) && (
           <div className="mt-6 bg-[#0f1629] border border-[#1e2d4a] rounded-xl p-4">
-            <h3 className="text-sm font-medium text-[#94a3b8] mb-3">Messages</h3>
+            <h3 className="text-sm font-medium text-[#94a3b8] mb-3">
+              Messages
+            </h3>
             <div className="space-y-3">
-              {filtered.filter(e => e.message).map(entry => (
-                <div key={entry.id} className="flex gap-3 items-start">
-                  <div className="text-xs text-[#94a3b8] whitespace-nowrap pt-0.5">{entry.name}:</div>
-                  <div className="text-xs text-[#f1f5f9]">{entry.message}</div>
-                </div>
-              ))}
+              {filtered
+                .filter((e) => e.message)
+                .map((entry) => (
+                  <div key={entry.id} className="flex gap-3 items-start">
+                    <div className="text-xs text-[#94a3b8] whitespace-nowrap pt-0.5">
+                      {entry.name}:
+                    </div>
+                    <div className="text-xs text-[#f1f5f9]">
+                      {entry.message}
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         )}

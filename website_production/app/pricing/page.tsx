@@ -32,11 +32,6 @@ export default function PricingPage() {
               initial MAU bands support direct purchase, while larger
               deployments move into a managed commercial process.
             </p>
-            <p className="mt-5 max-w-[980px] text-base leading-8 text-[#d9e8f7] sm:text-lg">
-              {pricingCommercialTerms.revenueShareValue} of revenue generated
-              through the engine is retained by Ad Rev as part of the commercial
-              structure.
-            </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="#founding-partner-checkout"

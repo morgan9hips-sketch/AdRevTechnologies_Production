@@ -49,12 +49,11 @@ export default function DocsPage() {
               Docs
             </div>
             <h1 className="mt-6 max-w-[1080px] text-5xl font-bold uppercase leading-[0.92] tracking-[-0.04em] text-white sm:text-6xl lg:text-[clamp(2.2rem,3.2vw,3rem)]">
-              API and onboarding documentation built for production teams.
+              API documentation built for secure platform integration.
             </h1>
             <p className="mt-10 max-w-[980px] text-base leading-8 text-[#8ea7c2] sm:text-lg">
-              Everything operators and developers need to understand the
-              integration path, the event model, and how Ad Rev fits into an
-              existing platform without data exposure.
+              Everything technical teams need to review endpoints, event flows,
+              webhook delivery, and platform fit without exposing core systems.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
@@ -75,7 +74,7 @@ export default function DocsPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-white/12 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/5"
               >
-                Contact us
+                Speak with our team
               </Link>
             </div>
           </div>
@@ -110,18 +109,19 @@ export default function DocsPage() {
             </p>
             <ol className="mt-6 space-y-5 text-sm leading-7 text-[#dbe6f3]">
               <li>
-                1. Request access and align the right MAU band for onboarding.
+                1. Review the API surface and match endpoints to your event
+                model.
               </li>
               <li>
-                2. Receive credentials, webhook guidance, and integration
-                checkpoints.
+                2. Provision credentials, webhook endpoints, and environment
+                settings.
               </li>
               <li>
                 3. Send engagement events and receive signed reward callbacks.
               </li>
               <li>
-                4. Track every action through attribution, analytics, and audit
-                trails.
+                4. Track attribution, analytics, and audit trails from one
+                reporting layer.
               </li>
             </ol>
           </div>

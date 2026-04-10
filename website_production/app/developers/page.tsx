@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Code, Webhook, FileText, Key, Gauge, BarChart3 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Integration Guidance | Ad Rev Technologies',
+  title: 'Developer Integration | Ad Rev Technologies',
   robots: {
     index: false,
     follow: false,
@@ -13,21 +13,21 @@ export const metadata: Metadata = {
 const integrationSteps = [
   {
     number: '1',
-    title: 'Align the integration scope',
+    title: 'Define the integration scope',
     description:
-      'Use the commercial and technical review process to confirm your use case, launch path, and access requirements.',
+      'Review event flows, endpoints, and environment requirements for your platform or partner deployment.',
   },
   {
     number: '2',
-    title: 'Receive controlled credentials',
+    title: 'Issue credentials and webhook configuration',
     description:
-      'Credentials, webhook configuration, and environment guidance are issued through the managed activation workflow.',
+      'Provision scoped API keys, webhook endpoints, and environment settings for secure testing and launch.',
   },
   {
     number: '3',
-    title: 'Validate the launch path',
+    title: 'Validate live event delivery',
     description:
-      'Run the first event and webhook checks with implementation support before moving into live rollout.',
+      'Verify request, callback, and reporting behaviour before moving production traffic.',
   },
 ]
 
@@ -48,7 +48,7 @@ const featureCards = [
     icon: FileText,
     title: 'Swagger Docs',
     description:
-      'Implementation guidance and API references are aligned to production onboarding rather than exposed as an unsupported self-serve console.',
+      'Structured API references and examples designed to support secure enterprise integration reviews.',
   },
   {
     icon: Key,
@@ -107,11 +107,11 @@ export default function DevelopersPage() {
             <Code className="h-8 w-8" />
           </div>
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
-            Integration Guidance for Technical Teams
+            Developer Integration for Ad Rev Technologies
           </h1>
           <p className="text-lg text-[#c4d5e9]">
-            Review the production integration model, webhook delivery pattern,
-            and access controls used during managed activation.
+            Review request flows, webhook delivery, authentication, and access
+            controls for integrating Ad Rev into an existing platform.
           </p>
         </div>
       </section>
@@ -121,7 +121,7 @@ export default function DevelopersPage() {
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-semibold text-white mb-4">
-              Three-Step Activation Path
+              Three-Step Integration Path
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -153,8 +153,8 @@ export default function DevelopersPage() {
               See It in Action
             </h2>
             <p className="text-[#a9bfd7]">
-              Representative request and webhook shapes used during
-              implementation review.
+              Representative request and webhook payloads used during technical
+              review.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -183,7 +183,7 @@ export default function DevelopersPage() {
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-semibold text-white mb-4">
-              Implementation Controls
+              Integration Capabilities
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -212,11 +212,11 @@ export default function DevelopersPage() {
       <section className="py-24 px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold text-white mb-4">
-            Ready to Review the Integration?
+            Ready to evaluate the integration?
           </h2>
           <p className="text-[#a9bfd7] mb-10">
-            Use the documentation and contact path to align commercial scope,
-            credentials, and rollout planning.
+            Use the documentation and contact path to review environment fit,
+            credentials, and implementation questions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -229,7 +229,7 @@ export default function DevelopersPage() {
               href="/contact"
               className="inline-block rounded-full border border-[#00d4ff]/25 px-8 py-3 font-semibold text-[#7ee7ff] transition hover:bg-[#00d4ff]/10"
             >
-              Discuss integration
+              Speak with our team
             </Link>
           </div>
         </div>

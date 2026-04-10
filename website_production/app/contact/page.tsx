@@ -4,10 +4,10 @@ import { RequestAccessForm } from '@/components/marketing/request-access-form'
 import { contactEmail } from '@/lib/site-content'
 
 const contactReasons = [
-  'Request access for 500K+ MAU bands or custom pricing.',
-  'Discuss agency deployments across multiple clients.',
-  'Ask product, onboarding, or implementation questions.',
-  'Route commercial conversations without touching the protected purchase flow.',
+  'Discuss high-MAU environments or tailored pricing.',
+  'Review partner, brand, or portfolio deployments.',
+  'Ask product, integration, or platform questions.',
+  'Talk through the right next step for your environment.',
 ] as const
 
 export default function ContactPage() {
@@ -20,13 +20,11 @@ export default function ContactPage() {
               Contact
             </p>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Contact us for access planning, rollout coordination, and
-              commercial alignment.
+              Contact us about pricing, integration, and platform fit.
             </h1>
             <p className="mt-6 text-lg leading-8 text-[#c4d5e9]">
-              Direct purchase remains available for the initial commercial
-              bands. Use this page for larger deployments, agency partnerships,
-              onboarding planning, and broader commercial alignment.
+              Use this page for tailored pricing, partner discussions,
+              implementation questions, and larger deployment conversations.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -38,13 +36,13 @@ export default function ContactPage() {
               />
               <ContactCard
                 icon={<ShieldCheck className="h-5 w-5" />}
-                title="Commercial route"
-                body="Direct purchase for initial bands and managed engagement for larger deployments"
+                title="Best route"
+                body="Annual subscriptions for initial MAU bands and tailored pricing for larger environments"
               />
               <ContactCard
                 icon={<MessageSquareText className="h-5 w-5" />}
                 title="Best for"
-                body="Agencies, high-MAU platforms, and custom partnerships"
+                body="Platforms, partner networks, and custom deployments"
               />
               <ContactCard
                 icon={<PhoneCall className="h-5 w-5" />}
@@ -93,8 +91,8 @@ export default function ContactPage() {
 
           <RequestAccessForm
             id="contact-form"
-            title="Tell us what you need to launch"
-            description="Use this form to route the right onboarding, commercial, or partnership conversation without placing the lead flow on your primary product pages."
+            title="Tell us about your environment"
+            description="Use this form to route the right pricing, integration, or partnership conversation for your team."
             submitLabel="Contact us"
           />
         </div>

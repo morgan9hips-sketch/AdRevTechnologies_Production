@@ -10,28 +10,27 @@ export function DocsPreviewSection() {
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-            Docs and developers
+            Documentation and integration
           </p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Developer-facing from the first conversation.
+            Built for technical confidence from the first review.
           </h2>
           <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-            Documentation should answer integration questions early, reduce
-            technical uncertainty, and support a production conversation from
-            the first review.
+            Clear documentation, API references, and integration examples help
+            teams evaluate fit quickly and move toward launch with confidence.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/docs"
               className="inline-flex items-center justify-center rounded-full bg-[#00d4ff] px-6 py-3 text-sm font-semibold text-[#05131d] transition hover:bg-[#7cecff]"
             >
-              Read the docs
+              Read documentation
             </Link>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center rounded-full border border-[#00d4ff]/25 px-6 py-3 text-sm font-semibold text-[#7ee7ff] transition hover:bg-[#00d4ff]/10"
             >
-              Discuss integration
+              Speak with our team
             </Link>
           </div>
         </div>

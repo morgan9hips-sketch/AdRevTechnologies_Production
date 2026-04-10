@@ -25,12 +25,13 @@ export default function PricingPage() {
               Pricing
             </p>
             <h1 className="mt-6 max-w-[1080px] text-5xl font-bold uppercase leading-[0.92] tracking-[-0.04em] text-white sm:text-6xl lg:text-[clamp(2.2rem,3.2vw,3rem)]">
-              Infrastructure pricing for platforms and agencies with real users.
+              Infrastructure pricing for platforms, brands, and partner
+              networks.
             </h1>
             <p className="mt-10 max-w-[980px] text-base leading-8 text-[#8ea7c2] sm:text-lg">
-              Pricing is aligned to scale rather than feature gating. The
-              initial MAU bands support direct purchase, while larger
-              deployments move into a managed commercial process.
+              Pricing is aligned to scale rather than feature gating.
+              Early-access subscriptions cover the initial MAU bands, while
+              larger environments move into tailored pricing.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
@@ -49,7 +50,7 @@ export default function PricingPage() {
                 href="/docs"
                 className="inline-flex items-center justify-center rounded-full border border-[#00d4ff]/25 px-6 py-3 text-sm font-semibold text-[#7ee7ff] transition hover:bg-[#00d4ff]/10"
               >
-                Read docs
+                Read documentation
               </Link>
             </div>
           </div>
@@ -73,8 +74,9 @@ export default function PricingPage() {
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
               {foundingPartnerOffer.name} is designed to feel like
-              infrastructure, not a bundle of feature tiers. Every buyer sees
-              the same operating layer. Commercials move with platform scale.
+              infrastructure, not a bundle of feature tiers. Every subscription
+              includes the same core operating layer, with pricing aligned to
+              platform scale.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -126,7 +128,7 @@ export default function PricingPage() {
             </p>
           </div>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Go live in days, not months.
+            Integrate in days, not months.
           </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {integrationAssurances.map((item) => (
@@ -165,8 +167,8 @@ export default function PricingPage() {
               body={pricingCommercialTerms.revenueShareBody}
             />
             <InfoCard
-              title="Guided activation"
-              body="Secure one of the first three guided activation slots with direct implementation support, onboarding, and launch review."
+              title="Implementation support"
+              body="Early-access subscriptions include direct implementation support, environment setup, and launch review."
             />
           </div>
         </div>

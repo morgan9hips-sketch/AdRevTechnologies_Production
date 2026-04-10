@@ -14,21 +14,21 @@ import { partnerPrograms } from '@/lib/site-content'
 import { PlatformPreview } from '@/components/marketing/platform-v1-preview'
 
 const partnerReasons = [
-  'Deploy a revenue layer across multiple client accounts without rebuilding each time.',
-  'Move from campaign services to monetisation infrastructure retainers.',
-  'Create measurable commercial upside for client engagement programs.',
-  'Shorten implementation timelines from months to days.',
+  'Deploy one infrastructure layer across multiple client, brand, or portfolio environments.',
+  'Move from isolated campaign execution to measurable platform outcomes.',
+  'Introduce monetisation, engagement, and attribution without rebuilding each environment.',
+  'Shorten the path from approval to live deployment.',
 ]
 
 const rolloutSteps = [
-  'Commercial fit review and pricing-band alignment',
-  'Integration mapping for platform events, campaigns, and rewards',
-  'Protected launch path with onboarding and performance tracking',
+  'Environment review and pricing alignment',
+  'Integration mapping for events, campaigns, and rewards',
+  'Launch planning with reporting, verification, and delivery visibility',
 ]
 
 const capabilityCoverage = [
-  'Agency rollout programmes across multiple client portfolios',
-  'Regional commerce operators coordinating loyalty and ad inventory',
+  'Multi-brand portfolios extending one monetisation stack',
+  'Regional consumer platforms coordinating loyalty and ad inventory',
   'Gaming and entertainment platforms scaling rewarded engagement',
   'Membership, wallet, and retention ecosystems requiring attribution',
 ] as const
@@ -67,9 +67,9 @@ const credibilityAnchors = [
 ] as const
 
 const partnerAdvantages = [
-  'Early-access commercial terms remain fixed while active.',
+  'Priority early-access pricing remains fixed while active.',
   'Client dashboards already demonstrate a strong reporting and presentation standard.',
-  'Commercial onboarding supports both direct purchase and managed enterprise engagement.',
+  'Deployment paths support both direct subscriptions and tailored enterprise environments.',
 ] as const
 
 const dashboardHighlights = [
@@ -87,13 +87,13 @@ export default function PartnersPage() {
               Partners
             </p>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Deploy once. Scale the infrastructure across platforms and
-              clients.
+              Extend one infrastructure layer across platforms, brands, and
+              portfolios.
             </h1>
             <p className="mt-6 text-lg leading-8 text-[#c4d5e9]">
-              Ad Rev Technologies gives platform operators and digital agencies
-              a single engagement and monetisation layer instead of a fragmented
-              stack of stitched tools.
+              Ad Rev Technologies gives growth teams, platform owners, and
+              partner organisations one engagement and monetisation layer
+              instead of a fragmented stack of stitched tools.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
@@ -121,23 +121,23 @@ export default function PartnersPage() {
           <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8 shadow-[0_22px_90px_rgba(0,212,255,0.12)]">
             <div className="grid gap-4 sm:grid-cols-2">
               <PartnerStat
-                label="Fastest growth path"
-                value="Agencies deploying across multiple clients"
+                label="Fastest expansion path"
+                value="Multi-brand and multi-client deployment"
                 icon={<BriefcaseBusiness className="h-5 w-5" />}
               />
               <PartnerStat
                 label="Platform outcome"
-                value="Revenue and retention from existing users"
+                value="Revenue, retention, and attribution from existing users"
                 icon={<Building2 className="h-5 w-5" />}
               />
               <PartnerStat
-                label="Commercial shape"
-                value="Infrastructure pricing aligned to MAU"
+                label="Pricing model"
+                value="Annual infrastructure pricing aligned to MAU"
                 icon={<Layers3 className="h-5 w-5" />}
               />
               <PartnerStat
-                label="Working motion"
-                value="Commercial activation planning is active"
+                label="Deployment model"
+                value="Enterprise-ready integration and support"
                 icon={<Handshake className="h-5 w-5" />}
               />
             </div>
@@ -170,12 +170,12 @@ export default function PartnersPage() {
               Coverage profile
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Commercial use cases the network is built to support.
+              Platform environments the network is built to support.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-              Instead of implying a finalised public roster, this section shows
-              the operator profiles and deployment models the partner motion is
-              designed to serve first.
+              This section reflects the environments and distribution models the
+              platform is designed to serve, without overstating live public
+              references.
             </p>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -207,15 +207,15 @@ export default function PartnersPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Why agencies move fastest
+              Why partner-led distribution scales
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              One deal can become five implementations.
+              One platform can expand across multiple environments.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-              Agencies are the fastest route to early revenue because the same
-              operating layer can be deployed across multiple client accounts
-              with the same commercial story.
+              Partner organisations accelerate expansion because the same
+              infrastructure can support multiple brands, client environments,
+              or regional deployments without starting from zero each time.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -235,10 +235,10 @@ export default function PartnersPage() {
         <div className="mx-auto max-w-7xl rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(8,17,31,0.96),rgba(7,19,34,0.9))] p-8 sm:p-10">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Partner rollout
+              Deployment path
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Commercial alignment first. Integration confidence next.
+              Platform fit first. Integration clarity next.
             </h2>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -264,13 +264,12 @@ export default function PartnersPage() {
               Channel credibility
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Execution readiness is visible before the first commercial
-              rollout.
+              Execution readiness is visible before launch.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
               The operating environment already reflects the channels partners
-              expect to validate during commercial review: WhatsApp, Facebook,
-              Instagram, email, and API-led webhook delivery.
+              expect to evaluate: WhatsApp, Facebook, Instagram, email, and
+              API-led webhook delivery.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -302,16 +301,15 @@ export default function PartnersPage() {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
           <div className="rounded-[32px] border border-[#ff8a3d]/20 bg-[linear-gradient(160deg,rgba(7,16,29,0.96),rgba(8,21,40,0.92))] p-8">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-              Client success stories
+              Deployment evidence
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Case studies and rollout outcomes.
+              Case studies will follow live deployments.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-              Case studies will be published once live client programmes
+              Reference stories will be published once live environments
               complete reporting sign-off. Until then, the focus remains on
-              demonstrating operating standards, rollout discipline, and
-              commercial fit.
+              platform quality, client presentation, and delivery readiness.
             </p>
             <ul className="mt-6 space-y-3">
               {partnerAdvantages.map((item) => (

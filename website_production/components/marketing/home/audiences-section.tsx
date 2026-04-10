@@ -6,15 +6,15 @@ export function AudiencesSection() {
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7ee7ff]">
-            Built for operators
+            Built for growth environments
           </p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Designed for platforms and agencies with real users.
+            Built for platforms and partner-led distribution.
           </h2>
           <p className="mt-4 text-base leading-7 text-[#a9bfd7]">
-            The commercial model is built around scale, not feature gating. The
-            operating model is built around speed, attribution, and deployment
-            confidence.
+            Ad Rev Technologies supports platforms and partners that need
+            stronger monetisation, engagement, and attribution without adding a
+            fragmented stack of tools.
           </p>
         </div>
 

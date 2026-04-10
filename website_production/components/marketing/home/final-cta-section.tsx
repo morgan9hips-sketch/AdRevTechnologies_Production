@@ -8,13 +8,11 @@ export function FinalCtaSection() {
           Next Step
         </p>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          Launch the infrastructure with one consistent commercial and technical
-          path.
+          Bring monetisation, engagement, and attribution into one platform.
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#c3d4e9]">
-          Secure launch-partner access for the initial commercial bands, route
-          larger deployments into guided engagement, and move into production
-          with one consistent commercial and technical path.
+          Review pricing, explore the platform, and speak with our team about
+          the best fit for your environment.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
           <Link

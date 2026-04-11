@@ -41,16 +41,6 @@ export const EARLY_ACCESS_ANNUAL_CHARGE = Object.freeze({
   currency: 'USD' as const,
 })
 
-// TEMPORARY TEST OVERRIDE
-// Charges R20 server-side so the complete Paystack success flow can be tested
-// without changing the public-facing pricing UI.
-const TEMP_EARLY_ACCESS_TEST_CHARGE = Object.freeze({
-  enabled: true,
-  amountMinor: 2000,
-  currency: 'ZAR' as const,
-  amountUsd: 20,
-})
-
 type EarlyAccessOffer =
   (typeof EARLY_ACCESS_ANNUAL_OFFERS)[keyof typeof EARLY_ACCESS_ANNUAL_OFFERS]
 
@@ -70,22 +60,15 @@ export type PaystackTransactionLike = {
 }
 
 export function resolveEarlyAccessAnnualOffer(requestedTier?: string | null) {
-  const baseOffer = !requestedTier
-    ? EARLY_ACCESS_ANNUAL_OFFERS.founding_partner_0_500k
-    : EARLY_ACCESS_ANNUAL_OFFERS[
-        requestedTier as keyof typeof EARLY_ACCESS_ANNUAL_OFFERS
-      ] || EARLY_ACCESS_ANNUAL_OFFERS.founding_partner_0_500k
-
-  if (!TEMP_EARLY_ACCESS_TEST_CHARGE.enabled) {
-    return baseOffer
+  if (!requestedTier) {
+    return EARLY_ACCESS_ANNUAL_OFFERS.founding_partner_0_500k
   }
 
-  return {
-    ...baseOffer,
-    amountMinor: TEMP_EARLY_ACCESS_TEST_CHARGE.amountMinor,
-    currency: TEMP_EARLY_ACCESS_TEST_CHARGE.currency,
-    amountUsd: TEMP_EARLY_ACCESS_TEST_CHARGE.amountUsd,
-  }
+  return (
+    EARLY_ACCESS_ANNUAL_OFFERS[
+      requestedTier as keyof typeof EARLY_ACCESS_ANNUAL_OFFERS
+    ] || EARLY_ACCESS_ANNUAL_OFFERS.founding_partner_0_500k
+  )
 }
 
 export function buildEarlyAccessMetadata(input: {
